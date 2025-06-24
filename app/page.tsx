@@ -98,7 +98,7 @@ export default function LoginPage() {
           <div ref={el => { if (el) inputsRef.current[2] = el; }}>
             <Button
               type="submit"
-              className="w-full bg-[#0068ff] hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors duration-200 tracking-wide"
+              className="w-full bg-[#292929] hover:bg-zinc-900 text-white font-semibold py-3 rounded-md transition-colors duration-200 tracking-wide"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}

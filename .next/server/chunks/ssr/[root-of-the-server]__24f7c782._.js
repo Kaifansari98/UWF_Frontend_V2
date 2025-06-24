@@ -169,7 +169,7 @@ function Sidebar({ active, onSelect }) {
                                             const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
                                             router.push(route);
                                         },
-                                        className: `w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${isActive ? "bg-[#0068ff] text-white" : "text-gray-700 hover:bg-gray-100"} transition-all`,
+                                        className: `w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${isActive ? "bg-[#292929] text-white" : "text-gray-700 hover:bg-gray-100"} transition-all`,
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                                                 size: 18
@@ -217,7 +217,7 @@ function Sidebar({ active, onSelect }) {
                 className: "p-4 border-t",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                     onClick: handleLogout,
-                    className: "w-full flex items-center justify-start px-4 gap-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-md text-sm font-semibold transition",
+                    className: "w-full flex items-center justify-start px-4 gap-4 bg-[#292929] text-white py-2 rounded-md text-sm font-semibold transition",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {
                             size: 16

@@ -54,6 +54,7 @@
     --color-gray-700: oklch(37.3% .034 259.733);
     --color-gray-800: oklch(27.8% .033 256.848);
     --color-gray-900: oklch(21% .034 264.665);
+    --color-zinc-900: oklch(21% .006 285.885);
     --color-white: #fff;
     --spacing: .25rem;
     --container-md: 28rem;
@@ -503,6 +504,10 @@
     background-color: #0068ff;
   }
 
+  .bg-\[\#292929\] {
+    background-color: #292929;
+  }
+
   .bg-\[\#f5f5f5\] {
     background-color: #f5f5f5;
   }
@@ -888,6 +893,12 @@
       .hover\:bg-secondary\/80:hover {
         background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
       }
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:bg-zinc-900:hover {
+      background-color: var(--color-zinc-900);
     }
   }
 

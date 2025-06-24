@@ -331,7 +331,7 @@ function LoginPage() {
                             },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                 type: "submit",
-                                className: "w-full bg-[#0068ff] hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors duration-200 tracking-wide",
+                                className: "w-full bg-[#292929] hover:bg-zinc-900 text-white font-semibold py-3 rounded-md transition-colors duration-200 tracking-wide",
                                 disabled: loading,
                                 children: loading ? "Logging in..." : "Login"
                             }, void 0, false, {
