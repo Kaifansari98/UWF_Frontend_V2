@@ -1,0 +1,8 @@
+export default function CreateUserPage() {
+    return (
+      <div className="p-6 text-xl font-semibold text-gray-800">
+        Create User Page
+      </div>
+    );
+  }
+  
