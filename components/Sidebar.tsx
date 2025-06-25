@@ -1,6 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { RootState } from "@/lib/store";
 import { logout } from "@/features/auth/authSlice";
 import Image from "next/image";
@@ -18,6 +19,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import ConfirmModal from "./ConfirmModal";
 
 type SidebarProps = {
   active: string;
@@ -42,8 +44,9 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
   const dispatch = useDispatch();
   const router = useRouter(); 
   const pathname = usePathname();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
     localStorage.removeItem("token");
     dispatch(logout());
     window.location.href = "/";
@@ -105,13 +108,22 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
 
       <div className="p-4 border-t">
         <button
-          onClick={handleLogout}
+          onClick={() => setShowLogoutConfirm(true)}
           className="w-full flex items-center justify-start px-4 gap-4 bg-[#292929] text-white py-2 rounded-md text-sm font-semibold transition"
         >
           <LogOut size={16} />
           Logout
         </button>
       </div>
+
+      {showLogoutConfirm && (
+        <ConfirmModal
+          title="Confirm Logout"
+          description="Are you sure you want to logout?"
+          onCancel={() => setShowLogoutConfirm(false)}
+          onConfirm={handleLogoutConfirm}
+        />
+      )}
     </aside>
   );
 }

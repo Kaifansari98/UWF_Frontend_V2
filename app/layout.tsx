@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Providers>
           <InitAuth /> {/* ✅ Rehydrate auth on every page load */}
-          <Toaster position="top-right" />
+          <Toaster position="top-center" />
           {children}
         </Providers>
       </body>
