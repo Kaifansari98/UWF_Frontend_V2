@@ -55,12 +55,11 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
         {user && (
           <div className="flex flex-col items-center text-center mt-4 pb-5 border-b-[0.5px] border-b">
             <div className="relative w-20 h-20">
-              <Image
-                src={user.profile_pic || "/avatar.png"}
-                alt="Profile"
-                fill
-                className="rounded-full object-cover border border-gray-200"
-              />
+            <img
+              src={user.profile_pic || "/avatar.jpg"}
+              alt="Profile"
+              className="w-20 h-20 rounded-full object-cover border border-gray-200"
+            />
             </div>
             <p className="mt-2 font-semibold text-gray-800">
               {user.full_name}

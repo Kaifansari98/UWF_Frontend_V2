@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import { AgGridReact } from 'ag-grid-react';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
+
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function DashboardLayout({
   children,
