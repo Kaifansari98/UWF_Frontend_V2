@@ -31,8 +31,8 @@ const navItems = [
   { label: "Create User", icon: UserPlus },
   { label: "Users List", icon: Users },
   { label: "Form Generation", icon: FilePlus },
-  { label: "Submitted Forms", icon: FileCheck },
   { label: "Pending Forms", icon: Clock },
+  { label: "Submitted Forms", icon: FileCheck },
   { label: "Rejected Forms", icon: Ban },
   { label: "Accepted Forms", icon: CheckCircle },
   { label: "Disbursed Forms", icon: DollarSign },
@@ -76,31 +76,31 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
           {navItems.map(({ label, icon: Icon }) => {
   const path = label.toLowerCase().replace(/\s+/g, "-");
   const isActive =
-    path === "dashboard"
-      ? pathname === "/dashboard"
-      : pathname === `/dashboard/${path}`;
+        path === "dashboard"
+          ? pathname === "/dashboard"
+          : pathname === `/dashboard/${path}`;
 
-  return (
-    <li key={label}>
-      <button
-  onClick={() => {
-    const path = label.toLowerCase().replace(/\s+/g, "-");
-    const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
-    router.push(route);
-  }}
-  className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
-    isActive
-      ? "bg-[#292929] text-white"
-      : "text-gray-700 hover:bg-gray-100"
-  } transition-all`}
->
-  <Icon size={18} />
-  <span>{label}</span>
-</button>
+      return (
+        <li key={label}>
+          <button
+      onClick={() => {
+        const path = label.toLowerCase().replace(/\s+/g, "-");
+        const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
+        router.push(route);
+      }}
+      className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
+        isActive
+          ? "bg-[#292929] text-white"
+          : "text-gray-700 hover:bg-gray-100"
+      } transition-all`}
+    >
+      <Icon size={18} />
+      <span>{label}</span>
+    </button>
 
-    </li>
-  );
-})}
+        </li>
+      );
+    })}
 
           </ul>
         </nav>
