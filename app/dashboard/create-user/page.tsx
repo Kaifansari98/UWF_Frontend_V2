@@ -67,7 +67,7 @@ export default function CreateUserPage() {
 
   return (
     <div className="h-full flex items-center justify-center p-4">
-      <Toaster position="top-right" />
+      {/* <Toaster position="top-right" /> */}
       <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-xl p-8 sm:p-10">
         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-left tracking-tight">
           Create New User

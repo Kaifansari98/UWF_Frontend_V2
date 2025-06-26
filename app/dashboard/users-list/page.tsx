@@ -73,7 +73,7 @@ export default function UsersListPage() {
       headerName: "Actions",
       cellRenderer: (params: any) => {
         return (
-          <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+          <div style={{ display: "flex", gap: "12px", justifyContent: "center", height: '100%', alignItems: 'center' }}>
             <Pencil
               size={18}
               style={{ color: "#292929", cursor: "pointer" }}

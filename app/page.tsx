@@ -37,7 +37,7 @@ export default function LoginPage() {
         opacity: 1,
         y: 0,
         duration: 0.6,
-        ease: "power2.out",
+        ease: "power2.out", 
         stagger: 0.15,
         delay: 0.5,
       }
