@@ -66,10 +66,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f5] p-4">
       <div
         ref={cardRef}
-        className="w-full max-w-md p-8 bg-[#ffffff] shadow-lg rounded-lg sm:p-10"
+        className="w-full max-w-md p-8 bg-[#ffffff] shadow-lg rounded-3xl sm:p-10"
       >
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 tracking-tight">
-          Login
+        <h1 className="text-2xl font-bold text-center mb-12 text-gray-900 tracking-tight">
+          UWF Member Login
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2" ref={el => { if (el) inputsRef.current[0] = el; }}>
@@ -104,6 +104,9 @@ export default function LoginPage() {
               {loading ? "Logging in..." : "Login"}
             </Button>
           </div>
+          <p className="text-xs text-gray-500 text-center">
+              Only UWF Registered Members can access the UWF Portal 
+          </p>
         </form>
       </div>
     </div>

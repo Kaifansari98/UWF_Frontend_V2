@@ -3,7 +3,6 @@
   "/dashboard/create-user/page": "app/dashboard/create-user/page.js",
   "/dashboard/form-generation/page": "app/dashboard/form-generation/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/submitted-forms/page": "app/dashboard/submitted-forms/page.js",
   "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"

@@ -241,11 +241,11 @@ function LoginPage() {
         className: "min-h-screen flex items-center justify-center bg-[#f5f5f5] p-4",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             ref: cardRef,
-            className: "w-full max-w-md p-8 bg-[#ffffff] shadow-lg rounded-lg sm:p-10",
+            className: "w-full max-w-md p-8 bg-[#ffffff] shadow-lg rounded-3xl sm:p-10",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-3xl font-bold text-center mb-8 text-gray-900 tracking-tight",
-                    children: "Login"
+                    className: "text-2xl font-bold text-center mb-12 text-gray-900 tracking-tight",
+                    children: "UWF Member Login"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
                     lineNumber: 71,
@@ -342,6 +342,14 @@ function LoginPage() {
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
                             lineNumber: 98,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "text-xs text-gray-500 text-center",
+                            children: "Only UWF Registered Members can access the UWF Portal"
+                        }, void 0, false, {
+                            fileName: "[project]/app/page.tsx",
+                            lineNumber: 107,
                             columnNumber: 11
                         }, this)
                     ]
