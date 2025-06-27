@@ -6,6 +6,5 @@
   "/dashboard/page": "app/dashboard/page.js",
   "/dashboard/pending-forms/page": "app/dashboard/pending-forms/page.js",
   "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
