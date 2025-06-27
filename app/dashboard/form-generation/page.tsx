@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import apiClient from "@/utils/apiClient";
 import { getWhatsAppShareURL, getGmailShareURL } from "@/utils/shareUtils";
-import { Copy, Mail, MessageCircle } from "lucide-react";
+import { CircleCheckBig, Copy, Mail, MessageCircle } from "lucide-react";
 
 const regions = ["Jubail", "Dammam", "Maharashtra"];
 
@@ -74,7 +74,7 @@ export default function FormGenerationPage() {
               </p>
               <Input
                 placeholder="Enter student name here..."
-                className="mt-1"
+                className="mt-3"
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
               />
@@ -106,7 +106,8 @@ export default function FormGenerationPage() {
 
             {generatedLink && (
               <div className="space-y-4">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 flex flex-row gap-2 items-center">
+                <CircleCheckBig size={14} color="green"/>
                 Congratulations, The Form link has been generated successfully.
               </p>
                 <Input
