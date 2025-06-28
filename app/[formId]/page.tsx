@@ -14,6 +14,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "react-hot-toast";
 import apiClient from "@/utils/apiClient";
 import * as z from "zod";
@@ -185,221 +186,273 @@ export default function StudentFormPage() {
   </div>
 </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* First Name */}
-        <div className="w-full">
-          <Label htmlFor="firstName" className="mb-2">First Name</Label>
-          <Input id="firstName" type="text" {...register("firstName")} />
-          <p className="text-xs text-gray-500 mt-2">Enter student's first name as per adhar card.</p>
-          {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
-        </div>
+      {/* === Student Information Card === */}
+<div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
+  {/* Header */}
+  <div className="mb-6">
+    <h2 className="text-xl font-bold text-gray-800 mb-1">Student Information</h2>
+    <p className="text-sm text-gray-600">
+      Please fill out the personal details of the student as per official documents.
+    </p>
+    <div className="mt-4 h-[1px] bg-gray-200 w-full" />
+  </div>
 
-        {/* Father's Name */}
-        <div className="w-full">
-          <Label htmlFor="fatherName" className="mb-2">Father's Name</Label>
-          <Input id="fatherName" type="text" {...register("fatherName")} />
-          <p className="text-xs text-gray-500 mt-2">Enter father's full name.</p>
-          {errors.fatherName && <p className="text-sm text-red-500">{errors.fatherName.message}</p>}
-        </div>
+  {/* Form Fields */}
+  <div className="flex flex-col md:flex-row w-full gap-8">
+    {/* First Name */}
+    <div className="w-full">
+      <Label htmlFor="firstName" className="mb-2">First Name</Label>
+      <Input id="firstName" type="text" {...register("firstName")} />
+      <p className="text-xs text-gray-500 mt-2">Enter student's first name as per Adhaar card.</p>
+      {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
+    </div>
 
-        {/* Family Name */}
-        <div className="w-full">
-          <Label htmlFor="familyName" className="mb-2">Family Name</Label>
-          <Input id="familyName" type="text" {...register("familyName")} />
-          <p className="text-xs text-gray-500 mt-2">Enter family or surname.</p>
-          {errors.familyName && <p className="text-sm text-red-500">{errors.familyName.message}</p>}
-        </div>
-      </div>
+    {/* Father's Name */}
+    <div className="w-full">
+      <Label htmlFor="fatherName" className="mb-2">Father's Name</Label>
+      <Input id="fatherName" type="text" {...register("fatherName")} />
+      <p className="text-xs text-gray-500 mt-2">Enter father's full name as per Adhaar card.</p>
+      {errors.fatherName && <p className="text-sm text-red-500">{errors.fatherName.message}</p>}
+    </div>
 
-      <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* Gender Select */}
-        <div className="w-full ">
-          <Label htmlFor="gender" className="mb-2 ">Gender</Label>
-          <Select onValueChange={(val) => setValue("gender", val as "male" | "female")}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-gray-500 mt-1">Select student gender.</p>
-          {errors.gender && <p className="text-sm text-red-500">{errors.gender.message}</p>}
-        </div>
+    {/* Family Name */}
+    <div className="w-full">
+      <Label htmlFor="familyName" className="mb-2">Family Name</Label>
+      <Input id="familyName" type="text" {...register("familyName")} />
+      <p className="text-xs text-gray-500 mt-2">Enter family or surname as per Adhaar card.</p>
+      {errors.familyName && <p className="text-sm text-red-500">{errors.familyName.message}</p>}
+    </div>
+  </div>
 
-        {/* Academic Year Select */}
-        <div className="w-full">
-          <Label htmlFor="academicYear" className="mb-2">Academic Year</Label>
-          <Select onValueChange={(val) => setValue("academicYear", val)}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Year" />
-            </SelectTrigger>
-            <SelectContent >
-              {academicYears.map((year) => (
-                <SelectItem key={year} value={year}>{year}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-gray-500 mt-1">Choose academic session.</p>
-          {errors.academicYear && <p className="text-sm text-red-500">{errors.academicYear.message}</p>}
-        </div>
+  <div className="flex flex-col md:flex-row w-full gap-8 mt-6">
+    {/* Gender */}
+    <div className="w-full">
+      <Label htmlFor="gender" className="mb-2">Gender</Label>
+      <Select onValueChange={(val) => setValue("gender", val as "male" | "female")}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select Gender" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="male">Male</SelectItem>
+          <SelectItem value="female">Female</SelectItem>
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-gray-500 mt-1">Select student gender.</p>
+      {errors.gender && <p className="text-sm text-red-500">{errors.gender.message}</p>}
+    </div>
 
-      </div>
+    {/* Academic Year */}
+    <div className="w-full">
+      <Label htmlFor="academicYear" className="mb-2">Academic Year</Label>
+      <Select onValueChange={(val) => setValue("academicYear", val)}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select Year" />
+        </SelectTrigger>
+        <SelectContent>
+          {academicYears.map((year) => (
+            <SelectItem key={year} value={year}>{year}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-gray-500 mt-1">Choose academic session.</p>
+      {errors.academicYear && <p className="text-sm text-red-500">{errors.academicYear.message}</p>}
+    </div>
+  </div>
 
-      <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* School Name */}
-        <div className="w-full ">
-          <Label htmlFor="schoolName" className="mb-2">School Name & Address</Label>
-          <Input id="schoolName" type="text" {...register("schoolName")} />
-          <p className="text-xs text-gray-500 mt-2">Enter school currently attended.</p>
-          {errors.schoolName && <p className="text-sm text-red-500">{errors.schoolName.message}</p>}
-        </div>
+  <div className="flex flex-col md:flex-row w-full gap-8 mt-6">
+    {/* School Name */}
+    <div className="w-full">
+      <Label htmlFor="schoolName" className="mb-2">School Name & Address</Label>
+      <Input id="schoolName" type="text" {...register("schoolName")} />
+      <p className="text-xs text-gray-500 mt-2">Enter school currently attended.</p>
+      {errors.schoolName && <p className="text-sm text-red-500">{errors.schoolName.message}</p>}
+    </div>
 
-        {/* Study Medium */}
-        <div className="w-full ">
-          <Label htmlFor="studyMedium" className="mb-2">Study Medium</Label>
-          <Input id="studyMedium" type="text" {...register("studyMedium")} />
-          <p className="text-xs text-gray-500 mt-2">e.g., English, Hindi, etc.</p>
-          {errors.studyMedium && <p className="text-sm text-red-500">{errors.studyMedium.message}</p>}
-        </div>
-      </div>
+    {/* Study Medium */}
+    <div className="w-full">
+      <Label htmlFor="studyMedium" className="mb-2">Study Medium</Label>
+      <Select onValueChange={(val) => setValue("studyMedium", val)}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select Medium" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="English">English</SelectItem>
+          <SelectItem value="Urdu">Urdu</SelectItem>
+          <SelectItem value="Marathi">Marathi</SelectItem>
+          <SelectItem value="Hindi">Hindi</SelectItem>
+          <SelectItem value="Arabic">Arabic</SelectItem>
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-gray-500 mt-2">Select medium of instruction.</p>
+      {errors.studyMedium && <p className="text-sm text-red-500">{errors.studyMedium.message}</p>}
+    </div>
+  </div>
 
-        {/* Class */}
-        <div>
-          <Label htmlFor="class" className="mb-2">Class</Label>
-          <Input id="class" type="text" {...register("class")} />
-          <p className="text-xs text-gray-500 mt-2">Enter the class/grade.</p>
-          {errors.class && <p className="text-sm text-red-500">{errors.class.message}</p>}
-        </div>
-
-        <div className="mt-8 mb-8 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
-
-        {/* Parent/Guardian Name */}
-        <div>
-          <Label htmlFor="parentName" className="mb-2">Parent/Guardian Name *Please provide your Parent / Guardian Information as per Adhaar Card*</Label>
-          <Input id="parentName" type="text" {...register("parentName")} />
-          <p className="text-xs text-gray-500 mt-2">Full name of guardian.</p>
-          {errors.parentName && <p className="text-sm text-red-500">{errors.parentName.message}</p>}
-        </div>
-
-        <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* Mobile */}
-        <div className="w-full ">
-          <Label htmlFor="mobile" className="mb-2">Mobile</Label>
-          <Input id="mobile" type="text" {...register("mobile")} />
-          <p className="text-xs text-gray-500 mt-2">Primary contact number.</p>
-          {errors.mobile && <p className="text-sm text-red-500">{errors.mobile.message}</p>}
-        </div>
-
-        {/* Alternate Mobile */}
-        <div className="w-full ">
-          <Label htmlFor="alternateMobile" className="mb-2">Alternate Mobile</Label>
-          <Input id="alternateMobile" type="text" {...register("alternateMobile")} />
-          <p className="text-xs text-gray-500 mt-2">Secondary contact number.</p>
-          {errors.alternateMobile && <p className="text-sm text-red-500">{errors.alternateMobile.message}</p>}
-        </div>
-        </div>
-
-        {/* Address */}
-        <div>
-          <Label htmlFor="address" className="mb-2">Enter your current complete residence address</Label>
-          <Textarea id="address" {...register("address")} rows={3} />
-          <p className="text-xs text-gray-500 mt-2">Full residential address.</p>
-          {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
-        </div>
-
-        <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* Income Source */}
-        <div className="w-full">
-          <Label htmlFor="incomeSource" className="mb-2">Income Source</Label>
-          <Input id="incomeSource" type="text" {...register("incomeSource")} />
-          <p className="text-xs text-gray-500 mt-2">How does the family earn?</p>
-          {errors.incomeSource && <p className="text-sm text-red-500">{errors.incomeSource.message}</p>}
-        </div>
-
-        {/* Requested Amount */}
-        <div className="w-full">
-          <Label htmlFor="requested_amount" className="mb-2">Requested Amount</Label>
-          <Input id="requested_amount" type="number" {...register("requested_amount")} />
-          <p className="text-xs text-gray-500 mt-2">Amount you are requesting.</p>
-          {errors.requested_amount && <p className="text-sm text-red-500">{errors.requested_amount.message}</p>}
-        </div>
-        </div>
-
-        {/* Reason for Aid */}
-        <div>
-          <Label htmlFor="reason" className="mb-2">Reason for Aid</Label>
-          <Textarea id="reason" {...register("reason")} rows={3}/>
-          <p className="text-xs text-gray-500 mt-2">Brief reason for financial aid.</p>
-          {errors.reason && <p className="text-sm text-red-500">{errors.reason.message}</p>}
-        </div>
-
-        <div className="mt-8 mb-8 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
-
-        <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* Bank Account Holder */}
-        <div className="w-full">
-          <Label htmlFor="bankAccountHolder" className="mb-2">Bank A/C Holder</Label>
-          <Input id="bankAccountHolder" type="text" {...register("bankAccountHolder")} />
-          <p className="text-xs text-gray-500 mt-2">Name on the bank account.</p>
-          {errors.bankAccountHolder && <p className="text-sm text-red-500">{errors.bankAccountHolder.message}</p>}
-        </div>
-
-        {/* Bank Account Number */}
-        <div className="w-full">
-          <Label htmlFor="bankAccountNumber" className="mb-2">Bank A/C Number</Label>
-          <Input id="bankAccountNumber" type="text" {...register("bankAccountNumber")} />
-          <p className="text-xs text-gray-500 mt-2">Valid bank account number.</p>
-          {errors.bankAccountNumber && <p className="text-sm text-red-500">{errors.bankAccountNumber.message}</p>}
-        </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* IFSC Code */}
-        <div className="w-full">
-          <Label htmlFor="ifscCode" className="mb-2">IFSC Code</Label>
-          <Input id="ifscCode" type="text" {...register("ifscCode")} />
-          <p className="text-xs text-gray-500 mt-2">Bank IFSC code.</p>
-          {errors.ifscCode && <p className="text-sm text-red-500">{errors.ifscCode.message}</p>}
-        </div>
-
-        {/* Bank Name */}
-        <div className="w-full">
-          <Label htmlFor="bankName" className="mb-2">Bank Name</Label>
-          <Input id="bankName" type="text" {...register("bankName")} />
-          <p className="text-xs text-gray-500 mt-2">Name of the bank.</p>
-          {errors.bankName && <p className="text-sm text-red-500">{errors.bankName.message}</p>}
-        </div>
-        </div>
-
-
-        <div className="flex flex-col md:flex-row w-full gap-8">
-        {/* Coordinator Name */}
-        <div className="w-full">
-          <Label htmlFor="coordinatorName" className="mb-2">Coordinator Name</Label>
-          <Input id="coordinatorName" type="text" {...register("coordinatorName")} />
-          <p className="text-xs text-gray-500 mt-2">Name of local coordinator.</p>
-          {errors.coordinatorName && <p className="text-sm text-red-500">{errors.coordinatorName.message}</p>}
-        </div>
-
-        {/* Coordinator Mobile */}
-        <div className="w-full">
-          <Label htmlFor="coordinatorMobile" className="mb-2">Coordinator Mobile</Label>
-          <Input id="coordinatorMobile" type="text" {...register("coordinatorMobile")} />
-          <p className="text-xs text-gray-500 mt-2">Coordinator's contact.</p>
-          {errors.coordinatorMobile && <p className="text-sm text-red-500">{errors.coordinatorMobile.message}</p>}
-        </div>
-        </div>
-
-<div className="mt-8 mb-8 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
-
-        <div className="w-full border-2 border-amber-300 bg-amber-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
-  <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0" />
-  <p className="text-sm font-medium text-gray-800">
-    Please ensure to provide <span className="font-semibold text-red-500">properly scanned documents</span> in a clear, readable format. Failure to do so may result in <span className="font-semibold text-red-500">delays or rejection</span> of the request.
-  </p>
+  <div className="mt-6">
+    {/* Class */}
+    <Label htmlFor="class" className="mb-2">Class</Label>
+    <Input id="class" type="text" {...register("class")} />
+    <p className="text-xs text-gray-500 mt-2">Enter the class or grade the student is in.</p>
+    {errors.class && <p className="text-sm text-red-500">{errors.class.message}</p>}
+  </div>
 </div>
+
+ 
+        {/* === Parent/Guardian Information Card === */}
+<div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
+  {/* Header */}
+  <div className="mb-6">
+    <h2 className="text-xl font-bold text-gray-800 mb-1">Parent / Guardian Information</h2>
+    <p className="text-sm text-gray-600">
+      Please provide valid contact and background details of the parent or guardian as per official documents.
+    </p>
+    <div className="mt-4 h-[1px] bg-gray-200 w-full" />
+  </div>
+
+  {/* Caution Note */}
+  <div className="w-full border-2 border-amber-300 bg-amber-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 mb-6">
+    <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0" />
+    <p className="text-sm font-medium text-gray-800">
+    Please provide your Parent / Guardian Information as per Adhaar Card
+    </p>
+  </div>
+
+  {/* Parent Name */}
+  <div className="mb-6">
+    <Label htmlFor="parentName" className="mb-2 font-medium text-gray-700">
+      Parent/Guardian Name 
+    </Label>
+    <Input id="parentName" type="text" {...register("parentName")} />
+    <p className="text-xs text-gray-500 mt-2">Full name of guardian.</p>
+    {errors.parentName && <p className="text-sm text-red-500">{errors.parentName.message}</p>}
+  </div>
+
+  {/* Mobile & Alternate Mobile */}
+  <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
+    <div className="w-full">
+      <Label htmlFor="mobile" className="mb-2">Enter your mobile number</Label>
+      <Input id="mobile" type="text" {...register("mobile")} />
+      <p className="text-xs text-gray-500 mt-2">
+        Please enter 10 digit mobile number with international code, eg <strong>+91 9999999999</strong>
+      </p>
+      {errors.mobile && <p className="text-sm text-red-500">{errors.mobile.message}</p>}
+    </div>
+
+    <div className="w-full">
+      <Label htmlFor="alternateMobile" className="mb-2">Enter Alternate mobile number</Label>
+      <Input id="alternateMobile" type="text" {...register("alternateMobile")} />
+      <p className="text-xs text-gray-500 mt-2">
+        Please enter 10 digit mobile number with international code, eg <strong>+91 9999999999</strong>
+      </p>
+      {errors.alternateMobile && <p className="text-sm text-red-500">{errors.alternateMobile.message}</p>}
+    </div>
+  </div>
+
+  {/* Address */}
+  <div className="mb-6">
+    <Label htmlFor="address" className="mb-2">Enter your current complete residence address</Label>
+    <Textarea id="address" {...register("address")} rows={3} />
+    <p className="text-xs text-gray-500 mt-2">Full residential address.</p>
+    {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
+  </div>
+
+  {/* Income Source & Requested Amount */}
+  <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
+    <div className="w-full">
+      <Label htmlFor="incomeSource" className="mb-2">Income Source</Label>
+      <Input id="incomeSource" type="text" {...register("incomeSource")} />
+      <p className="text-xs text-gray-500 mt-2">How does the family earn?</p>
+      {errors.incomeSource && <p className="text-sm text-red-500">{errors.incomeSource.message}</p>}
+    </div>
+
+    <div className="w-full">
+      <Label htmlFor="requested_amount" className="mb-2">Requested Amount</Label>
+      <Input id="requested_amount" type="number" {...register("requested_amount")} />
+      <p className="text-xs text-gray-500 mt-2">Amount you are requesting.</p>
+      {errors.requested_amount && <p className="text-sm text-red-500">{errors.requested_amount.message}</p>}
+    </div>
+  </div>
+
+  {/* Reason for Aid */}
+  <div>
+    <Label htmlFor="reason" className="mb-2">Reason for Aid</Label>
+    <Textarea id="reason" {...register("reason")} rows={3} />
+    <p className="text-xs text-gray-500 mt-2">Brief reason for financial aid.</p>
+    {errors.reason && <p className="text-sm text-red-500">{errors.reason.message}</p>}
+  </div>
+</div>
+
+
+        {/* === Bank & Coordinator Information Card === */}
+<div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
+  {/* Header */}
+  <div className="mb-6">
+    <h2 className="text-xl font-bold text-gray-800 mb-1">Bank & UWF Member Information</h2>
+    <p className="text-sm text-gray-600">
+      Please provide correct and verifiable banking details and UWF coordinator contact information for follow-up and disbursement.
+    </p>
+    <div className="mt-4 h-[1px] bg-gray-200 w-full" />
+  </div>
+
+  {/* A/C Holder & Number */}
+  <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
+    <div className="w-full">
+      <Label htmlFor="bankAccountHolder" className="mb-2">Bank A/C Holder</Label>
+      <Input id="bankAccountHolder" type="text" {...register("bankAccountHolder")} />
+      <p className="text-xs text-gray-500 mt-2">Name as mentioned in bank records.</p>
+      {errors.bankAccountHolder && <p className="text-sm text-red-500">{errors.bankAccountHolder.message}</p>}
+    </div>
+
+    <div className="w-full">
+      <Label htmlFor="bankAccountNumber" className="mb-2">Bank A/C Number</Label>
+      <Input id="bankAccountNumber" type="text" {...register("bankAccountNumber")} />
+      <p className="text-xs text-gray-500 mt-2">Your valid bank account number.</p>
+      {errors.bankAccountNumber && <p className="text-sm text-red-500">{errors.bankAccountNumber.message}</p>}
+    </div>
+  </div>
+
+  {/* IFSC & Bank Name */}
+  <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
+    <div className="w-full">
+      <Label htmlFor="ifscCode" className="mb-2">IFSC Code</Label>
+      <Input id="ifscCode" type="text" {...register("ifscCode")} />
+      <p className="text-xs text-gray-500 mt-2">E.g., SBIN0001234</p>
+      {errors.ifscCode && <p className="text-sm text-red-500">{errors.ifscCode.message}</p>}
+    </div>
+
+    <div className="w-full">
+      <Label htmlFor="bankName" className="mb-2">Bank Name</Label>
+      <Input id="bankName" type="text" {...register("bankName")} />
+      <p className="text-xs text-gray-500 mt-2">Bank branch or institution name.</p>
+      {errors.bankName && <p className="text-sm text-red-500">{errors.bankName.message}</p>}
+    </div>
+  </div>
+
+  {/* Coordinator Name & Contact */}
+  <div className="flex flex-col md:flex-row w-full gap-8">
+    <div className="w-full">
+      <Label htmlFor="coordinatorName" className="mb-2">UWF Member Name</Label>
+      <Input id="coordinatorName" type="text" {...register("coordinatorName")} />
+      <p className="text-xs text-gray-500 mt-2">Coordinator who referred/verified your case.</p>
+      {errors.coordinatorName && <p className="text-sm text-red-500">{errors.coordinatorName.message}</p>}
+    </div>
+
+    <div className="w-full">
+      <Label htmlFor="coordinatorMobile" className="mb-2">UWF Member Mobile Number</Label>
+      <Input id="coordinatorMobile" type="text" {...register("coordinatorMobile")} />
+      <p className="text-xs text-gray-500 mt-2">Coordinator’s verified contact number.</p>
+      {errors.coordinatorMobile && <p className="text-sm text-red-500">{errors.coordinatorMobile.message}</p>}
+    </div>
+  </div>
+</div>
+
+
+              <div className="w-full border-2 border-amber-300 bg-amber-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+        <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0" />
+        <p className="text-sm font-medium text-gray-800">
+          Please ensure to provide <span className="font-semibold text-red-500">properly scanned documents</span> in a clear, readable format. Failure to do so may result in <span className="font-semibold text-red-500">delays or rejection</span> of the request.
+        </p>
+      </div>
 
 
  {/* File Uploads */}
@@ -411,17 +464,21 @@ export default function StudentFormPage() {
     </Label>
     {!watch("feesStructure")?.[0] ? (
       <>
-        <div className="relative mt-3">
-          <Input
-            id="feesStructure"
-            type="file"
-            accept="application/pdf"
-            {...register("feesStructure")}
-            className="file:bg-[#292929] file:text-white file:px-4 file:py-2 file:rounded-md file:cursor-pointer file:border-none file:font-medium file:transition-colors file:flex file:items-center file:gap-2"
-          />
-          <Upload className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white pointer-events-none" />
-        </div>
-        <p className="text-xs mt-2" style={{ color: '#292929' }}>
+        <input
+          id="feesStructure"
+          type="file"
+          accept="application/pdf"
+          {...register("feesStructure")}
+          className="hidden"
+        />
+        <label
+          htmlFor="feesStructure"
+          className="flex items-center justify-center gap-2 w-full py-2 mt-3 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
+        >
+          <Upload className="h-4 w-4" />
+          Choose PDF File
+        </label>
+        <p className="text-xs mt-2 text-[#292929]">
           Upload fees structure (max 2MB)
         </p>
       </>
@@ -431,7 +488,7 @@ export default function StudentFormPage() {
         <div className="flex gap-2 mt-4">
           <label
             htmlFor="feesStructure"
-            className="flex items-center gap-2 w-full justify-center py-2 bg-[#292929] text-white rounded-md font-medium text-sm cursor-pointer transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
           >
             <Upload className="h-4 w-4" />
             Upload New
@@ -439,7 +496,7 @@ export default function StudentFormPage() {
           <button
             type="button"
             onClick={() => setValue("feesStructure", undefined)}
-            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition hover:bg-red-600"
           >
             <X className="h-4 w-4" />
             Remove
@@ -459,17 +516,21 @@ export default function StudentFormPage() {
     </Label>
     {!watch("marksheet")?.[0] ? (
       <>
-        <div className="relative mt-3">
-          <Input
-            id="marksheet"
-            type="file"
-            accept="application/pdf"
-            {...register("marksheet")}
-            className="file:bg-[#292929] file:text-white file:px-4 file:py-2 file:rounded-md file:cursor-pointer file:border-none file:font-medium file:transition-colors file:flex file:items-center file:gap-2"
-          />
-          <Upload className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white pointer-events-none" />
-        </div>
-        <p className="text-xs mt-2" style={{ color: '#292929' }}>
+        <input
+          id="marksheet"
+          type="file"
+          accept="application/pdf"
+          {...register("marksheet")}
+          className="hidden"
+        />
+        <label
+          htmlFor="marksheet"
+          className="flex items-center justify-center gap-2 w-full py-2 mt-3 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
+        >
+          <Upload className="h-4 w-4" />
+          Choose PDF File
+        </label>
+        <p className="text-xs mt-2 text-[#292929]">
           Upload recent marksheet (max 2MB)
         </p>
       </>
@@ -479,7 +540,7 @@ export default function StudentFormPage() {
         <div className="flex gap-2 mt-4">
           <label
             htmlFor="marksheet"
-            className="flex items-center gap-2 w-full justify-center py-2 bg-[#292929] text-white rounded-md font-medium text-sm cursor-pointer transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
           >
             <Upload className="h-4 w-4" />
             Upload New
@@ -487,7 +548,7 @@ export default function StudentFormPage() {
           <button
             type="button"
             onClick={() => setValue("marksheet", undefined)}
-            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition hover:bg-red-600"
           >
             <X className="h-4 w-4" />
             Remove
@@ -507,17 +568,21 @@ export default function StudentFormPage() {
     </Label>
     {!watch("signature")?.[0] ? (
       <>
-        <div className="relative mt-3">
-          <Input
-            id="signature"
-            type="file"
-            accept="application/pdf"
-            {...register("signature")}
-            className="file:bg-[#292929] file:text-white file:px-4 file:py-2 file:rounded-md file:cursor-pointer file:border-none file:font-medium file:transition-colors file:flex file:items-center file:gap-2"
-          />
-          <Upload className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white pointer-events-none" />
-        </div>
-        <p className="text-xs mt-2" style={{ color: '#292929' }}>
+        <input
+          id="signature"
+          type="file"
+          accept="application/pdf"
+          {...register("signature")}
+          className="hidden"
+        />
+        <label
+          htmlFor="signature"
+          className="flex items-center justify-center gap-2 w-full py-2 mt-3 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
+        >
+          <Upload className="h-4 w-4" />
+          Choose PDF File
+        </label>
+        <p className="text-xs mt-2 text-[#292929]">
           Upload signature (max 2MB)
         </p>
       </>
@@ -527,7 +592,7 @@ export default function StudentFormPage() {
         <div className="flex gap-2 mt-4">
           <label
             htmlFor="signature"
-            className="flex items-center gap-2 w-full justify-center py-2 bg-[#292929] text-white rounded-md font-medium text-sm cursor-pointer transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
           >
             <Upload className="h-4 w-4" />
             Upload New
@@ -535,7 +600,7 @@ export default function StudentFormPage() {
           <button
             type="button"
             onClick={() => setValue("signature", undefined)}
-            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition-colors"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition hover:bg-red-600"
           >
             <X className="h-4 w-4" />
             Remove
@@ -549,21 +614,23 @@ export default function StudentFormPage() {
   </div>
 </div>
 
-        {/* Confirm Checkbox */}
-        <div className="flex items-start gap-2 py-4">
-          <input
-            type="checkbox"
-            id="confirm"
-            {...register("confirm")}
-            className="mt-1"
-          />
-          <label htmlFor="confirm" className="text-sm text-gray-700">
-            I confirm all the above information provided is true and correct to the best of my knowledge.
-          </label>
-        </div>
-        {errors.confirm && <p className="text-sm text-red-500">{errors.confirm.message}</p>}
 
-        <Button type="submit" disabled={loading} className="w-full bg-black text-white py-6 rounded-lg text-base">
+        {/* Confirm Checkbox */}
+        <div className="flex items-start gap-3 py-4">
+          <Checkbox
+            id="confirm"
+            checked={watch("confirm")}
+            onCheckedChange={(checked) => setValue("confirm", (checked === true) as true)}
+          />
+          <label htmlFor="confirm" className="text-sm text-gray-700 leading-snug">
+            I confirm all the above information provided is true and correct to the best of my knowledge.
+          </label>  
+        </div>
+        {errors.confirm && (
+          <p className="text-sm text-red-500 mt-1">{errors.confirm.message}</p>
+        )}
+
+        <Button type="submit" disabled={loading} className="w-full bg-blue-500 text-white py-6 rounded-lg text-base">
           {loading ? "Submitting..." : "Submit Form"}
         </Button>
       </form>
