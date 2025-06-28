@@ -1,17 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { fetchPendingForms } from "@/features/forms/pendingFormsSlice";
 import { AgGridReact } from "ag-grid-react";
 import { ColDef } from "ag-grid-community";
+import { Mail, MessageCircle, Trash2 } from "lucide-react";
+import { getWhatsAppShareURL, getGmailShareURL } from "@/utils/shareUtils";
+import { deleteFormById } from "@/features/forms/pendingFormsSlice";
+import ConfirmModal from "@/components/ConfirmModal";
+import toast from "react-hot-toast";
 
 export default function PendingFormsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { forms, loading } = useSelector((state: RootState) => state.pendingForms);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [formIdToDelete, setFormIdToDelete] = useState<string | null>(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     dispatch(fetchPendingForms());
   }, [dispatch]);
 
@@ -35,6 +42,39 @@ export default function PendingFormsPage() {
       valueFormatter: (params: any) =>
         new Date(params.value).toLocaleDateString(),
     },
+    {
+      headerName: "Actions",
+      cellRenderer: (params: any) => {
+        const formLink = params.data.form_link;
+        const formId = params.data.formId;
+    
+        return (
+          <div className="flex gap-3 items-center justify-center h-full">
+            <button
+              onClick={() => window.open(getWhatsAppShareURL(formLink), "_blank")}
+              title="WhatsApp"
+            >
+              <MessageCircle size={18} className="text-green-600" />
+            </button>
+            <button
+              onClick={() => window.open(getGmailShareURL(formLink), "_blank")}
+              title="Email"
+            >
+              <Mail size={18} className="text-zinc-900" />
+            </button>
+            <button
+              onClick={() => {
+                setFormIdToDelete(formId);
+                setShowDeleteModal(true);
+              }}              
+              title="Delete"
+            >
+              <Trash2 size={18} className="text-red-500" />
+            </button>
+          </div>
+        );
+      },
+    }    
   ];
 
   return (
@@ -44,13 +84,31 @@ export default function PendingFormsPage() {
       {loading ? (
         <p className="text-gray-600">Loading pending forms...</p>
       ) : (
-        <div className="ag-theme-alpine" style={{ height: 500, width: "100%" }}>
+        <div className="ag-theme-alpine" style={{ height: '100%', width: "100%" }}>
           <AgGridReact
             rowData={forms}
             columnDefs={columnDefs}
             pagination={true}
           />
         </div>
+      )}
+      {showDeleteModal && formIdToDelete && (
+        <ConfirmModal
+          title="Delete Form"
+          description={`Are you sure you want to delete form "${formIdToDelete}"? This action cannot be undone.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={async () => {
+            await dispatch(deleteFormById(formIdToDelete));
+            toast.success(`Form ${formIdToDelete} deleted successfully!`);
+            setShowDeleteModal(false);
+            setFormIdToDelete(null);
+          }}
+          onCancel={() => {
+            setShowDeleteModal(false);
+            setFormIdToDelete(null);
+          }}
+        />
       )}
     </div>
   );

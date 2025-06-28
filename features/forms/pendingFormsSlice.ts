@@ -9,6 +9,16 @@ export const fetchPendingForms = createAsyncThunk(
   }
 );
 
+export const deleteFormById = createAsyncThunk(
+  "forms/deleteFormById",
+  async (formId: string, { dispatch }) => {
+    await apiClient.delete("/forms/delete", {
+      data: { formId }
+    });
+    dispatch(fetchPendingForms()); // Refresh the list after delete
+  }
+);
+
 const pendingFormsSlice = createSlice({
   name: "pendingForms",
   initialState: {
