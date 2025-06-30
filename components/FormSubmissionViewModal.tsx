@@ -1,0 +1,256 @@
+"use client";
+
+import Image from "next/image";
+import { Button } from "./ui/button";
+import { Download, X } from "lucide-react";
+
+interface FormSubmissionViewModalProps {
+  submission: any;
+  onClose: () => void;
+}
+
+const FILE_BASE_URL = "http://localhost:5000/assets/FormData/";
+
+export default function FormSubmissionViewModal({
+  submission,
+  onClose,
+}: FormSubmissionViewModalProps) {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
+      <div className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative overflow-y-auto max-h-[90vh]">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6 border-b-[1px] pb-4">
+          <h2 className="text-2xl font-semibold text-black">UWF Student Aid Form</h2>
+          <div className="flex gap-6">
+            <Button className="bg-red-500 text-white">
+                <Download/>
+              Download PDF
+            </Button>
+            <button onClick={onClose}>
+              <X className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
+        </div>
+
+        {/* Logo */}
+        <div className="mb-6 w-full flex flex-row justify-between">
+            <div className="h-full flex flex-col justify-between pr-10">
+                <div>
+                <h1 className="font-semibold text-[#025aa5] text-2xl">
+                    UNITED WELFARE FOUNDATION
+                </h1>
+                </div>
+                <div className="mt-4">
+                <p className="font-semibold text-[#000] text-sm">Regd. F / 39715 / THANE. DATED. 24 / 07 / 2019</p>
+                <p className="font-semibold text-[#d862a2] text-xs">A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE 400705</p>
+                </div>
+            </div>
+            <div className="">
+          <Image
+            src="/UWFLogo.png"
+            alt="UWF Logo"
+            width={170}
+            height={170}
+            className="mx-auto"
+          />
+          </div>
+        </div>
+
+        <div className="w-full py-2 flex items-center justify-between">
+            <p className="font-semibold">STUDENT AID REQUEST FORM</p>
+            <p>DateTime : {new Date(submission.submitted_at).toLocaleString()}</p>
+        </div>
+
+        <div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+    Student Information
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
+    <div>
+      <p className="font-bold">Form ID</p>
+      <p className="text-gray-900 text-lg">{submission.formId}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Student Name</p>
+      <p className="text-gray-900 text-lg">
+        {submission.firstName} {submission.fatherName} {submission.familyName}
+      </p>
+    </div>
+
+    <div>
+      <p className="font-bold">Gender</p>
+      <p className="text-gray-900 capitalize text-lg">{submission.gender}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Academic Year</p>
+      <p className="text-gray-900 text-lg">{submission.academicYear}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Medium</p>
+      <p className="text-gray-900 text-lg">{submission.studyMedium}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Class</p>
+      <p className="text-gray-900 text-lg">{submission.class}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">School Name</p>
+      <p className="text-gray-900 text-lg">{submission.schoolName}</p>
+    </div>
+  </div>
+</div>
+
+<div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white mt-4">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+    Parent / Guardian Information
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
+    <div>
+      <p className="font-bold">Parent Name</p>
+      <p className="text-gray-900 text-lg">{submission.parentName}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Requested Amount</p>
+      <p className="text-gray-900 text-lg">₹{submission.requested_amount?.toLocaleString()}</p>
+    </div>
+    <div>
+      <p className="font-bold">Mobile</p>
+      <p className="text-gray-900 text-lg">{submission.mobile}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Alternate Mobile</p>
+      <p className="text-gray-900 text-lg">{submission.alternateMobile}</p>
+    </div>
+
+
+    <div>
+      <p className="font-bold">Income Source</p>
+      <p className="text-gray-900 text-lg">{submission.incomeSource}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Reason for Aid</p>
+      <p className="text-gray-900 text-lg">{submission.reason}</p>
+    </div>
+    <div className="md:col-span-2">
+      <p className="font-bold">Residence Address</p>
+      <p className="text-gray-900 text-lg">{submission.address}</p>
+    </div>
+
+  </div>
+</div>
+
+<div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white mt-4">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+    School Bank Account Details
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
+    <div>
+      <p className="font-bold">Bank A/C Holder Name</p>
+      <p className="text-gray-900 text-lg">{submission.bankAccountHolder}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Account Number</p>
+      <p className="text-gray-900 text-lg">{submission.bankAccountNumber}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">IFSC Code</p>
+      <p className="text-gray-900 text-lg">{submission.ifscCode}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">Bank Name</p>
+      <p className="text-gray-900 text-lg">{submission.bankName}</p>
+    </div>
+  </div>
+</div>
+
+<div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white mt-4">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+    UWF Member Information
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
+    <div>
+      <p className="font-bold">UWF Member</p>
+      <p className="text-gray-900 text-lg">{submission.coordinatorName}</p>
+    </div>
+
+    <div>
+      <p className="font-bold">UWF Member's Mobile Mumber</p>
+      <p className="text-gray-900 text-lg">{submission.coordinatorMobile}</p>
+    </div>
+  </div>
+</div>
+
+<div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+  {/* Fees Structure */}
+  <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
+    <p className="text-sm font-semibold text-gray-800 mb-2">Fees Structure</p>
+    {submission.feesStructure ? (
+      <a
+        href={`http://localhost:5000/assets/FormData/${submission.feesStructure}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+      >
+        View PDF
+      </a>
+    ) : (
+      <p className="text-sm text-gray-500 mt-2">No file uploaded</p>
+    )}
+  </div>
+
+  {/* Marksheet */}
+  <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
+    <p className="text-sm font-semibold text-gray-800 mb-2">Recent Marksheet</p>
+    {submission.marksheet ? (
+      <a
+        href={`http://localhost:5000/assets/FormData/${submission.marksheet}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+      >
+        View PDF
+      </a>
+    ) : (
+      <p className="text-sm text-gray-500 mt-2">No file uploaded</p>
+    )}
+  </div>
+
+  {/* Signature */}
+  <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
+    <p className="text-sm font-semibold text-gray-800 mb-2">Parent/Guardian Signature</p>
+    {submission.signature ? (
+      <a
+        href={`http://localhost:5000/assets/FormData/${submission.signature}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+      >
+        View PDF
+      </a>
+    ) : (
+      <p className="text-sm text-gray-500 mt-2">No file uploaded</p>
+    )}
+  </div>
+</div>
+
+
+       
+      </div>
+    </div>
+  );
+}

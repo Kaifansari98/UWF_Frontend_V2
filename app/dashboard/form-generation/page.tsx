@@ -82,10 +82,10 @@ export default function FormGenerationPage() {
 
             <div>
               <label className="text-sm font-medium text-gray-800">
-                Select the student's respective region
+                Select the coordinator  region
               </label>
               <p className="text-xs text-gray-500">
-                Select the student region to whom you are generating this form.
+                Select the coordinator / member region.
               </p>
               <div className="flex gap-1 mt-4">
                 {regions.map((region) => (

@@ -192,7 +192,7 @@ export default function StudentFormPage() {
   <div className="mb-6">
     <h2 className="text-xl font-bold text-gray-800 mb-1">Student Information</h2>
     <p className="text-sm text-gray-600">
-      Please fill out the personal details of the student as per official documents.
+      Please provide students details as per Aadhar Card.
     </p>
     <div className="mt-4 h-[1px] bg-gray-200 w-full" />
   </div>
@@ -264,7 +264,7 @@ export default function StudentFormPage() {
     <div className="w-full">
       <Label htmlFor="schoolName" className="mb-2">School Name & Address</Label>
       <Input id="schoolName" type="text" {...register("schoolName")} />
-      <p className="text-xs text-gray-500 mt-2">Enter school currently attended.</p>
+      <p className="text-xs text-gray-500 mt-2">Enter school currently attending.</p>
       {errors.schoolName && <p className="text-sm text-red-500">{errors.schoolName.message}</p>}
     </div>
 
@@ -290,7 +290,7 @@ export default function StudentFormPage() {
 
   <div className="mt-6">
     {/* Class */}
-    <Label htmlFor="class" className="mb-2">Class</Label>
+    <Label htmlFor="class" className="mb-2">Class / Grade / Standard</Label>
     <Input id="class" type="text" {...register("class")} />
     <p className="text-xs text-gray-500 mt-2">Enter the class or grade the student is in.</p>
     {errors.class && <p className="text-sm text-red-500">{errors.class.message}</p>}
@@ -304,18 +304,18 @@ export default function StudentFormPage() {
   <div className="mb-6">
     <h2 className="text-xl font-bold text-gray-800 mb-1">Parent / Guardian Information</h2>
     <p className="text-sm text-gray-600">
-      Please provide valid contact and background details of the parent or guardian as per official documents.
+      Please provide valid details of the parent or guardian as per Aadhar Card.
     </p>
     <div className="mt-4 h-[1px] bg-gray-200 w-full" />
   </div>
 
   {/* Caution Note */}
-  <div className="w-full border-2 border-amber-300 bg-amber-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 mb-6">
+  {/* <div className="w-full border-2 border-amber-300 bg-amber-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 mb-6">
     <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0" />
     <p className="text-sm font-medium text-gray-800">
-    Please provide your Parent / Guardian Information as per Adhaar Card
+    Please provide valid details of the parent or guardian as per Aadhar Card.
     </p>
-  </div>
+  </div> */}
 
   {/* Parent Name */}
   <div className="mb-6">
@@ -330,19 +330,19 @@ export default function StudentFormPage() {
   {/* Mobile & Alternate Mobile */}
   <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
     <div className="w-full">
-      <Label htmlFor="mobile" className="mb-2">Enter your mobile number</Label>
+      <Label htmlFor="mobile" className="mb-2">Mobile Number (WhatsApp Number)</Label>
       <Input id="mobile" type="text" {...register("mobile")} />
       <p className="text-xs text-gray-500 mt-2">
-        Please enter 10 digit mobile number with international code, eg <strong>+91 9999999999</strong>
+        Please enter 10 digit mobile number
       </p>
       {errors.mobile && <p className="text-sm text-red-500">{errors.mobile.message}</p>}
     </div>
 
     <div className="w-full">
-      <Label htmlFor="alternateMobile" className="mb-2">Enter Alternate mobile number</Label>
+      <Label htmlFor="alternateMobile" className="mb-2">Alternate Mobile Number</Label>
       <Input id="alternateMobile" type="text" {...register("alternateMobile")} />
       <p className="text-xs text-gray-500 mt-2">
-        Please enter 10 digit mobile number with international code, eg <strong>+91 9999999999</strong>
+        Please enter 10 digit mobile number
       </p>
       {errors.alternateMobile && <p className="text-sm text-red-500">{errors.alternateMobile.message}</p>}
     </div>
@@ -350,7 +350,7 @@ export default function StudentFormPage() {
 
   {/* Address */}
   <div className="mb-6">
-    <Label htmlFor="address" className="mb-2">Enter your current complete residence address</Label>
+    <Label htmlFor="address" className="mb-2">Current Residence Address</Label>
     <Textarea id="address" {...register("address")} rows={3} />
     <p className="text-xs text-gray-500 mt-2">Full residential address.</p>
     {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
@@ -359,14 +359,14 @@ export default function StudentFormPage() {
   {/* Income Source & Requested Amount */}
   <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
     <div className="w-full">
-      <Label htmlFor="incomeSource" className="mb-2">Income Source</Label>
+      <Label htmlFor="incomeSource" className="mb-2">Source of Income</Label>
       <Input id="incomeSource" type="text" {...register("incomeSource")} />
       <p className="text-xs text-gray-500 mt-2">How does the family earn?</p>
       {errors.incomeSource && <p className="text-sm text-red-500">{errors.incomeSource.message}</p>}
     </div>
 
     <div className="w-full">
-      <Label htmlFor="requested_amount" className="mb-2">Requested Amount</Label>
+      <Label htmlFor="requested_amount" className="mb-2">Requested Amount (as per School/College)</Label>
       <Input id="requested_amount" type="number" {...register("requested_amount")} />
       <p className="text-xs text-gray-500 mt-2">Amount you are requesting.</p>
       {errors.requested_amount && <p className="text-sm text-red-500">{errors.requested_amount.message}</p>}
@@ -375,7 +375,7 @@ export default function StudentFormPage() {
 
   {/* Reason for Aid */}
   <div>
-    <Label htmlFor="reason" className="mb-2">Reason for Aid</Label>
+    <Label htmlFor="reason" className="mb-2">Reason for requesting financial aid</Label>
     <Textarea id="reason" {...register("reason")} rows={3} />
     <p className="text-xs text-gray-500 mt-2">Brief reason for financial aid.</p>
     {errors.reason && <p className="text-sm text-red-500">{errors.reason.message}</p>}
@@ -387,7 +387,7 @@ export default function StudentFormPage() {
 <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
   {/* Header */}
   <div className="mb-6">
-    <h2 className="text-xl font-bold text-gray-800 mb-1">Bank & UWF Member Information</h2>
+    <h2 className="text-xl font-bold text-gray-800 mb-1">School Bank Account & UWF Member Information</h2>
     <p className="text-sm text-gray-600">
       Please provide correct and verifiable banking details and UWF coordinator contact information for follow-up and disbursement.
     </p>
@@ -397,7 +397,7 @@ export default function StudentFormPage() {
   {/* A/C Holder & Number */}
   <div className="flex flex-col md:flex-row w-full gap-8 mb-6">
     <div className="w-full">
-      <Label htmlFor="bankAccountHolder" className="mb-2">Bank A/C Holder</Label>
+      <Label htmlFor="bankAccountHolder" className="mb-2">Bank A/C Holder Name</Label>
       <Input id="bankAccountHolder" type="text" {...register("bankAccountHolder")} />
       <p className="text-xs text-gray-500 mt-2">Name as mentioned in bank records.</p>
       {errors.bankAccountHolder && <p className="text-sm text-red-500">{errors.bankAccountHolder.message}</p>}
@@ -406,7 +406,7 @@ export default function StudentFormPage() {
     <div className="w-full">
       <Label htmlFor="bankAccountNumber" className="mb-2">Bank A/C Number</Label>
       <Input id="bankAccountNumber" type="text" {...register("bankAccountNumber")} />
-      <p className="text-xs text-gray-500 mt-2">Your valid bank account number.</p>
+      <p className="text-xs text-gray-500 mt-2">Please provide valid <strong>School Bank Account Number.</strong></p>
       {errors.bankAccountNumber && <p className="text-sm text-red-500">{errors.bankAccountNumber.message}</p>}
     </div>
   </div>
@@ -431,16 +431,16 @@ export default function StudentFormPage() {
   {/* Coordinator Name & Contact */}
   <div className="flex flex-col md:flex-row w-full gap-8">
     <div className="w-full">
-      <Label htmlFor="coordinatorName" className="mb-2">UWF Member Name</Label>
+      <Label htmlFor="coordinatorName" className="mb-2">UWF Member / Coordinator Name</Label>
       <Input id="coordinatorName" type="text" {...register("coordinatorName")} />
       <p className="text-xs text-gray-500 mt-2">Coordinator who referred/verified your case.</p>
       {errors.coordinatorName && <p className="text-sm text-red-500">{errors.coordinatorName.message}</p>}
     </div>
 
     <div className="w-full">
-      <Label htmlFor="coordinatorMobile" className="mb-2">UWF Member Mobile Number</Label>
+      <Label htmlFor="coordinatorMobile" className="mb-2">UWF Member / Coordinator Mobile Number</Label>
       <Input id="coordinatorMobile" type="text" {...register("coordinatorMobile")} />
-      <p className="text-xs text-gray-500 mt-2">Coordinator’s verified contact number.</p>
+      <p className="text-xs text-gray-500 mt-2">Please insert mobile number with international dialing code</p>
       {errors.coordinatorMobile && <p className="text-sm text-red-500">{errors.coordinatorMobile.message}</p>}
     </div>
   </div>

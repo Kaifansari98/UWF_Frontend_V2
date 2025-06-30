@@ -90,7 +90,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
       }}
       className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
         isActive
-          ? "bg-[#292929] text-white"
+          ? "bg-[#155dfc] text-white"
           : "text-gray-700 hover:bg-gray-100"
       } transition-all`}
     >
@@ -109,7 +109,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
       <div className="p-4 border-t">
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full flex items-center justify-start px-4 gap-4 bg-[#292929] text-white py-2 rounded-md text-sm font-semibold transition"
+          className="w-full flex items-center justify-start px-4 gap-4 bg-[#155dfc] text-white py-2 rounded-md text-sm font-semibold transition"
         >
           <LogOut size={16} />
           Logout
