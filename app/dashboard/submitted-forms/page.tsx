@@ -20,7 +20,7 @@ export default function SubmittedFormsPage() {
       cellRenderer: (params: any) => (
         <Button
           size="sm"
-          className="bg-blue-600 text-white"
+          className="bg-[#025aa5] text-white"
           onClick={() => setSelectedSubmission(params.data)}
         >
           View

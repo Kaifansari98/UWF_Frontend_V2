@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Download, X } from "lucide-react";
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
 
 interface FormSubmissionViewModalProps {
   submission: any;
@@ -15,18 +17,59 @@ export default function FormSubmissionViewModal({
   submission,
   onClose,
 }: FormSubmissionViewModalProps) {
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (modalRef.current && cardRef.current) {
+      gsap.fromTo(
+        modalRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" }
+      );
+  
+      gsap.fromTo(
+        cardRef.current,
+        { scale: 1.15, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
+      );
+    }
+  }, []);
+  
+
+  const handleClose = () => {
+    if (modalRef.current && cardRef.current) {
+      gsap.to(cardRef.current, {
+        scale: 1.15,
+        opacity: 0,
+        duration: 0.25,
+        ease: "power2.in",
+      });
+      gsap.to(modalRef.current, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in",
+        onComplete: onClose,
+      });
+    } else {
+      onClose();
+    }
+  };
+  
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
-      <div className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative overflow-y-auto max-h-[90vh]">
+    <div ref={modalRef} className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
+      <div ref={cardRef} className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative overflow-y-auto max-h-[90vh]">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6 border-b-[1px] pb-4">
-          <h2 className="text-2xl font-semibold text-black">UWF Student Aid Form</h2>
-          <div className="flex gap-6">
-            <Button className="bg-red-500 text-white">
+        <div className="flex justify-between items-center mb-4 border-b-[1px] pb-4">
+          {/* <h2 className="text-2xl font-semibold text-black">UWF Student Aid Form</h2> */}
+            <Button className="bg-[#025aa5] text-white">
                 <Download/>
-              Download PDF
+              Download Form As PDF
             </Button>
-            <button onClick={onClose}>
+          <div className="flex gap-6">
+          <button onClick={handleClose}>
               <X className="w-6 h-6 text-gray-700" />
             </button>
           </div>
@@ -34,15 +77,15 @@ export default function FormSubmissionViewModal({
 
         {/* Logo */}
         <div className="mb-6 w-full flex flex-row justify-between">
-            <div className="h-full flex flex-col justify-between pr-10">
-                <div>
-                <h1 className="font-semibold text-[#025aa5] text-2xl">
+            <div className="h-full pr-5">
+                <div className="mt-3">
+                <h1 className="font-bold text-[#025aa5] text-2xl">
                     UNITED WELFARE FOUNDATION
                 </h1>
-                </div>
-                <div className="mt-4">
+                <div className="mt-1">
                 <p className="font-semibold text-[#000] text-sm">Regd. F / 39715 / THANE. DATED. 24 / 07 / 2019</p>
-                <p className="font-semibold text-[#d862a2] text-xs">A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE 400705</p>
+                <p className="font-semibold text-[#5e5e5e] text-[11px]">A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE 400705</p>
+                </div>
                 </div>
             </div>
             <div className="">
@@ -57,8 +100,12 @@ export default function FormSubmissionViewModal({
         </div>
 
         <div className="w-full py-2 flex items-center justify-between">
-            <p className="font-semibold">STUDENT AID REQUEST FORM</p>
-            <p>DateTime : {new Date(submission.submitted_at).toLocaleString()}</p>
+            <p className="font-bold text-xl">STUDENT AID REQUEST FORM</p>
+            <p>Date : {new Date(submission.submitted_at).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            })}</p>
         </div>
 
         <div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white">
@@ -204,7 +251,7 @@ export default function FormSubmissionViewModal({
         href={`http://localhost:5000/assets/FormData/${submission.feesStructure}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+        className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
       >
         View PDF
       </a>
@@ -221,7 +268,7 @@ export default function FormSubmissionViewModal({
         href={`http://localhost:5000/assets/FormData/${submission.marksheet}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+        className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
       >
         View PDF
       </a>
@@ -238,7 +285,7 @@ export default function FormSubmissionViewModal({
         href={`http://localhost:5000/assets/FormData/${submission.signature}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+        className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
       >
         View PDF
       </a>

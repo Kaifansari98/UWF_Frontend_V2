@@ -62,7 +62,7 @@ export default function ConfirmModal({
           >
             {cancelText}
           </Button>
-          <Button className="bg-[#292929] text-white" onClick={onConfirm}>
+          <Button className="bg-[#025aa5] text-white" onClick={onConfirm}>
             {confirmText}
           </Button>
         </div>

@@ -222,10 +222,10 @@ const onSubmit = () => {
           </div>
 
           <div className="col-span-full flex justify-end gap-2 mt-4">
-            <Button type="button" variant="ghost" onClick={onClose} className="bg-[#fff] text-black border-[1px] border-zinc-500 px-10">
+            <Button type="button" variant="ghost" onClick={onClose} className="bg-[#fff] text-black border-[1px] border-[#025aa5] px-10">
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#292929] text-white border-[1px] border-zinc-800 px-10">
+            <Button type="submit" className="bg-[#025aa5] text-white border-[1px] border-zinc-800 px-10">
               Update
             </Button>
           </div>

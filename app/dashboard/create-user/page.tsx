@@ -87,7 +87,7 @@ export default function CreateUserPage() {
               type="file"
               accept="image/*"
               {...register("profile_pic")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Upload a profile image (JPEG, PNG, max 2MB recommended).
@@ -102,7 +102,7 @@ export default function CreateUserPage() {
               id="username"
               type="text"
               {...register("username", { required: "Username is required" })}
-              className={`rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200 ${errors.username ? "border-red-500" : ""}`}
+              className={`rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200 ${errors.username ? "border-red-500" : ""}`}
             />
             <p className="text-xs text-gray-500">
               Unique identifier for the user (e.g., johndoe123).
@@ -120,7 +120,7 @@ export default function CreateUserPage() {
               id="full_name"
               type="text"
               {...register("full_name", { required: "Full name is required" })}
-              className={`rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200 ${errors.full_name ? "border-red-500" : ""}`}
+              className={`rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200 ${errors.full_name ? "border-red-500" : ""}`}
             />
             <p className="text-xs text-gray-500">
               Enter the user's complete name (e.g., John Doe).
@@ -139,7 +139,7 @@ export default function CreateUserPage() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 {...register("password", { required: "Password is required" })}
-                className={`rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200 pr-10 ${errors.password ? "border-red-500" : ""}`}
+                className={`rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200 pr-10 ${errors.password ? "border-red-500" : ""}`}
               />
               <button
                 type="button"
@@ -186,7 +186,7 @@ export default function CreateUserPage() {
               Role <span className="text-red-500">*</span>
             </Label>
             <Select onValueChange={(value) => setValue("role", value)}>
-              <SelectTrigger className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200">
+              <SelectTrigger className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200">
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
@@ -210,7 +210,7 @@ export default function CreateUserPage() {
               id="email"
               type="email"
               {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" } })}
-              className={`rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200 ${errors.email ? "border-red-500" : ""}`}
+              className={`rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200 ${errors.email ? "border-red-500" : ""}`}
             />
             <p className="text-xs text-gray-500">
               Enter a valid email address (e.g., user@example.com).
@@ -228,7 +228,7 @@ export default function CreateUserPage() {
               id="age"
               type="number"
               {...register("age", { min: { value: 0, message: "Age cannot be negative" } })}
-              className={`rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200 ${errors.age ? "border-red-500" : ""}`}
+              className={`rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200 ${errors.age ? "border-red-500" : ""}`}
             />
             <p className="text-xs text-gray-500">
               Enter the user's age (optional, must be a positive number).
@@ -246,7 +246,7 @@ export default function CreateUserPage() {
               id="country"
               type="text"
               {...register("country")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Enter the user's country (e.g., India, USA).
@@ -261,7 +261,7 @@ export default function CreateUserPage() {
               id="state"
               type="text"
               {...register("state")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5 transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Enter the user's state or province (e.g., Maharashtra, California).
@@ -276,7 +276,7 @@ export default function CreateUserPage() {
               id="city"
               type="text"
               {...register("city")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Enter the user's city (e.g., Mumbai, New York).
@@ -291,7 +291,7 @@ export default function CreateUserPage() {
               id="pincode"
               type="text"
               {...register("pincode")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Enter the postal code (e.g., 400001, 10001).
@@ -306,7 +306,7 @@ export default function CreateUserPage() {
               id="mobile_no"
               type="text"
               {...register("mobile_no")}
-              className="rounded-lg border-gray-300 focus:border-[#0068ff] focus:ring-[#0068ff] transition-colors duration-200"
+              className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200"
             />
             <p className="text-xs text-gray-500">
               Enter the mobile number with country code (e.g., +91 9876543210).
@@ -317,14 +317,14 @@ export default function CreateUserPage() {
             <Button
               type="button"
               onClick={handleReset}
-              className="px-8 bg-white hover:bg-white text-black font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-zinc-900"
+              className="px-8 bg-white hover:bg-white text-black font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-[#025aa5]"
             >
               Reset Form
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="px-8 bg-[#292929] hover:bg-zinc-900 text-white font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-zinc-900"
+              className="px-8 bg-[#025aa5] hover:bg-[#025aa5] text-white font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-zinc-900"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
