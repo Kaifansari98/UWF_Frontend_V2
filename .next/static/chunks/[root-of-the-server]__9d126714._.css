@@ -174,7 +174,6 @@
     --color-gray-700: oklch(37.3% .034 259.733);
     --color-gray-800: oklch(27.8% .033 256.848);
     --color-gray-900: oklch(21% .034 264.665);
-    --color-zinc-500: oklch(55.2% .016 285.938);
     --color-zinc-800: oklch(27.4% .006 286.033);
     --color-zinc-900: oklch(21% .006 285.885);
     --color-black: #000;
@@ -977,10 +976,6 @@
     border-color: var(--color-red-500);
   }
 
-  .border-zinc-500 {
-    border-color: var(--color-zinc-500);
-  }
-
   .border-zinc-800 {
     border-color: var(--color-zinc-800);
   }
@@ -989,16 +984,8 @@
     border-color: var(--color-zinc-900);
   }
 
-  .bg-\[\#\#025aa5\] {
-    background-color: # #025aa5;
-  }
-
   .bg-\[\#025aa5\] {
     background-color: #025aa5;
-  }
-
-  .bg-\[\#155dfc\] {
-    background-color: #155dfc;
   }
 
   .bg-\[\#292929\] {
@@ -1041,10 +1028,6 @@
 
   .bg-blue-500 {
     background-color: var(--color-blue-500);
-  }
-
-  .bg-blue-600 {
-    background-color: var(--color-blue-600);
   }
 
   .bg-border {
@@ -1715,10 +1698,6 @@
     border-color: #025aa5;
   }
 
-  .focus\:border-\[\#0068ff\]:focus {
-    border-color: #0068ff;
-  }
-
   .focus\:bg-accent:focus {
     background-color: var(--accent);
   }
@@ -1729,10 +1708,6 @@
 
   .focus\:ring-\[\#025aa5\]:focus {
     --tw-ring-color: #025aa5;
-  }
-
-  .focus\:ring-\[\#0068ff\]:focus {
-    --tw-ring-color: #0068ff;
   }
 
   .focus-visible\:border-ring:focus-visible {

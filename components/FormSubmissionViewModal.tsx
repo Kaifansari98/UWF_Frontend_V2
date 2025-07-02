@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { Download, X } from "lucide-react";
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import StudentAidPDFDocument from './pdf/StudentAidPDFDocument';
 
 interface FormSubmissionViewModalProps {
   submission: any;
@@ -64,10 +66,17 @@ export default function FormSubmissionViewModal({
         {/* Header */}
         <div className="flex justify-between items-center mb-4 border-b-[1px] pb-4">
           {/* <h2 className="text-2xl font-semibold text-black">UWF Student Aid Form</h2> */}
-            <Button className="bg-[#025aa5] text-white">
-                <Download/>
-              Download Form As PDF
-            </Button>
+          <PDFDownloadLink
+            document={<StudentAidPDFDocument submission={submission} />}
+            fileName={`${submission.formId}_UWF_Form.pdf`}
+          >
+            {({ loading }) => (
+              <Button className="bg-[#025aa5] text-white">
+                <Download className="mr-2" />
+                {loading ? 'Preparing PDF...' : 'Download Form As PDF'}
+              </Button>
+            )}
+          </PDFDownloadLink>
           <div className="flex gap-6">
           <button onClick={handleClose}>
               <X className="w-6 h-6 text-gray-700" />
@@ -184,13 +193,13 @@ export default function FormSubmissionViewModal({
       <p className="text-gray-900 text-lg">{submission.incomeSource}</p>
     </div>
 
-    <div>
-      <p className="font-bold">Reason for Aid</p>
-      <p className="text-gray-900 text-lg">{submission.reason}</p>
-    </div>
     <div className="md:col-span-2">
       <p className="font-bold">Residence Address</p>
       <p className="text-gray-900 text-lg">{submission.address}</p>
+    </div>
+    <div className="md:col-span-2">
+      <p className="font-bold">Reason for Aid</p>
+      <p className="text-gray-900 text-md mt-2">{submission.reason}</p>
     </div>
 
   </div>
@@ -226,17 +235,17 @@ export default function FormSubmissionViewModal({
 
 <div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white mt-4">
   <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
-    UWF Member Information
+    UWF Member / Coordinator Information
   </h2>
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
     <div>
-      <p className="font-bold">UWF Member</p>
+      <p className="font-bold">UWF Member / Coordinator Name</p>
       <p className="text-gray-900 text-lg">{submission.coordinatorName}</p>
     </div>
 
     <div>
-      <p className="font-bold">UWF Member's Mobile Mumber</p>
+      <p className="font-bold">UWF Member / Coordinator Mobile Number</p>
       <p className="text-gray-900 text-lg">{submission.coordinatorMobile}</p>
     </div>
   </div>

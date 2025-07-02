@@ -21,15 +21,24 @@ export default function FormGenerationPage() {
       toast.error("Please select a region");
       return;
     }
-
+  
+    if (!studentName.trim()) {
+      toast.error("Please enter the student's name");
+      return;
+    }
+  
     try {
-      const res = await apiClient.post("/forms/generate/new", { region: selectedRegion });
+      const res = await apiClient.post("/forms/generate/new", {
+        name: studentName,
+        region: selectedRegion
+      });
       setGeneratedLink(res.data.form.form_link);
       toast.success("Form link generated successfully!");
     } catch (err) {
       toast.error("Failed to generate form");
     }
   };
+  
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(generatedLink);

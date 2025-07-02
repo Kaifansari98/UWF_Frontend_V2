@@ -25,6 +25,7 @@ export default function PendingFormsPage() {
   const columnDefs: ColDef[] = [
     { field: "id", headerName: "ID", sortable: true, filter: true },
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
+    { field: "student_name", headerName: "Student Name", sortable: true, filter: true }, // ✅ NEW
     { field: "region", sortable: true, filter: true },
     {
       field: "form_link",
@@ -47,7 +48,7 @@ export default function PendingFormsPage() {
       cellRenderer: (params: any) => {
         const formLink = params.data.form_link;
         const formId = params.data.formId;
-    
+  
         return (
           <div className="flex gap-3 items-center justify-center h-full">
             <button
@@ -66,7 +67,7 @@ export default function PendingFormsPage() {
               onClick={() => {
                 setFormIdToDelete(formId);
                 setShowDeleteModal(true);
-              }}              
+              }}
               title="Delete"
             >
               <Trash2 size={18} className="text-red-500" />
@@ -74,8 +75,8 @@ export default function PendingFormsPage() {
           </div>
         );
       },
-    }    
-  ];
+    }
+  ];  
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
