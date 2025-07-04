@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import ConfirmModal from "@/components/ConfirmModal";
 import toast from "react-hot-toast";
+import EditFormModal from "@/components/EditFormModal";
 
 export default function SubmittedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -68,7 +69,7 @@ export default function SubmittedFormsPage() {
           <Button
             size="sm"
             className="bg-yellow-600 text-white"
-            onClick={() => console.log("Edit clicked", params.data)}
+            onClick={() => setSelectedSubmission(params.data)}
           >
             Edit
           </Button>
@@ -198,6 +199,17 @@ export default function SubmittedFormsPage() {
         setShowDeleteModal(false);
         setSubmissionToDelete(null);
       }}
+  />
+)}
+
+{selectedSubmission && (
+  <EditFormModal
+    submission={selectedSubmission}
+    onClose={() => setSelectedSubmission(null)}
+    onUpdateSuccess={() => {
+      setSelectedSubmission(null);
+      // Optionally re-fetch or update state
+    }}
   />
 )}
     </div>  

@@ -251,7 +251,7 @@ export default function FormSubmissionViewModal({
   </div>
 </div>
 
-<div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+<div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
   {/* Fees Structure */}
   <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
     <p className="text-sm font-semibold text-gray-800 mb-2">Fees Structure</p>
@@ -302,9 +302,25 @@ export default function FormSubmissionViewModal({
       <p className="text-sm text-gray-500 mt-2">No file uploaded</p>
     )}
   </div>
+
+      {/* Parent Request Letter */}
+  <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
+    <p className="text-sm font-semibold text-gray-800 mb-2">Parent/Guardian request Letter</p>
+    {submission.parentApprovalLetter ? (
+      <a
+        href={`http://localhost:5000/assets/FormData/${submission.parentApprovalLetter}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
+      >
+        View PDF
+      </a>
+    ) : (
+      <p className="text-sm text-gray-500 mt-2">No file uploaded</p>
+    )}
+  </div>
+
 </div>
-
-
        
       </div>
     </div>
