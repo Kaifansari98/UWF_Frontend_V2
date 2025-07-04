@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,71 +25,90 @@ import { Upload, X } from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
 import { GraduationCap, CheckCircle } from 'lucide-react';
 
-const academicYears = [
-  "2025-2026",
-  "2026-2027",
-  "2027-2028",
-  "2028-2029",
-  "2029-2030",
-  "2030-2031",
-];
-
-const formSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  fatherName: z.string().min(1, "Father's name is required"),
-  familyName: z.string().min(1, "Family name is required"),
-  gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
-  schoolName: z.string().min(1, "School name is required"),
-  studyMedium: z.string().min(1, "Study medium is required"),
-  class: z.string().min(1, "Class is required"),
-  academicYear: z.string().min(1, "Academic year is required"),
-  parentName: z.string().min(1, "Parent/Guardian name is required"),
-  mobile: z.string().min(1, "Mobile number is required"),
-  alternateMobile: z.string().min(1, "Alternate mobile number is required"),
-  address: z.string().min(1, "Address is required"),
-  incomeSource: z.string().min(1, "Income source is required"),
-  reason: z.string().min(1, "Reason for aid is required"),
-  requested_amount: z.coerce.number().gt(0, "Amount must be greater than 0"),
-  bankAccountHolder: z.string().min(1, "Account holder name is required"),
-  bankAccountNumber: z.string().min(1, "Bank account number is required"),
-  ifscCode: z.string().min(1, "IFSC code is required"),
-  bankName: z.string().min(1, "Bank name is required"),
-  coordinatorName: z.string().min(1, "Coordinator name is required"),
-  coordinatorMobile: z.string().min(1, "Coordinator mobile number is required"),
-  feesStructure: z
-    .any()
-    .refine((fileList) => fileList?.[0], { message: "Fees Structure is required" })
-    .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
-      message: "Fees Structure must be a PDF",
-    })
-    .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
-      message: "Fees Structure must be less than 2MB",
-    }),
-  marksheet: z
-    .any()
-    .refine((fileList) => fileList?.[0], { message: "Marksheet is required" })
-    .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
-      message: "Marksheet must be a PDF",
-    })
-    .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
-      message: "Marksheet must be less than 2MB",
-    }),
-  signature: z
-    .any()
-    .refine((fileList) => fileList?.[0], { message: "Signature is required" })
-    .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
-      message: "Signature must be a PDF",
-    })
-    .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
-      message: "Signature must be less than 2MB",
-    }),
-  confirm: z.literal(true, { errorMap: () => ({ message: "You must confirm the details" }) }),
-});
-
 export default function StudentFormPage() {
   const { formId } = useParams();
   const [loading, setLoading] = useState(false);
   const [formStatus, setFormStatus] = useState<"loading" | "pending" | "submitted">("loading");
+  const [isNewStudent, setIsNewStudent] = useState(false);
+
+  const academicYears = [
+    "2025-2026",
+    "2026-2027",
+    "2027-2028",
+    "2028-2029",
+    "2029-2030",
+    "2030-2031",
+  ];
+  
+  const baseSchema = {
+    firstName: z.string().min(1, "First name is required"),
+    fatherName: z.string().min(1, "Father's name is required"),
+    familyName: z.string().min(1, "Family name is required"),
+    gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
+    schoolName: z.string().min(1, "School name is required"),
+    studyMedium: z.string().min(1, "Study medium is required"),
+    class: z.string().min(1, "Class is required"),
+    academicYear: z.string().min(1, "Academic year is required"),
+    parentName: z.string().min(1, "Parent/Guardian name is required"),
+    mobile: z.string().min(1, "Mobile number is required"),
+    alternateMobile: z.string().min(1, "Alternate mobile number is required"),
+    address: z.string().min(1, "Address is required"),
+    incomeSource: z.string().min(1, "Income source is required"),
+    reason: z.string().min(1, "Reason for aid is required"),
+    requested_amount: z.coerce.number().gt(0, "Amount must be greater than 0"),
+    bankAccountHolder: z.string().min(1, "Account holder name is required"),
+    bankAccountNumber: z.string().min(1, "Bank account number is required"),
+    ifscCode: z.string().min(1, "IFSC code is required"),
+    bankName: z.string().min(1, "Bank name is required"),
+    coordinatorName: z.string().min(1, "Coordinator name is required"),
+    coordinatorMobile: z.string().min(1, "Coordinator mobile number is required"),
+    feesStructure: z
+      .any()
+      .refine((fileList) => fileList?.[0], { message: "Fees Structure is required" })
+      .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
+        message: "Fees Structure must be a PDF",
+      })
+      .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
+        message: "Fees Structure must be less than 2MB",
+      }),
+    marksheet: z
+      .any()
+      .refine((fileList) => fileList?.[0], { message: "Marksheet is required" })
+      .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
+        message: "Marksheet must be a PDF",
+      })
+      .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
+        message: "Marksheet must be less than 2MB",
+      }),
+    signature: z
+      .any()
+      .refine((fileList) => fileList?.[0], { message: "Signature is required" })
+      .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
+        message: "Signature must be a PDF",
+      })
+      .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
+        message: "Signature must be less than 2MB",
+      }),
+    confirm: z.literal(true, { errorMap: () => ({ message: "You must confirm the details" }) })
+  };
+  
+  const formSchema = useMemo(() => {
+    console.log("Recomputing schema: isNewStudent =", isNewStudent);
+    return z.object({
+      ...baseSchema,
+      parentApprovalLetter: isNewStudent
+        ? z
+            .any()
+            .refine((fileList) => fileList?.[0], { message: "Parent Approval Letter is required for new students" })
+            .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
+              message: "Parent Approval Letter must be a PDF",
+            })
+            .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
+              message: "Parent Approval Letter must be less than 2MB",
+            })
+        : z.any().optional(),
+    });
+  }, [isNewStudent]);  
 
   const {
     register,
@@ -106,13 +125,26 @@ export default function StudentFormPage() {
       try {
         const res = await apiClient.get(`/forms/status/${formId}`);
         setFormStatus(res.data.status === "pending" ? "pending" : "submitted");
-      } catch {
+  
+        // Ensure it's explicitly true or false
+        if (typeof res.data.isNewStudent === "boolean") {
+          setIsNewStudent(res.data.isNewStudent);
+        } else {
+          console.warn("isNewStudent not returned properly");
+          setIsNewStudent(false); // fallback if undefined or incorrect
+        }
+      } catch (err) {
         toast.error("Form not found or server error.");
         setFormStatus("submitted");
       }
     };
     fetchStatus();
   }, [formId]);
+
+  if (formStatus === "loading" || isNewStudent === undefined)
+    return <div className="text-center py-10">Loading...</div>;
+  
+  console.log("isNewStudent value on render:", isNewStudent); // ✅ Add this anywhere inside the component (not inside useEffect)
 
   const onSubmit = async (data: any) => {
     const files = [data.feesStructure[0], data.marksheet[0], data.signature[0]];
@@ -121,7 +153,7 @@ export default function StudentFormPage() {
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, val]) => {
-      if (["feesStructure", "marksheet", "signature"].includes(key)) {
+      if (["feesStructure", "marksheet", "signature", "parentApprovalLetter"].includes(key)) {
         formData.append(key, (val as FileList)[0]);
       } else if (key !== "confirm") {
         formData.append(key, val as string);
@@ -141,8 +173,7 @@ export default function StudentFormPage() {
       setLoading(false);
     }
   };
-
-  if (formStatus === "loading") return <div className="text-center py-10">Loading...</div>;
+  
   if (formStatus === "submitted")
     return (
         <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gray-50 px-4 sm:px-6">
@@ -612,6 +643,62 @@ export default function StudentFormPage() {
       <p className="text-sm text-red-500 mt-2">{errors.signature.message}</p>
     )}
   </div>
+
+  {/* Parent Approval Letter */}
+{isNewStudent && (
+  <div className="border rounded-2xl p-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Label htmlFor="parentApprovalLetter" className="text-sm font-semibold text-gray-700">
+      Parent Approval Letter (PDF)
+    </Label>
+    {!watch("parentApprovalLetter")?.[0] ? (
+      <>
+        <input
+          id="parentApprovalLetter"
+          type="file"
+          accept="application/pdf"
+          {...register("parentApprovalLetter")}
+          className="hidden"
+        />
+        <label
+          htmlFor="parentApprovalLetter"
+          className="flex items-center justify-center gap-2 w-full py-2 mt-3 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
+        >
+          <Upload className="h-4 w-4" />
+          Choose PDF File
+        </label>
+        <p className="text-xs mt-2 text-[#292929]">
+          Upload approval letter (max 2MB)
+        </p>
+      </>
+    ) : (
+      <div className="mt-3">
+        <p className="text-sm text-gray-700 truncate">
+          {watch("parentApprovalLetter")?.[0]?.name}
+        </p>
+        <div className="flex gap-2 mt-4">
+          <label
+            htmlFor="parentApprovalLetter"
+            className="flex items-center gap-2 w-full justify-center py-2 bg-blue-500 text-white rounded-md font-medium text-sm cursor-pointer transition hover:bg-blue-700"
+          >
+            <Upload className="h-4 w-4" />
+            Upload New
+          </label>
+          <button
+            type="button"
+            onClick={() => setValue("parentApprovalLetter", undefined)}
+            className="flex items-center gap-2 w-full justify-center py-2 bg-red-500 text-white rounded-md font-medium text-sm transition hover:bg-red-600"
+          >
+            <X className="h-4 w-4" />
+            Remove
+          </button>
+        </div>
+      </div>
+    )}
+    {typeof errors.parentApprovalLetter?.message === "string" && (
+      <p className="text-sm text-red-500 mt-2">{errors.parentApprovalLetter.message}</p>
+    )}
+  </div>
+)}
 </div>
 
 

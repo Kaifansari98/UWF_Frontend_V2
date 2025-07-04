@@ -6,25 +6,87 @@ import { ColDef } from "ag-grid-community";
 import apiClient from "@/utils/apiClient";
 import { Button } from "@/components/ui/button";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
+import ConfirmModal from "@/components/ConfirmModal";
+import toast from "react-hot-toast";
 
 export default function SubmittedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [submissionToDelete, setSubmissionToDelete] = useState<any | null>(null);
+
+  const handleEdit = (submission: any) => {
+    console.log("Edit clicked for:", submission.formId);
+  };
+  
+  const handleAccept = (submission: any) => {
+    console.log("Accept clicked for:", submission.formId);
+  };
+  
+  const handleDeleteClick = (submission: any) => {
+    setSubmissionToDelete(submission);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!submissionToDelete) return;
+  
+    try {
+      const res = await apiClient.delete("/submissions/delete", {
+        data: { formId: submissionToDelete.formId },
+      });
+  
+      toast.success(res.data.message || "Form deleted successfully");
+  
+      setSubmissions((prev) =>
+        prev.filter((item) => item.formId !== submissionToDelete.formId)
+      );
+    } catch (err: any) {
+      console.error("Delete failed", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Failed to delete form");
+    } finally {
+      setShowDeleteModal(false);
+      setSubmissionToDelete(null);
+    }
+  };  
 
   const columnDefs: ColDef[] = [
     {
       headerName: "Action",
-      pinned: "right", // ✅ RIGHT SIDE (not scrollable)
-      width: 100,
+      pinned: "left",
+      width: 300,
       cellRenderer: (params: any) => (
-        <Button
-          size="sm"
-          className="bg-[#025aa5] text-white"
-          onClick={() => setSelectedSubmission(params.data)}
-        >
-          View
-        </Button>
+        <div className="flex gap-2 h-full items-center">
+          <Button
+            size="sm"
+            className="bg-[#025aa5] text-white"
+            onClick={() => setSelectedSubmission(params.data)}
+          >
+            View
+          </Button>
+          <Button
+            size="sm"
+            className="bg-yellow-600 text-white"
+            onClick={() => console.log("Edit clicked", params.data)}
+          >
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            className="bg-green-600 text-white"
+            onClick={() => console.log("Accept clicked", params.data)}
+          >
+            Accept
+          </Button>
+          <Button
+            size="sm"
+            className="bg-red-600 text-white"
+            onClick={() => handleDeleteClick(params.data)}
+          >
+            Delete
+          </Button>
+        </div>
       ),
     },
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
@@ -91,6 +153,7 @@ export default function SubmittedFormsPage() {
         setSubmissions(transformed);
       } catch (err) {
         console.error("Error fetching submissions", err);
+        toast.error("Failed to load submissions");
       } finally {
         setLoading(false);
       }
@@ -123,6 +186,20 @@ export default function SubmittedFormsPage() {
           onClose={() => setSelectedSubmission(null)}
         />
       )}
-    </div>
+
+      {showDeleteModal && submissionToDelete && (
+      <ConfirmModal
+      title="Delete Form Submission"
+      description={`Are you sure you want to delete form ${submissionToDelete.formId}? This action cannot be undone.`}
+      confirmText="Delete"
+      cancelText="Cancel"
+      onConfirm={confirmDelete}
+      onCancel={() => {
+        setShowDeleteModal(false);
+        setSubmissionToDelete(null);
+      }}
+  />
+)}
+    </div>  
   );
 }
