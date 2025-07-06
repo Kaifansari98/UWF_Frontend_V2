@@ -195,6 +195,14 @@ export default function EditFormModal({ submission, onClose, onUpdateSuccess }: 
             <Label>Bank A/C number</Label>
             <Input name="reason" value={formData.bankAccountNumber || ""} onChange={handleChange} />
           </div>
+          <div className="sm:col-span-2">
+            <Label>IFSC Code</Label>
+            <Input name="reason" value={formData.ifscCode || ""} onChange={handleChange} />
+          </div>
+          <div className="sm:col-span-2">
+            <Label>Bank Name</Label>
+            <Input name="reason" value={formData.bankName || ""} onChange={handleChange} />
+          </div>
         </div>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">

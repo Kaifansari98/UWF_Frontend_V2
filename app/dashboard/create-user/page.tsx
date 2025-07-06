@@ -186,7 +186,7 @@ export default function CreateUserPage() {
               Role <span className="text-red-500">*</span>
             </Label>
             <Select onValueChange={(value) => setValue("role", value)}>
-              <SelectTrigger className="rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200">
+              <SelectTrigger className="w-full rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200">
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>

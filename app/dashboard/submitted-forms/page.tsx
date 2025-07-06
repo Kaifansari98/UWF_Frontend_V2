@@ -14,6 +14,8 @@ export default function SubmittedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [submissionToDelete, setSubmissionToDelete] = useState<any | null>(null);
 
@@ -56,20 +58,26 @@ export default function SubmittedFormsPage() {
     {
       headerName: "Action",
       pinned: "left",
-      width: 300,
+      width: 370,
       cellRenderer: (params: any) => (
         <div className="flex gap-2 h-full items-center">
           <Button
             size="sm"
             className="bg-[#025aa5] text-white"
-            onClick={() => setSelectedSubmission(params.data)}
+            onClick={() => {
+              setSelectedSubmission(params.data);
+              setShowViewModal(true);
+            }}
           >
             View
           </Button>
           <Button
             size="sm"
             className="bg-yellow-600 text-white"
-            onClick={() => setSelectedSubmission(params.data)}
+            onClick={() => {
+              setSelectedSubmission(params.data);
+              setShowEditModal(true);
+            }}
           >
             Edit
           </Button>
@@ -87,8 +95,15 @@ export default function SubmittedFormsPage() {
           >
             Delete
           </Button>
+          <Button
+            size="sm"
+            className="bg-gray-700 text-white"
+            onClick={() => console.log("Reject clicked", params.data)}
+          >
+            Reject
+          </Button>
         </div>
-      ),
+      ),      
     },
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
@@ -181,12 +196,12 @@ export default function SubmittedFormsPage() {
         </div>
       )}
 
-      {selectedSubmission && (
+      {/* {selectedSubmission && (
         <FormSubmissionViewModal
           submission={selectedSubmission}
           onClose={() => setSelectedSubmission(null)}
         />
-      )}
+      )} */}
 
       {showDeleteModal && submissionToDelete && (
       <ConfirmModal
@@ -202,13 +217,27 @@ export default function SubmittedFormsPage() {
   />
 )}
 
-{selectedSubmission && (
+{showViewModal && selectedSubmission && (
+  <FormSubmissionViewModal
+    submission={selectedSubmission}
+    onClose={() => {
+      setShowViewModal(false);
+      setSelectedSubmission(null);
+    }}
+  />
+)}
+
+{showEditModal && selectedSubmission && (
   <EditFormModal
     submission={selectedSubmission}
-    onClose={() => setSelectedSubmission(null)}
-    onUpdateSuccess={() => {
+    onClose={() => {
+      setShowEditModal(false);
       setSelectedSubmission(null);
-      // Optionally re-fetch or update state
+    }}
+    onUpdateSuccess={() => {
+      setShowEditModal(false);
+      setSelectedSubmission(null);
+      // Optionally refresh data
     }}
   />
 )}
