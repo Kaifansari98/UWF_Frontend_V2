@@ -32,8 +32,9 @@ Email: united_welfare_foundation@outlook.com`;
   };
   
   export const getRejectionWhatsAppURL = (mobile: string) => {
-    const message = `Dear Sir/Madam, UWF Student Aid Request for your ward has been rejected due to the following reason/s:\n\nThanks & Regards,\nUnited Welfare Foundation`;
-    return `https://wa.me/91${mobile}?text=${encodeURIComponent(message)}`;
+    const message = `Dear Sir/Madam,\n\nUWF Student Aid Request for your ward has been rejected due to the following reasons:\n\nThanks & Regards,\nUnited Welfare Foundation`;
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/91${mobile}?text=${encodedMessage}`;
   };
 
   export const getClarificationWhatsAppURL = (mobile: string) => {
@@ -41,3 +42,10 @@ Email: united_welfare_foundation@outlook.com`;
     const encodedMessage = encodeURIComponent(message);
     return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
   };
+
+  export const getAcceptanceWhatsAppURL = (mobile: string) => {
+    const msg = `Dear Sir/Madam,\n\nUWF Student Aid Request for your ward has been received by the UWF team and is under evaluation.\n\nThanks & Regards,\nUnited Welfare Foundation`;
+    const encodedMessage = encodeURIComponent(msg);
+    return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
+  };
+  

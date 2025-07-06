@@ -9,7 +9,7 @@ import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import ConfirmModal from "@/components/ConfirmModal";
 import toast from "react-hot-toast";
 import EditFormModal from "@/components/EditFormModal";
-import { getRejectionWhatsAppURL, getClarificationWhatsAppURL } from "@/utils/shareUtils";
+import { getRejectionWhatsAppURL, getClarificationWhatsAppURL, getAcceptanceWhatsAppURL } from "@/utils/shareUtils";
 
 export default function SubmittedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -21,14 +21,17 @@ export default function SubmittedFormsPage() {
   const [submissionToDelete, setSubmissionToDelete] = useState<any | null>(null);
   const [submissionToReject, setSubmissionToReject] = useState<any | null>(null);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [submissionToAccept, setSubmissionToAccept] = useState<any | null>(null);
+  const [showAcceptModal, setShowAcceptModal] = useState(false);
 
   const handleEdit = (submission: any) => {
     console.log("Edit clicked for:", submission.formId);
   };
   
-  const handleAccept = (submission: any) => {
-    console.log("Accept clicked for:", submission.formId);
-  };
+  const handleAcceptClick = (submission: any) => {
+    setSubmissionToAccept(submission);
+    setShowAcceptModal(true);
+  };  
 
   const handleRejectClick = (submission: any) => {
     setSubmissionToReject(submission);
@@ -97,6 +100,40 @@ export default function SubmittedFormsPage() {
     }
   };
 
+  const confirmAccept = async () => {
+    if (!submissionToAccept) return;
+  
+    try {
+      const res = await apiClient.put(`/submissions/accept/${submissionToAccept.formId}`);
+      toast.success(res.data.message || "Form accepted successfully");
+  
+      setSubmissions((prev) =>
+        prev.map((item) =>
+          item.formId === submissionToAccept.formId
+            ? {
+                ...item,
+                form_accepted: true,
+                GeneratedForm: {
+                  ...item.GeneratedForm,
+                  status: "accepted",
+                },
+              }
+            : item
+        )
+      );
+  
+      const whatsappURL = getAcceptanceWhatsAppURL(submissionToAccept.mobile);
+      window.open(whatsappURL, "_blank");
+  
+    } catch (err: any) {
+      console.error("Accept failed", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Failed to accept form");
+    } finally {
+      setShowAcceptModal(false);
+      setSubmissionToAccept(null);
+    }
+  };
+  
   const columnDefs: ColDef[] = [
     {
       headerName: "Action",
@@ -127,7 +164,7 @@ export default function SubmittedFormsPage() {
           <Button
             size="sm"
             className="bg-green-600 text-white"
-            onClick={() => console.log("Accept clicked", params.data)}
+            onClick={() => handleAcceptClick(params.data)}
           >
             Accept
           </Button>
@@ -298,6 +335,21 @@ export default function SubmittedFormsPage() {
     }}
   />
 )}
+
+{showAcceptModal && submissionToAccept && (
+  <ConfirmModal
+    title="Accept Form Submission"
+    description={`Are you sure you want to accept form ${submissionToAccept.formId}?`}
+    confirmText="Accept"
+    cancelText="Cancel"
+    onConfirm={confirmAccept}
+    onCancel={() => {
+      setShowAcceptModal(false);
+      setSubmissionToAccept(null);
+    }}
+  />
+)}
+
     </div>  
   );
 }
