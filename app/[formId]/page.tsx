@@ -24,12 +24,14 @@ import Image from "next/image";
 import { Upload, X } from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
 import { GraduationCap, CheckCircle } from 'lucide-react';
+import UwfTermsAndConditions from "@/components/UwfTermsAndConditions";
 
 export default function StudentFormPage() {
   const { formId } = useParams();
   const [loading, setLoading] = useState(false);
   const [formStatus, setFormStatus] = useState<"loading" | "pending" | "submitted">("loading");
   const [isNewStudent, setIsNewStudent] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const academicYears = [
     "2025-2026",
@@ -140,6 +142,10 @@ export default function StudentFormPage() {
     };
     fetchStatus();
   }, [formId]);
+
+  if (!showForm) {
+    return <UwfTermsAndConditions onAccept={() => setShowForm(true)} />;
+  }
 
   if (formStatus === "loading" || isNewStudent === undefined)
     return <div className="text-center py-10">Loading...</div>;
