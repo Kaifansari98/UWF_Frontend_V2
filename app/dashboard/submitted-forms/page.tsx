@@ -9,6 +9,7 @@ import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import ConfirmModal from "@/components/ConfirmModal";
 import toast from "react-hot-toast";
 import EditFormModal from "@/components/EditFormModal";
+import { getRejectionWhatsAppURL, getClarificationWhatsAppURL } from "@/utils/shareUtils";
 
 export default function SubmittedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -18,6 +19,8 @@ export default function SubmittedFormsPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [submissionToDelete, setSubmissionToDelete] = useState<any | null>(null);
+  const [submissionToReject, setSubmissionToReject] = useState<any | null>(null);
+  const [showRejectModal, setShowRejectModal] = useState(false);
 
   const handleEdit = (submission: any) => {
     console.log("Edit clicked for:", submission.formId);
@@ -26,6 +29,11 @@ export default function SubmittedFormsPage() {
   const handleAccept = (submission: any) => {
     console.log("Accept clicked for:", submission.formId);
   };
+
+  const handleRejectClick = (submission: any) => {
+    setSubmissionToReject(submission);
+    setShowRejectModal(true);
+  };  
   
   const handleDeleteClick = (submission: any) => {
     setSubmissionToDelete(submission);
@@ -53,6 +61,41 @@ export default function SubmittedFormsPage() {
       setSubmissionToDelete(null);
     }
   };  
+
+  const confirmReject = async () => {
+    if (!submissionToReject) return;
+  
+    try {
+      const res = await apiClient.put(`/submissions/reject/${submissionToReject.formId}`);
+      toast.success(res.data.message || "Form rejected successfully");
+  
+      setSubmissions((prev) =>
+        prev.map((item) =>
+          item.formId === submissionToReject.formId
+            ? {
+                ...item,
+                isRejected: true,
+                status: "rejected",
+                GeneratedForm: {
+                  ...item.GeneratedForm,
+                  status: "rejected",
+                },
+              }
+            : item
+        )
+      );
+  
+      const whatsappURL = getRejectionWhatsAppURL(submissionToReject.mobile);
+      window.open(whatsappURL, "_blank");
+  
+    } catch (err: any) {
+      console.error("Reject failed", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Failed to reject form");
+    } finally {
+      setShowRejectModal(false);
+      setSubmissionToReject(null);
+    }
+  };
 
   const columnDefs: ColDef[] = [
     {
@@ -98,7 +141,7 @@ export default function SubmittedFormsPage() {
           <Button
             size="sm"
             className="bg-gray-700 text-white"
-            onClick={() => console.log("Reject clicked", params.data)}
+            onClick={() => handleRejectClick(params.data)}
           >
             Reject
           </Button>
@@ -117,7 +160,7 @@ export default function SubmittedFormsPage() {
       cellRenderer: (params: any) =>
         params.value ? (
           <a
-            href={`https://wa.me/+91${params.value}`}
+            href={getClarificationWhatsAppURL(params.value)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-600 underline"
@@ -132,7 +175,7 @@ export default function SubmittedFormsPage() {
       cellRenderer: (params: any) =>
         params.value ? (
           <a
-            href={`https://wa.me/+91${params.value}`}
+            href={getClarificationWhatsAppURL(params.value)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-600 underline"
@@ -238,6 +281,20 @@ export default function SubmittedFormsPage() {
       setShowEditModal(false);
       setSelectedSubmission(null);
       // Optionally refresh data
+    }}
+  />
+)}
+
+{showRejectModal && submissionToReject && (
+  <ConfirmModal
+    title="Reject Form Submission"
+    description={`Are you sure you want to reject form ${submissionToReject.formId}?`}
+    confirmText="Reject"
+    cancelText="Cancel"
+    onConfirm={confirmReject}
+    onCancel={() => {
+      setShowRejectModal(false);
+      setSubmissionToReject(null);
     }}
   />
 )}

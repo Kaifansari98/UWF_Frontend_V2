@@ -453,10 +453,6 @@
     margin-right: calc(var(--spacing) * 2);
   }
 
-  .mr-4 {
-    margin-right: calc(var(--spacing) * 4);
-  }
-
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
   }
@@ -491,10 +487,6 @@
 
   .mb-26 {
     margin-bottom: calc(var(--spacing) * 26);
-  }
-
-  .ml-4 {
-    margin-left: calc(var(--spacing) * 4);
   }
 
   .ml-\[280px\] {
@@ -606,10 +598,6 @@
 
   .max-h-\[400px\] {
     max-height: 400px;
-  }
-
-  .max-h-\[500px\] {
-    max-height: 500px;
   }
 
   .min-h-16 {

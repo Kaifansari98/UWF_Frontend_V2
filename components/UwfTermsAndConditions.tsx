@@ -198,7 +198,7 @@ export default function UwfTermsAndConditions({ onAccept }: TermsProps) {
 
         {/* Accept Button */}
         <div className="pt-6 text-center">
-          <Button onClick={handleAccept} className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 text-base rounded-xl shadow">
+          <Button onClick={handleAccept} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-6 text-base rounded-xl shadow">
             I have read & agree – Continue to Form
           </Button>
         </div>

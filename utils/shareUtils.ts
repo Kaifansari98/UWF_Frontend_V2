@@ -31,3 +31,13 @@ Email: united_welfare_foundation@outlook.com`;
     return `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${subject}&body=${body}`;
   };
   
+  export const getRejectionWhatsAppURL = (mobile: string) => {
+    const message = `Dear Sir/Madam, UWF Student Aid Request for your ward has been rejected due to the following reason/s:\n\nThanks & Regards,\nUnited Welfare Foundation`;
+    return `https://wa.me/91${mobile}?text=${encodeURIComponent(message)}`;
+  };
+
+  export const getClarificationWhatsAppURL = (mobile: string) => {
+    const message = `Dear Sir/Madam,\nRegarding the UWF Student Aid Request submitted for your ward, we request your kind clarification on the following:\n\nKindly update as soon as possible to enable processing of your request.\n\nThanks & Regards,\nUnited Welfare Foundation\nEmail: united_welfare_foundation@outlook.com`;
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
+  };
