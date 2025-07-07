@@ -36,7 +36,8 @@ const navItems = [
   { label: "Rejected Forms", icon: Ban },
   { label: "Accepted Forms", icon: CheckCircle },
   { label: "In Progress Requests", icon: DollarSign },
-  { label: "Disbursed Forms", icon: DollarSign },
+  { label: "Disburse forms", icon: DollarSign },
+  { label: "Disbursed forms", icon: DollarSign },
   { label: "Closed Forms", icon: XCircle },
 ];
 

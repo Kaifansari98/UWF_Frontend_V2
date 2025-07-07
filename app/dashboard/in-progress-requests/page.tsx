@@ -17,6 +17,8 @@ export default function InProgressRequests() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [submissionToReject, setSubmissionToReject] = useState<any | null>(null);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [submissionToDisburse, setSubmissionToDisburse] = useState<any | null>(null);
+  const [showDisburseModal, setShowDisburseModal] = useState(false);
 
   const fetchInProgressForms = async () => {
     try {
@@ -50,6 +52,20 @@ export default function InProgressRequests() {
     }
   };
 
+  const handleDisburseForm = async () => {
+    if (!submissionToDisburse) return;
+    try {
+      const res = await apiClient.put(`/submissions/disburse/${submissionToDisburse.formId}`);
+      toast.success(res.data.message || "Form marked as disbursed");
+      fetchInProgressForms();
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Failed to disburse form");
+    } finally {
+      setShowDisburseModal(false);
+      setSubmissionToDisburse(null);
+    }
+  };  
+
   useEffect(() => {
     fetchInProgressForms();
   }, []);
@@ -75,7 +91,8 @@ export default function InProgressRequests() {
             size="sm"
             className="bg-green-600 text-white"
             onClick={() => {
-              console.log("Accepted payment for", params.data.formId);
+              setSubmissionToDisburse(params.data);
+              setShowDisburseModal(true);
             }}
           >
             Accept
@@ -145,6 +162,21 @@ export default function InProgressRequests() {
     }}
   />
 )}
+
+{showDisburseModal && submissionToDisburse && (
+  <ConfirmModal
+    title="Disburse Form"
+    description={`Are you sure you want to mark form ${submissionToDisburse.formId} as disbursed?`}
+    confirmText="Disburse"
+    cancelText="Cancel"
+    onConfirm={handleDisburseForm}
+    onCancel={() => {
+      setShowDisburseModal(false);
+      setSubmissionToDisburse(null);
+    }}
+  />
+)}
+
     </div>
   );
 }

@@ -333,10 +333,6 @@
     pointer-events: none;
   }
 
-  .visible {
-    visibility: visible;
-  }
-
   .sr-only {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
@@ -1082,6 +1078,10 @@
 
   .bg-gray-200 {
     background-color: var(--color-gray-200);
+  }
+
+  .bg-gray-600 {
+    background-color: var(--color-gray-600);
   }
 
   .bg-gray-700 {

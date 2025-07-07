@@ -16,10 +16,12 @@ export default function DisbursedFormsPage() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(null);
+  const [showDisburseModal, setShowDisburseModal] = useState(false);
+  const [submissionToDisburse, setSubmissionToDisburse] = useState<any | null>(null);
 
   const fetchDisbursedForms = async () => {
     try {
-      const res = await apiClient.get("/submissions/disbursed/all");
+      const res = await apiClient.get("/submissions/disbursed");
       const transformed = res.data.disbursedForms.map((item: any) => ({
         ...item,
         region: item.GeneratedForm?.region,
@@ -38,7 +40,7 @@ export default function DisbursedFormsPage() {
 
     try {
       const res = await apiClient.put(
-        `/submissions/revertDisbursementStatus/${submissionToRevert.formId}`
+        `/submissions/revert-disbursement/${submissionToRevert.formId}`
       );
       toast.success(res.data.message || "Disbursement reverted successfully");
       fetchDisbursedForms();
@@ -50,6 +52,27 @@ export default function DisbursedFormsPage() {
     }
   };
 
+  const handleMarkAsDisbursed = async () => {
+    if (!submissionToDisburse) return;
+  
+    try {
+      const res = await apiClient.put(
+        `/submissions/disburseARequest/${submissionToDisburse.formId}`
+      );
+      toast.success(res.data.message || "Marked as disbursed");
+      fetchDisbursedForms();
+    } catch (err: any) {
+      toast.error(
+        err.response?.data?.message ||
+          `Failed to disburse form ${submissionToDisburse.formId}`
+      );
+    } finally {
+      setShowDisburseModal(false);
+      setSubmissionToDisburse(null);
+    }
+  };
+  
+
   useEffect(() => {
     fetchDisbursedForms();
   }, []);
@@ -58,7 +81,7 @@ export default function DisbursedFormsPage() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 550,
+      width: 500,
       cellRenderer: (params: any) => (
         <div className="flex gap-2 items-center">
           <Button
@@ -73,23 +96,22 @@ export default function DisbursedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-yellow-600 text-white"
-            onClick={() => {
-              console.log("Case Closure for", params.data.formId);
-              toast("Case Closure action (not implemented yet)");
-            }}
-          >
-            Case Closure
-          </Button>
-          <Button
-            size="sm"
             className="bg-green-600 text-white"
             onClick={() => {
               console.log("Download PDF for", params.data.formId);
-              toast("Download action (not implemented yet)");
             }}
           >
             Download
+          </Button>
+          <Button
+            size="sm"
+            className="bg-gray-600 text-white"
+            onClick={() => {
+              setSubmissionToDisburse(params.data);
+              setShowDisburseModal(true);
+            }}
+          >
+            Disbursed
           </Button>
           <Button
             size="sm"
@@ -99,7 +121,7 @@ export default function DisbursedFormsPage() {
               setShowRevertModal(true);
             }}
           >
-            Revert
+            Revert Back
           </Button>
         </div>
       ),
@@ -159,6 +181,20 @@ export default function DisbursedFormsPage() {
           onCancel={() => {
             setShowRevertModal(false);
             setSubmissionToRevert(null);
+          }}
+        />
+      )}
+
+      {showDisburseModal && submissionToDisburse && (
+        <ConfirmModal
+          title="Mark as Disbursed"
+          description={`Are you sure you want to mark form ${submissionToDisburse.formId} as disbursed?`}
+          confirmText="Yes, Disburse"
+          cancelText="Cancel"
+          onConfirm={handleMarkAsDisbursed}
+          onCancel={() => {
+            setShowDisburseModal(false);
+            setSubmissionToDisburse(null);
           }}
         />
       )}
