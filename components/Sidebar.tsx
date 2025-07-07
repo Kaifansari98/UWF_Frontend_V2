@@ -35,8 +35,16 @@ const navItems = [
   { label: "Submitted Forms", icon: FileCheck },
   { label: "Rejected Forms", icon: Ban },
   { label: "Accepted Forms", icon: CheckCircle },
+  { label: "In Progress Requests", icon: DollarSign },
   { label: "Disbursed Forms", icon: DollarSign },
   { label: "Closed Forms", icon: XCircle },
+];
+
+const acknowledgementItems = [
+  "Generate Acknowledgement",
+  "Pending Acknowledgement",
+  "Submitted Acknowledgement",
+  "Accepted Acknowledgement",
 ];
 
 export default function Sidebar({ active, onSelect }: SidebarProps) {
@@ -76,31 +84,57 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
           {navItems.map(({ label, icon: Icon }) => {
   const path = label.toLowerCase().replace(/\s+/g, "-");
   const isActive =
-        path === "dashboard"
-          ? pathname === "/dashboard"
-          : pathname === `/dashboard/${path}`;
+    path === "dashboard"
+      ? pathname === "/dashboard"
+      : pathname === `/dashboard/${path}`;
 
-      return (
-        <li key={label}>
-          <button
-      onClick={() => {
-        const path = label.toLowerCase().replace(/\s+/g, "-");
-        const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
-        router.push(route);
-      }}
-      className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
-        isActive
-          ? "bg-[#025aa5] text-white"
-          : "text-gray-700 hover:bg-gray-100"
-      } transition-all`}
-    >
-      <Icon size={18} />
-      <span>{label}</span>
-    </button>
+  return (
+    <li key={label}>
+      <button
+        onClick={() => {
+          const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
+          router.push(route);
+        }}
+        className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
+          isActive ? "bg-[#025aa5] text-white" : "text-gray-700 hover:bg-gray-100"
+        } transition-all`}
+      >
+        <Icon size={18} />
+        <span>{label}</span>
+      </button>
+    </li>
+  );
+})}
 
-        </li>
-      );
-    })}
+{/* Aid Acknowledgement Dropdown */}
+<li>
+  <details className="group">
+    <summary className="flex items-center justify-between px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 cursor-pointer">
+      <span className="flex items-center gap-3">
+        <FilePlus size={18} />
+        Aid Acknowledgement
+      </span>
+      <span className="group-open:rotate-90 transition-transform">▶</span>
+    </summary>
+    <ul className="ml-6 mt-1 space-y-1">
+      {acknowledgementItems.map((item) => {
+        const path = item.toLowerCase().replace(/\s+/g, "-");
+        return (
+          <li key={item}>
+            <button
+              onClick={() => router.push(`/dashboard/${path}`)}
+              className={`w-full text-left px-3 py-1.5 rounded-md text-sm ${
+                pathname === `/dashboard/${path}` ? "bg-[#025aa5] text-white" : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {item}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  </details>
+</li>
 
           </ul>
         </nav>

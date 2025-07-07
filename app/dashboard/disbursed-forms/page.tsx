@@ -1,8 +1,4 @@
 export default function DisbursedFormsPage() {
-    return (
-      <div className="p-6 text-xl font-semibold text-gray-800">
-        Disbursed Forms
-      </div>
-    );
-  }
+    return <div className="text-xl p-6">Disbursed FormsPage</div>;
+}
   

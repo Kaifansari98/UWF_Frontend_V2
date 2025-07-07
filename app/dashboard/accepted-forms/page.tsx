@@ -8,17 +8,20 @@ import { Button } from "@/components/ui/button";
 import ConfirmModal from "@/components/ConfirmModal";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import toast from "react-hot-toast";
-import { getAcceptanceWhatsAppURL } from "@/utils/shareUtils";
+import { getRejectionWhatsAppURL } from "@/utils/shareUtils";
+import TreasuryApprovalModal from "@/components/TreasuryApprovalModal";
 
 export default function AcceptedFormsPage() {
   const [acceptedSubmissions, setAcceptedSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [submissionToAccept, setSubmissionToAccept] = useState<any | null>(null);
-  const [showAcceptModal, setShowAcceptModal] = useState(false);
   const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(null);
   const [showRevertModal, setShowRevertModal] = useState(false);
+  const [submissionToReject, setSubmissionToReject] = useState<any | null>(null);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [submissionToApprove, setSubmissionToApprove] = useState<any | null>(null);
+  const [showTreasuryModal, setShowTreasuryModal] = useState(false);
 
   const fetchAcceptedForms = async () => {
     try {
@@ -40,22 +43,6 @@ export default function AcceptedFormsPage() {
     fetchAcceptedForms();
   }, []);
 
-  const handleAccept = async () => {
-    if (!submissionToAccept) return;
-    try {
-      await apiClient.put(`/submissions/accept/${submissionToAccept.formId}`);
-      toast.success("Form accepted successfully");
-      const waLink = getAcceptanceWhatsAppURL(submissionToAccept.mobile);
-      window.open(waLink, "_blank");
-      fetchAcceptedForms();
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || "Failed to accept form");
-    } finally {
-      setShowAcceptModal(false);
-      setSubmissionToAccept(null);
-    }
-  };
-
   const handleRevertAcceptance = async () => {
     if (!submissionToRevert) return;
     try {
@@ -70,11 +57,32 @@ export default function AcceptedFormsPage() {
     }
   };
 
+  const handleReject = async () => {
+    if (!submissionToReject) return;
+    try {
+      const res = await apiClient.put(`/submissions/reject/${submissionToReject.formId}`);
+      toast.success(res.data.message || "Form rejected successfully");
+  
+      // Refresh table
+      fetchAcceptedForms();
+  
+      // 🔗 Open WhatsApp message
+      const whatsappURL = getRejectionWhatsAppURL(submissionToReject.mobile);
+      window.open(whatsappURL, "_blank");
+  
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Failed to reject form");
+    } finally {
+      setShowRejectModal(false);
+      setSubmissionToReject(null);
+    }
+  };  
+
   const columnDefs: ColDef[] = [
     {
       headerName: "Actions",
       pinned: "left",
-      width: 450,
+      width: 480,
       cellRenderer: (params: any) => (
         <div className="flex gap-2 items-center">
           <Button
@@ -91,8 +99,8 @@ export default function AcceptedFormsPage() {
             size="sm"
             className="bg-green-600 text-white"
             onClick={() => {
-              setSubmissionToAccept(params.data);
-              setShowAcceptModal(true);
+              setSubmissionToApprove(params.data);
+              setShowTreasuryModal(true);
             }}
           >
             Accept
@@ -100,8 +108,10 @@ export default function AcceptedFormsPage() {
           <Button
             size="sm"
             className="bg-red-600 text-white"
-            // Intentionally left blank – no functionality
-            onClick={() => {}}
+            onClick={() => {
+              setSubmissionToReject(params.data);
+              setShowRejectModal(true);
+            }}
           >
             Reject
           </Button>
@@ -157,20 +167,6 @@ export default function AcceptedFormsPage() {
         />
       )}
 
-      {showAcceptModal && submissionToAccept && (
-        <ConfirmModal
-          title="Accept Form"
-          description={`Confirm accepting form ${submissionToAccept.formId}?`}
-          confirmText="Accept"
-          cancelText="Cancel"
-          onConfirm={handleAccept}
-          onCancel={() => {
-            setShowAcceptModal(false);
-            setSubmissionToAccept(null);
-          }}
-        />
-      )}
-
       {showRevertModal && submissionToRevert && (
         <ConfirmModal
           title="Revert Accepted Form"
@@ -181,6 +177,35 @@ export default function AcceptedFormsPage() {
           onCancel={() => {
             setShowRevertModal(false);
             setSubmissionToRevert(null);
+          }}
+        />
+      )}
+
+      {showRejectModal && submissionToReject && (
+        <ConfirmModal
+          title="Reject Form"
+          description={`Are you sure you want to reject form ${submissionToReject.formId}?`}
+          confirmText="Reject"
+          cancelText="Cancel"
+          onConfirm={handleReject}
+          onCancel={() => {
+            setShowRejectModal(false);
+            setSubmissionToReject(null);
+          }}
+        />
+      )}
+
+      {showTreasuryModal && submissionToApprove && (
+        <TreasuryApprovalModal
+          submission={submissionToApprove}
+          onClose={() => {
+            setShowTreasuryModal(false);
+            setSubmissionToApprove(null);
+          }}
+          onSuccess={() => {
+            setShowTreasuryModal(false);
+            setSubmissionToApprove(null);
+            fetchAcceptedForms(); // refresh table
           }}
         />
       )}
