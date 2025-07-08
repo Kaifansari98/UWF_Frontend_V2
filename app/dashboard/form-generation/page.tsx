@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import apiClient from "@/utils/apiClient";
 import { getWhatsAppShareURL, getGmailShareURL } from "@/utils/shareUtils";
 import { CircleCheckBig, Copy, Mail, MessageCircle } from "lucide-react";
+import ExistingStudentForm from "@/components/FormGeneration/ExistingStudentForm";
 
 const regions = ["Jubail", "Dammam", "Maharashtra"];
 
@@ -159,7 +160,7 @@ export default function FormGenerationPage() {
             </Button>
           </>
         ) : (
-          <div className="text-sm text-gray-500">Existing student tab selected</div>
+          <ExistingStudentForm />
         )}
       </div>
     </div>

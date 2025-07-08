@@ -42,16 +42,16 @@ const navItems = [
 ];
 
 const acknowledgementItems = [
-  "Generate Acknowledgement",
-  "Pending Acknowledgement",
-  "Submitted Acknowledgement",
-  "Accepted Acknowledgement",
+  "Generate Form",
+  "Pending Form",
+  "Submitted Form",
+  "Accepted Form",
 ];
 
 export default function Sidebar({ active, onSelect }: SidebarProps) {
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  const router = useRouter(); 
+  const router = useRouter();
   const pathname = usePathname();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -62,91 +62,97 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
   };
 
   return (
-    <aside className="w-[280px] h-screen bg-white border-r shadow-md flex flex-col justify-between fixed left-0 top-0 z-50">
-      <div className="py-6 px-4 space-y-6 overflow-y-auto">
+    <aside className="w-[280px] h-screen bg-gradient-to-b from-gray-50 to-white border-r border-gray-100 shadow-lg flex flex-col justify-between fixed left-0 top-0 z-50 transition-all duration-300">
+      <div className="py-8 px-5 space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
         {user && (
-          <div className="flex flex-col items-center text-center mt-4 pb-5 border-b-[0.5px] border-b">
-            <div className="relative w-20 h-20">
-            <img
-              src={user.profile_pic || "/avatar.jpg"}
-              alt="Profile"
-              className="w-20 h-20 rounded-full object-cover border border-gray-200"
-            />
+          <div className="flex flex-col items-center text-center mt-4 pb-6 border-b border-gray-200">
+            <div className="relative w-24 h-24 group">
+              <img
+                src={user.profile_pic || "/avatar.jpg"}
+                alt="Profile"
+                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
-            <p className="mt-2 font-semibold text-gray-800">
+            <p className="mt-3 font-bold text-lg text-gray-900 tracking-tight">
               {user.full_name}
             </p>
-            <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+            <p className="text-sm text-gray-500 capitalize font-medium bg-gray-100 px-3 py-1 rounded-full mt-1">
+              {user.role}
+            </p>
           </div>
         )}
 
-        <nav className="mt-2">
-          <ul className="space-y-1">
-          {navItems.map(({ label, icon: Icon }) => {
-  const path = label.toLowerCase().replace(/\s+/g, "-");
-  const isActive =
-    path === "dashboard"
-      ? pathname === "/dashboard"
-      : pathname === `/dashboard/${path}`;
+        <nav className="mt-4">
+          <ul className="space-y-2">
+            {navItems.map(({ label, icon: Icon }) => {
+              const path = label.toLowerCase().replace(/\s+/g, "-");
+              const isActive =
+                path === "dashboard"
+                  ? pathname === "/dashboard"
+                  : pathname === `/dashboard/${path}`;
 
-  return (
-    <li key={label}>
-      <button
-        onClick={() => {
-          const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
-          router.push(route);
-        }}
-        className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
-          isActive ? "bg-[#025aa5] text-white" : "text-gray-700 hover:bg-gray-100"
-        } transition-all`}
-      >
-        <Icon size={18} />
-        <span>{label}</span>
-      </button>
-    </li>
-  );
-})}
+              return (
+                <li key={label}>
+                  <button
+                    onClick={() => {
+                      const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
+                      router.push(route);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
+                    } transition-all duration-200 transform hover:-translate-y-0.5`}
+                  >
+                    <Icon size={20} className={`${isActive ? "text-white" : "text-gray-500"}`} />
+                    <span>{label}</span>
+                  </button>
+                </li>
+              );
+            })}
 
-{/* Aid Acknowledgement Dropdown */}
-<li>
-  <details className="group">
-    <summary className="flex items-center justify-between px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 cursor-pointer">
-      <span className="flex items-center gap-3">
-        <FilePlus size={18} />
-        Aid Acknowledgement
-      </span>
-      <span className="group-open:rotate-90 transition-transform">▶</span>
-    </summary>
-    <ul className="ml-6 mt-1 space-y-1">
-      {acknowledgementItems.map((item) => {
-        const path = item.toLowerCase().replace(/\s+/g, "-");
-        return (
-          <li key={item}>
-            <button
-              onClick={() => router.push(`/dashboard/${path}`)}
-              className={`w-full text-left px-3 py-1.5 rounded-md text-sm ${
-                pathname === `/dashboard/${path}` ? "bg-[#025aa5] text-white" : "text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              {item}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  </details>
-</li>
-
+            {/* Aid Acknowledgement Dropdown */}
+            <li>
+              <details className="group">
+                <summary className="flex items-center justify-between px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-blue-600 cursor-pointer transition-all duration-200">
+                  <span className="flex items-center gap-3">
+                    <FilePlus size={20} className="text-gray-500" />
+                    Aid Acknowledgement
+                  </span>
+                  <span className="group-open:rotate-90 transition-transform duration-200 text-gray-400">▶</span>
+                </summary>
+                <ul className="ml-8 mt-2 space-y-1.5">
+                  {acknowledgementItems.map((item) => {
+                    const path = item.toLowerCase().replace(/\s+/g, "-");
+                    return (
+                      <li key={item}>
+                        <button
+                          onClick={() => router.push(`/dashboard/${path}`)}
+                          className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
+                            pathname === `/dashboard/${path}`
+                              ? "bg-blue-600 text-white shadow-sm"
+                              : "text-gray-600 hover:bg-gray-100 hover:text-blue-600"
+                          } transition-all duration-200`}
+                        >
+                          {item}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
+            </li>
           </ul>
         </nav>
       </div>
 
-      <div className="p-4 border-t">
+      <div className="p-5 border-t border-gray-200">
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full flex items-center justify-start px-4 gap-4 bg-[#025aa5] text-white py-2 rounded-md text-sm font-semibold transition"
+          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
         >
-          <LogOut size={16} />
+          <LogOut size={18} />
           Logout
         </button>
       </div>

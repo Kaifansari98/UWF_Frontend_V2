@@ -12,7 +12,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 export default function DisbursedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
+  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null); 
   const [showViewModal, setShowViewModal] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(null);

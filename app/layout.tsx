@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UWF App",
+  title: "United Welfare Foundation - Portal",
   description: "Student aid form system",
 };
 
