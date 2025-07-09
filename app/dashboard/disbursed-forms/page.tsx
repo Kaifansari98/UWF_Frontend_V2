@@ -19,6 +19,9 @@ export default function DisbursedFormsPage() {
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(null);
 
+  const [showCaseCloseModal, setShowCaseCloseModal] = useState(false);
+  const [submissionToClose, setSubmissionToClose] = useState<any | null>(null);
+
   const fetchDisbursedForms = async () => {
     try {
       const res = await apiClient.get("/submissions/disbursed/all");
@@ -52,6 +55,23 @@ export default function DisbursedFormsPage() {
     }
   };
 
+  const handleCaseClose = async () => {
+    if (!submissionToClose) return;
+  
+    try {
+      const res = await apiClient.put(`/submissions/close-case/${submissionToClose.formId}`);
+      toast.success(res.data.message || "Form marked as case closed");
+      fetchDisbursedForms();
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Failed to mark form as case closed"
+      );
+    } finally {
+      setShowCaseCloseModal(false);
+      setSubmissionToClose(null);
+    }
+  };  
+
   useEffect(() => {
     fetchDisbursedForms();
   }, []);
@@ -77,11 +97,11 @@ export default function DisbursedFormsPage() {
             size="sm"
             className="bg-green-500 text-white"
             onClick={() => {
-              console.log("Case Closure for", params.data.formId);
-              toast("Case Closure action (not implemented yet)");
+              setSubmissionToClose(params.data);
+              setShowCaseCloseModal(true);
             }}
           >
-            Mark as Disbursed
+            Mark as Case Closed
           </Button>
           <Button
             size="sm"
@@ -132,7 +152,7 @@ export default function DisbursedFormsPage() {
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-semibold mb-4 text-gray-800">Disbursed Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Disbursed Forms</h1>
 
       {loading ? (
         <p>Loading...</p>
@@ -168,6 +188,20 @@ export default function DisbursedFormsPage() {
           onCancel={() => {
             setShowRevertModal(false);
             setSubmissionToRevert(null);
+          }}
+        />
+      )}
+
+      {showCaseCloseModal && submissionToClose && (
+        <ConfirmModal
+          title="Mark Case as Closed"
+          description={`Are you sure you want to mark form ${submissionToClose.formId} as case closed?`}
+          confirmText="Yes, Close Case"
+          cancelText="Cancel"
+          onConfirm={handleCaseClose}
+          onCancel={() => {
+            setShowCaseCloseModal(false);
+            setSubmissionToClose(null);
           }}
         />
       )}

@@ -317,14 +317,14 @@ export default function CreateUserPage() {
             <Button
               type="button"
               onClick={handleReset}
-              className="px-8 bg-white hover:bg-white text-black font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-[#025aa5]"
+              className="px-8 bg-white hover:bg-white text-blue-500 font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-blue-500"
             >
               Reset Form
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="px-8 bg-[#025aa5] hover:bg-[#025aa5] text-white font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px] border-zinc-900"
+              className="px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-6 rounded-lg transition-colors duration-200 tracking-wide border-[1px]"
             >
               {loading ? (
                 <span className="flex items-center gap-2">

@@ -103,7 +103,7 @@ export default function RejectedFormsPage() {
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-semibold mb-4 text-gray-800">Rejected Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Rejected Forms</h1>
 
       {loading ? (
         <p className="text-gray-600">Loading rejected forms...</p>

@@ -155,7 +155,7 @@ export default function DisbursedFormsPage() {
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-semibold mb-4 text-gray-800">Disbursed Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Disbursed Forms</h1>
 
       {loading ? (
         <p>Loading...</p>
