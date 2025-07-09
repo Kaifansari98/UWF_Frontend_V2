@@ -9,6 +9,9 @@ import toast from "react-hot-toast";
 import ConfirmModal from "@/components/ConfirmModal";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import { Download } from "lucide-react";
+import { exportClosedFormsToExcel } from "@/utils/exportClosedFormsToExcel";
+import { exportCurrentYearClosedFormsToExcel } from "@/utils/exportCurrentYearClosedFormsToExcel";
+
 
 export default function ClosedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -64,7 +67,7 @@ export default function ClosedFormsPage() {
         <div className="flex gap-2 items-center h-full">
           <Button
             size="sm"
-            className="bg-blue-500 text-white"
+            className="bg-blue-500 text-white hover:bg-blue-600"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -74,7 +77,7 @@ export default function ClosedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-orange-500 text-white"
+            className="bg-orange-500 text-white hover:bg-orange-600"
             onClick={() => {
               setSubmissionToRevert(params.data);
               setShowRevertModal(true);
@@ -82,7 +85,7 @@ export default function ClosedFormsPage() {
           >
             Revert to Disbursement
           </Button>
-          <Button size="sm" className="bg-yellow-500 text-white" onClick={() => toast("Download coming soon!")}>
+          <Button size="sm" className="bg-yellow-500 text-white hover:bg-yellow-600" onClick={() => toast("Download coming soon!")}>
             Download
           </Button>
         </div>
@@ -111,16 +114,41 @@ export default function ClosedFormsPage() {
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
 
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Closed Forms</h1>
-        <Button
-          className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-600"
-          onClick={() => toast("Excel download coming soon!")}
-        >
-          <Download className="w-4 h-4" />
-          Download ExcelSheet
-        </Button>
-      </div>
+<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+  <h1 className="text-2xl font-bold text-gray-800">Closed Forms</h1>
+  <div className="flex gap-2">
+    <Button
+      className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-600"
+      onClick={async () => {
+        try {
+          await exportClosedFormsToExcel();
+          toast.success("Excel file downloaded");
+        } catch {
+          toast.error("Failed to download Excel file, No Closed Cases Found");
+        }
+      }}
+    >
+      <Download className="w-4 h-4" />
+      Download ExcelSheet
+    </Button>
+
+    <Button
+      className="bg-blue-500 text-white flex items-center gap-2 hover:bg-blue-600"
+      onClick={async () => {
+        try {
+          await exportCurrentYearClosedFormsToExcel();
+          toast.success(`Excel file for ${new Date().getFullYear()} downloaded`);
+        } catch {
+          toast.error("Failed to download Excel file for current year");
+        }
+      }}
+    >
+      <Download className="w-4 h-4" />
+      Case Closed {new Date().getFullYear()}
+    </Button>
+  </div>
+</div>
+
 
 
       {loading ? (

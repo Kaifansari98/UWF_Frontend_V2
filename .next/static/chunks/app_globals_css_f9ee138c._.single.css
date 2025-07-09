@@ -82,12 +82,14 @@
     --color-red-600: oklch(57.7% .245 27.325);
     --color-red-700: oklch(50.5% .213 27.518);
     --color-orange-500: oklch(70.5% .213 47.604);
+    --color-orange-600: oklch(64.6% .222 41.116);
     --color-amber-50: oklch(98.7% .022 95.277);
     --color-amber-300: oklch(87.9% .169 91.605);
     --color-amber-600: oklch(66.6% .179 58.318);
     --color-yellow-100: oklch(97.3% .071 103.193);
     --color-yellow-300: oklch(90.5% .182 98.111);
     --color-yellow-500: oklch(79.5% .184 86.047);
+    --color-yellow-600: oklch(68.1% .162 75.834);
     --color-yellow-900: oklch(42.1% .095 57.708);
     --color-green-50: oklch(98.2% .018 155.826);
     --color-green-100: oklch(96.2% .044 156.743);
@@ -1047,10 +1049,6 @@
     border-color: var(--color-zinc-800);
   }
 
-  .border-zinc-900 {
-    border-color: var(--color-zinc-900);
-  }
-
   .bg-\[\#025aa5\] {
     background-color: #025aa5;
   }
@@ -1847,12 +1845,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-\[\#025aa5\]:hover {
-      background-color: #025aa5;
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-\[\#0259a5cc\]:hover {
       background-color: #0259a5cc;
     }
@@ -1901,6 +1893,18 @@
   }
 
   @media (hover: hover) {
+    .hover\:bg-orange-500:hover {
+      background-color: var(--color-orange-500);
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:bg-orange-600:hover {
+      background-color: var(--color-orange-600);
+    }
+  }
+
+  @media (hover: hover) {
     .hover\:bg-primary\/90:hover {
       background-color: var(--primary);
     }
@@ -1909,12 +1913,6 @@
       .hover\:bg-primary\/90:hover {
         background-color: color-mix(in oklab, var(--primary) 90%, transparent);
       }
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:bg-red-500:hover {
-      background-color: var(--color-red-500);
     }
   }
 
@@ -1939,6 +1937,12 @@
   @media (hover: hover) {
     .hover\:bg-white:hover {
       background-color: var(--color-white);
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:bg-yellow-600:hover {
+      background-color: var(--color-yellow-600);
     }
   }
 
