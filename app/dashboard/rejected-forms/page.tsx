@@ -58,12 +58,12 @@ export default function RejectedFormsPage() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 300,
+      width: 240,
       cellRenderer: (params: any) => (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center h-full">
           <Button
             size="sm"
-            className="bg-blue-600 text-white"
+            className="bg-blue-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -73,7 +73,7 @@ export default function RejectedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-green-600 text-white"
+            className="bg-green-500 text-white"
             onClick={() => {
               setRevertTarget(params.data);
               setShowConfirmModal(true);
@@ -87,12 +87,14 @@ export default function RejectedFormsPage() {
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
       headerName: "Student Name",
+      filter: true,
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
-    { field: "region", headerName: "Region" },
+    { field: "region", headerName: "Region", filter: true },
     {
       field: "submitted_at",
+      filter: true,
       headerName: "Submitted At",
       valueFormatter: (params: any) =>
         new Date(params.value).toLocaleString(),

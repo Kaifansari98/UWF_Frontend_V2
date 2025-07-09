@@ -101,7 +101,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                     }}
                     className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
                       isActive
-                        ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md"
+                        ? "bg-gradient-to-r from-blue-500 to-blue-500 text-white shadow-md"
                         : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                     } transition-all duration-200 transform hover:-translate-y-0.5`}
                   >
@@ -131,7 +131,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                           onClick={() => router.push(`/dashboard/${path}`)}
                           className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
                             pathname === `/dashboard/${path}`
-                              ? "bg-blue-600 text-white shadow-sm"
+                              ? "bg-blue-500 text-white shadow-sm"
                               : "text-gray-600 hover:bg-gray-100 hover:text-blue-600"
                           } transition-all duration-200`}
                         >
@@ -150,7 +150,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
       <div className="p-5 border-t border-gray-200">
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
+          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-500 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
         >
           <LogOut size={18} />
           Logout

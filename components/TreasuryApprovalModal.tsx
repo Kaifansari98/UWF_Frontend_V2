@@ -1,7 +1,6 @@
-// components/TreasuryApprovalModal.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,32 +48,34 @@ export default function TreasuryApprovalModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center px-4">
-      <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl">
-        <h2 className="text-xl font-semibold mb-4 text-center text-gray-800">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
+      <div className="bg-white rounded-xl shadow-2xl max-w-xl w-full p-6 relative animate-in fade-in zoom-in">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Treasury Approval
         </h2>
 
-        <div className="space-y-3 mb-6">
+        <div className="space-y-4">
           <div>
-            <Label>Student name</Label>
-            <p className="text-gray-700">{studentName}</p>
+            <Label className="text-gray-700">Student Name</Label>
+            <p className="text-gray-800 font-medium">{studentName}</p>
           </div>
           <div>
-            <Label>Class/Std.</Label>
-            <p className="text-gray-700">{studentClass}</p>
+            <Label className="text-gray-700">Class / Std.</Label>
+            <p className="text-gray-800 font-medium">{studentClass}</p>
           </div>
           <div>
-            <Label>Requested Amount</Label>
-            <p className="text-gray-700">₹ {requestedAmount}</p>
+            <Label className="text-gray-700">Requested Amount</Label>
+            <p className="text-gray-800 font-medium">₹ {requestedAmount}</p>
           </div>
-          <div>
-            <Label>Amount Assigned</Label>
-            <div className="grid grid-cols-2 gap-2 mt-2">
+
+          <div className="mt-4">
+            <Label className="text-gray-700">Assign Amount</Label>
+            <div className="flex flex-wrap gap-2 mt-2">
               {predefinedAmounts.map((amt) => (
                 <Button
                   key={amt}
                   variant={selectedAmount === amt ? "default" : "outline"}
+                  className={`px-4 py-2 ${selectedAmount === amt ? "bg-[#025aa5] text-white" : ""}`}
                   onClick={() => {
                     setSelectedAmount(amt);
                     setCustomAmount("");
@@ -84,11 +85,16 @@ export default function TreasuryApprovalModal({
                 </Button>
               ))}
             </div>
-            <div className="mt-3">
-              <Label htmlFor="customAmount">Other Amount</Label>
+
+            <div className="mt-4">
+              <Label htmlFor="customAmount" className="text-gray-700">
+                Other Amount
+              </Label>
               <Input
                 id="customAmount"
                 type="number"
+                min={1}
+                className="mt-1"
                 value={customAmount}
                 onChange={(e) => {
                   setCustomAmount(e.target.value);
@@ -100,40 +106,41 @@ export default function TreasuryApprovalModal({
           </div>
         </div>
 
-        <div className="flex justify-end gap-3">
+        <div className="mt-6 flex justify-end space-x-3">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
           <Button
-                onClick={() => {
-                    const amount = selectedAmount ?? parseFloat(customAmount);
-                    if (!amount || isNaN(amount)) {
-                    toast.error("Please select or enter a valid amount");
-                    return;
-                    }
-                    setShowConfirmModal(true);
-                }}
-                className="bg-[#025aa5] text-white"
-                >
-                Submit
-            </Button>
+            className="bg-[#025aa5] text-white hover:bg-[#014a8a]"
+            onClick={() => {
+              const amount = selectedAmount ?? parseFloat(customAmount);
+              if (!amount || isNaN(amount)) {
+                toast.error("Please select or enter a valid amount");
+                return;
+              }
+              setShowConfirmModal(true);
+            }}
+          >
+            Submit
+          </Button>
         </div>
       </div>
+
       {showConfirmModal && (
         <ConfirmModal
-            title="Confirm Treasury Approval"
-            description={`Are you sure you want to accept this form for ₹${(
+          title="Confirm Treasury Approval"
+          description={`Are you sure you want to accept this form for ₹${(
             selectedAmount ?? parseFloat(customAmount)
-            ).toLocaleString()}?`}
-            confirmText="Confirm"
-            cancelText="Cancel"
-            onCancel={() => setShowConfirmModal(false)}
-            onConfirm={async () => {
+          ).toLocaleString()}?`}
+          confirmText="Confirm"
+          cancelText="Cancel"
+          onCancel={() => setShowConfirmModal(false)}
+          onConfirm={async () => {
             setShowConfirmModal(false);
             await handleSubmit();
-            }}
+          }}
         />
-        )}
+      )}
     </div>
   );
-} 
+}

@@ -74,12 +74,12 @@ export default function InProgressRequests() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 400,
+      width: 280,
       cellRenderer: (params: any) => (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center h-full">
           <Button
             size="sm"
-            className="bg-blue-600 text-white"
+            className="bg-blue-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -89,7 +89,7 @@ export default function InProgressRequests() {
           </Button>
           <Button
             size="sm"
-            className="bg-green-600 text-white"
+            className="bg-green-500 text-white"
             onClick={() => {
               setSubmissionToDisburse(params.data);
               setShowDisburseModal(true);
@@ -99,13 +99,13 @@ export default function InProgressRequests() {
           </Button>
           <Button
             size="sm"
-            className="bg-red-600 text-white"
+            className="bg-red-500 text-white"
             onClick={() => {
               setSubmissionToReject(params.data);
               setShowRejectModal(true);
             }}
           >
-            Reject
+            Revert Back
           </Button>
         </div>
       ),
@@ -113,12 +113,13 @@ export default function InProgressRequests() {
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
       headerName: "Student Name",
+      filter: true,
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
-    { field: "mobile", headerName: "Mobile" },
-    { field: "coordinatorName", headerName: "UWF Member" },
-    { field: "region", headerName: "Region" },
+    { field: "mobile", headerName: "Mobile", filter: true },
+    { field: "coordinatorName", headerName: "UWF Member", filter: true },
+    { field: "region", headerName: "Region", filter: true },
   ];
 
   return (
@@ -153,7 +154,7 @@ export default function InProgressRequests() {
   <ConfirmModal
     title="Reject Treasury Approved Form"
     description={`Are you sure you want to revert treasury approval for form ${submissionToReject.formId}?`}
-    confirmText="Reject"
+    confirmText="Revert Back"
     cancelText="Cancel"
     onConfirm={handleRevertTreasury}
     onCancel={() => {

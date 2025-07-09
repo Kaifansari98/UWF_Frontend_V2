@@ -100,7 +100,7 @@ export default function ExistingStudentForm() {
           onClick={() => setSelectedStudent(student)}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-sm font-semibold">
+            <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
               {initial}
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function ExistingStudentForm() {
       {selectedStudent && (
         <Button
           onClick={handleGenerate}
-          className="w-full mt-2 bg-black text-white py-6 rounded-xl text-base font-semibold"
+          className="w-full mt-2 bg-blue-500 text-white py-6 rounded-xl text-base font-semibold"
         >
           Generate Link
         </Button>

@@ -53,9 +53,7 @@ export default function SubmittedFormsPage() {
   
       toast.success(res.data.message || "Form deleted successfully");
   
-      setSubmissions((prev) =>
-        prev.filter((item) => item.formId !== submissionToDelete.formId)
-      );
+      await fetchSubmittedForms();
     } catch (err: any) {
       console.error("Delete failed", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Failed to delete form");
@@ -72,21 +70,7 @@ export default function SubmittedFormsPage() {
       const res = await apiClient.put(`/submissions/reject/${submissionToReject.formId}`);
       toast.success(res.data.message || "Form rejected successfully");
   
-      setSubmissions((prev) =>
-        prev.map((item) =>
-          item.formId === submissionToReject.formId
-            ? {
-                ...item,
-                isRejected: true,
-                status: "rejected",
-                GeneratedForm: {
-                  ...item.GeneratedForm,
-                  status: "rejected",
-                },
-              }
-            : item
-        )
-      );
+      await fetchSubmittedForms();
   
       const whatsappURL = getRejectionWhatsAppURL(submissionToReject.mobile);
       window.open(whatsappURL, "_blank");
@@ -107,20 +91,7 @@ export default function SubmittedFormsPage() {
       const res = await apiClient.put(`/submissions/accept/${submissionToAccept.formId}`);
       toast.success(res.data.message || "Form accepted successfully");
   
-      setSubmissions((prev) =>
-        prev.map((item) =>
-          item.formId === submissionToAccept.formId
-            ? {
-                ...item,
-                form_accepted: true,
-                GeneratedForm: {
-                  ...item.GeneratedForm,
-                  status: "accepted",
-                },
-              }
-            : item
-        )
-      );
+      await fetchSubmittedForms();
   
       const whatsappURL = getAcceptanceWhatsAppURL(submissionToAccept.mobile);
       window.open(whatsappURL, "_blank");
@@ -143,7 +114,7 @@ export default function SubmittedFormsPage() {
         <div className="flex gap-2 h-full items-center">
           <Button
             size="sm"
-            className="bg-[#025aa5] text-white"
+            className="bg-blue-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -153,7 +124,7 @@ export default function SubmittedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-yellow-600 text-white"
+            className="bg-yellow-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowEditModal(true);
@@ -163,14 +134,14 @@ export default function SubmittedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-green-600 text-white"
+            className="bg-green-500 text-white"
             onClick={() => handleAcceptClick(params.data)}
           >
             Accept
           </Button>
           <Button
             size="sm"
-            className="bg-red-600 text-white"
+            className="bg-red-500 text-white"
             onClick={() => handleDeleteClick(params.data)}
           >
             Delete
@@ -188,12 +159,14 @@ export default function SubmittedFormsPage() {
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
       headerName: "Student Name",
+      filter: true,
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
     {
       field: "mobile",
       headerName: "Mobile",
+      filter: true,
       cellRenderer: (params: any) =>
         params.value ? (
           <a
@@ -209,6 +182,7 @@ export default function SubmittedFormsPage() {
     {
       field: "alternateMobile",
       headerName: "Alt Mobile",
+      filter: true,
       cellRenderer: (params: any) =>
         params.value ? (
           <a
@@ -224,37 +198,41 @@ export default function SubmittedFormsPage() {
     {
       field: "submitted_at",
       headerName: "Submitted At",
+      filter: true,
       valueFormatter: (params: any) =>
         new Date(params.value).toLocaleString(),
     },
     {
       field: "coordinatorName",
       headerName: "UWF Member",
+      filter: true,
     },
-    { field: "coordinatorMobile", headerName: "UWF Mobile" },
+    { field: "coordinatorMobile", headerName: "UWF Mobile", filter: true },
     {
       field: "region",
       headerName: "Region",
+      filter: true,
     },
   ];  
 
+  const fetchSubmittedForms = async () => {
+    setLoading(true); // Optional: shows loading while refreshing
+    try {
+      const res = await apiClient.get("/submissions/submitted");
+      const transformed = res.data.submissions.map((item: any) => ({
+        ...item,
+        region: item.GeneratedForm.region,
+      }));
+      setSubmissions(transformed);
+    } catch (err) {
+      console.error("Error fetching submissions", err);
+      toast.error("Failed to load submissions");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   useEffect(() => {
-    const fetchSubmittedForms = async () => {
-      try {
-        const res = await apiClient.get("/submissions/submitted");
-        const transformed = res.data.submissions.map((item: any) => ({
-          ...item,
-          region: item.GeneratedForm.region,
-        }));
-        setSubmissions(transformed);
-      } catch (err) {
-        console.error("Error fetching submissions", err);
-        toast.error("Failed to load submissions");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSubmittedForms();
   }, []);
 

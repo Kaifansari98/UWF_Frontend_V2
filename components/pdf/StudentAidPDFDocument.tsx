@@ -6,7 +6,10 @@ import {
   Document,
   StyleSheet,
   Image,
+  Link
 } from "@react-pdf/renderer";
+import { Check } from "lucide-react";
+
 
 const styles = StyleSheet.create({
   page: {
@@ -116,7 +119,13 @@ const styles = StyleSheet.create({
 const LabelValue = ({ label, value, isReason = false }: { label: string; value: string | number; isReason?: boolean }) => (
   <View>
     <Text style={styles.label}>{label}</Text>
-    <Text style={isReason ? styles.reasonValue : styles.value}>{value || "-"}</Text>
+    {typeof value === "string" && value.startsWith("http") ? (
+      <Link src={value} style={styles.value}>
+        {value}
+      </Link>
+    ) : (
+      <Text style={isReason ? styles.reasonValue : styles.value}>{value || "-"}</Text>
+    )}
   </View>
 );
 
@@ -133,6 +142,7 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
     schoolName,
     parentName,
     requested_amount,
+    acceptedAmount,
     mobile,
     alternateMobile,
     incomeSource,
@@ -144,6 +154,10 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
     bankAccountNumber,
     ifscCode,
     bankName,
+    feesStructure,
+    marksheet,
+    signature,
+    parentApprovalLetter,
     submitted_at,
   } = submission;
 
@@ -219,6 +233,14 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             <View style={styles.gridItem}>
               <LabelValue label="Source of Income" value={incomeSource} />
             </View>
+            {acceptedAmount !== undefined && acceptedAmount !== null && (
+              <View style={styles.gridItem}>
+                <LabelValue
+                  label="Accepted Amount ( by UWF Treasurer )"
+                  value={`${acceptedAmount.toLocaleString()}`}
+                />  
+              </View>
+            )}
             <View style={styles.fullWidthGridItem}>
               <LabelValue label="Residence Address" value={address} />
             </View>
@@ -259,6 +281,47 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             </View>
           </View>
         </View>
+
+    {(feesStructure || marksheet || signature || parentApprovalLetter) && (
+      <View style={styles.section} wrap={false}>
+        <Text style={styles.heading}>Uploaded Documents</Text>
+        <View style={styles.grid}>
+          {feesStructure && (
+            <View style={styles.fullWidthGridItem}>
+              <LabelValue
+                label="Fees Structure"
+                value={`http://localhost:5000/assets/FormData/${feesStructure}`}
+              />
+            </View>
+          )}
+          {marksheet && (
+            <View style={styles.fullWidthGridItem}>
+              <LabelValue
+                label="Marksheet"
+                value={`http://localhost:5000/assets/FormData/${marksheet}`}
+              />
+            </View>
+          )}
+          {signature && (
+            <View style={styles.fullWidthGridItem}>
+              <LabelValue
+                label="Parent/Guardian Signature"
+                value={`http://localhost:5000/assets/FormData/${signature}`}
+              />
+            </View>
+          )}
+          {parentApprovalLetter && (
+            <View style={styles.fullWidthGridItem}>
+              <LabelValue
+                label="Parent/Guardian Request Letter"
+                value={`http://localhost:5000/assets/FormData/${parentApprovalLetter}`}
+              />
+            </View>
+          )}
+        </View>
+      </View>
+    )}
+
       </Page>
     </Document>
   );

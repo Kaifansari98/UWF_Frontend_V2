@@ -143,10 +143,6 @@ export default function StudentFormPage() {
     fetchStatus();
   }, [formId]);
 
-  if (!showForm) {
-    return <UwfTermsAndConditions onAccept={() => setShowForm(true)} />;
-  }
-
   if (formStatus === "loading" || isNewStudent === undefined)
     return <div className="text-center py-10">Loading...</div>;
   
@@ -195,6 +191,10 @@ export default function StudentFormPage() {
   </div>
 </div>
     );
+
+    if (!showForm) {
+      return <UwfTermsAndConditions onAccept={() => setShowForm(true)} />;
+    }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 w-full">

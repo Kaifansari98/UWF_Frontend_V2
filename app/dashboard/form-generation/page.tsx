@@ -104,7 +104,7 @@ export default function FormGenerationPage() {
                     onClick={() => setSelectedRegion(region)}
                     className={`px-5 py-2 rounded-full border text-sm font-medium ${
                       selectedRegion === region
-                        ? "bg-black text-white"
+                        ? "bg-blue-500 text-white"
                         : "bg-white text-black border-gray-300"
                     }`}
                   >
@@ -126,7 +126,7 @@ export default function FormGenerationPage() {
                   className="cursor-default bg-gray-100"
                 />
                 <div className="flex flex-wrap gap-2">
-                  <Button onClick={handleCopy} className="bg-black text-white">
+                  <Button onClick={handleCopy} className="bg-blue-500 text-white">
                     <Copy/>
                     Copy Link
                   </Button>
@@ -135,6 +135,7 @@ export default function FormGenerationPage() {
                       const url = getWhatsAppShareURL(generatedLink); // Replace with actual link
                       window.open(url, "_blank");
                     }}
+                    className="bg-green-500"
                   >
                     <MessageCircle />
                     Share via WhatsApp
@@ -144,6 +145,7 @@ export default function FormGenerationPage() {
                       const url = getGmailShareURL(generatedLink);
                       window.open(url, "_blank");
                     }}
+                    className="bg-red-500"
                   >
                     <Mail/>
                     Share via Gmail
@@ -154,7 +156,7 @@ export default function FormGenerationPage() {
 
             <Button
               onClick={handleGenerate}
-              className="w-full mt-4 bg-black text-white py-6 rounded-xl text-base font-semibold"
+              className="w-full mt-4 bg-blue-500 text-white py-6 rounded-xl text-base font-semibold"
             >
               Generate Link
             </Button>

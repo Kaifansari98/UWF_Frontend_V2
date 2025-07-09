@@ -8,6 +8,8 @@ import apiClient from "@/utils/apiClient";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import toast from "react-hot-toast";
 import ConfirmModal from "@/components/ConfirmModal";
+import { pdf } from "@react-pdf/renderer";
+import BankDetailsPDF from "@/components/pdf/BankDetailsPDF";
 
 export default function DisbursedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -81,12 +83,12 @@ export default function DisbursedFormsPage() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 500,
+      width: 470,
       cellRenderer: (params: any) => (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center h-full">
           <Button
             size="sm"
-            className="bg-blue-600 text-white"
+            className="bg-blue-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -96,26 +98,32 @@ export default function DisbursedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-green-600 text-white"
-            onClick={() => {
-              console.log("Download PDF for", params.data.formId);
+            className="bg-yellow-500 text-white"
+            onClick={async () => {
+              const blob = await pdf(<BankDetailsPDF submission={params.data} />).toBlob();
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = `${params.data.formId}_BankDetails.pdf`;
+              link.click();
+              URL.revokeObjectURL(url);
             }}
           >
             Download
           </Button>
           <Button
             size="sm"
-            className="bg-gray-600 text-white"
+            className="bg-green-500 text-white"
             onClick={() => {
               setSubmissionToDisburse(params.data);
               setShowDisburseModal(true);
             }}
           >
-            Disbursed
+            Send to Disbursement
           </Button>
           <Button
             size="sm"
-            className="bg-red-600 text-white"
+            className="bg-red-500 text-white"
             onClick={() => {
               setSubmissionToRevert(params.data);
               setShowRevertModal(true);
@@ -129,18 +137,20 @@ export default function DisbursedFormsPage() {
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
       headerName: "Student Name",
+      filter: true,
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
     {
       field: "acceptedAmount",
       headerName: "Accepted Amount",
+      filter: true,
       valueGetter: (params: any) => `₹ ${params.data.acceptedAmount || 0}`,
     },
-    { field: "bankAccountHolder", headerName: "Account Holder Name" },
-    { field: "bankAccountNumber", headerName: "Bank Account No." },
-    { field: "ifscCode", headerName: "IFSC Code" },
-    { field: "bankName", headerName: "Bank Name" },
+    { field: "bankAccountHolder", headerName: "Account Holder Name", filter: true },
+    { field: "bankAccountNumber", headerName: "Bank Account No.", filter: true },
+    { field: "ifscCode", headerName: "IFSC Code", filter: true },
+    { field: "bankName", headerName: "Bank Name", filter: true },
   ];
 
   return (

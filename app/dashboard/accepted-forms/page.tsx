@@ -29,6 +29,7 @@ export default function AcceptedFormsPage() {
       const transformed = res.data.acceptedSubmissions.map((item: any) => ({
         ...item,
         region: item.GeneratedForm.region,
+        status: item.GeneratedForm.status,
       }));
       setAcceptedSubmissions(transformed);
     } catch (err) {
@@ -82,12 +83,12 @@ export default function AcceptedFormsPage() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 480,
+      width: 400,
       cellRenderer: (params: any) => (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center h-full">
           <Button
             size="sm"
-            className="bg-[#025aa5] text-white"
+            className="bg-blue-500 text-white"
             onClick={() => {
               setSelectedSubmission(params.data);
               setShowViewModal(true);
@@ -97,7 +98,7 @@ export default function AcceptedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-green-600 text-white"
+            className="bg-green-500 text-white"
             onClick={() => {
               setSubmissionToApprove(params.data);
               setShowTreasuryModal(true);
@@ -107,7 +108,7 @@ export default function AcceptedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-red-600 text-white"
+            className="bg-red-500 text-white"
             onClick={() => {
               setSubmissionToReject(params.data);
               setShowRejectModal(true);
@@ -117,7 +118,7 @@ export default function AcceptedFormsPage() {
           </Button>
           <Button
             size="sm"
-            className="bg-yellow-600 text-white"
+            className="bg-yellow-500 text-white"
             onClick={() => {
               setSubmissionToRevert(params.data);
               setShowRevertModal(true);
@@ -131,12 +132,13 @@ export default function AcceptedFormsPage() {
     { field: "formId", headerName: "Form ID", sortable: true, filter: true },
     {
       headerName: "Student Name",
+      filter: true,
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
-    { field: "mobile", headerName: "Mobile" },
-    { field: "coordinatorName", headerName: "UWF Member" },
-    { field: "region", headerName: "Region" },
+    { field: "mobile", headerName: "Mobile", filter: true },
+    { field: "coordinatorName", headerName: "UWF Member", filter: true },
+    { field: "region", headerName: "Region", filter: true },
   ];
 
   return (

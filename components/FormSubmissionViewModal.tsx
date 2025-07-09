@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Download, X } from "lucide-react";
+import { Check, Download, MoveRight, X } from "lucide-react";
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { PDFDownloadLink } from '@react-pdf/renderer';
@@ -22,6 +22,7 @@ export default function FormSubmissionViewModal({
 
   const modalRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  console.log("Modal Submission:", submission.status);
 
   useEffect(() => {
     if (modalRef.current && cardRef.current) {
@@ -84,6 +85,10 @@ export default function FormSubmissionViewModal({
           </div>
         </div>
 
+
+
+
+
         {/* Logo */}
         <div className="mb-6 w-full flex flex-row justify-between">
             <div className="h-full pr-5">
@@ -116,6 +121,15 @@ export default function FormSubmissionViewModal({
               year: 'numeric'
             })}</p>
         </div>
+
+        {submission.status === "accepted" && (
+  <div className="mb-4 px-4 py-3 bg-green-100 border border-green-300 rounded-lg text-green-800 text-sm font-medium text-center flex flex-row items-center gap-2">
+    <Check size={'16'}/>
+    <p>
+      This Form has been accepted by the Treasurer
+    </p>
+  </div>
+)}
 
         <div className="w-full border border-gray-200 rounded-xl py-4 px-6 bg-white">
   <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
@@ -175,7 +189,7 @@ export default function FormSubmissionViewModal({
 
     <div>
       <p className="font-bold">Requested Amount</p>
-      <p className="text-gray-900 text-lg">₹{submission.requested_amount?.toLocaleString()}</p>
+      <p className="text-gray-900 text-lg font-bold">₹{submission.requested_amount?.toLocaleString()}</p>
     </div>
     <div>
       <p className="font-bold">Mobile</p>
@@ -192,6 +206,13 @@ export default function FormSubmissionViewModal({
       <p className="font-bold">Income Source</p>
       <p className="text-gray-900 text-lg">{submission.incomeSource}</p>
     </div>
+
+    {typeof submission.acceptedAmount === "number" && !isNaN(submission.acceptedAmount) && (
+  <div className="font-bold">
+    <p className="font-bold text-[#10b981]">Accepted Amount by Treasurer</p>
+    <p className="text-[#10b981] text-lg">₹{submission.acceptedAmount.toLocaleString()}</p>
+  </div>
+)}
 
     <div className="md:col-span-2">
       <p className="font-bold">Residence Address</p>
