@@ -1893,12 +1893,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-orange-500:hover {
-      background-color: var(--color-orange-500);
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-orange-600:hover {
       background-color: var(--color-orange-600);
     }

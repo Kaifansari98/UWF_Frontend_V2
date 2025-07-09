@@ -17,6 +17,7 @@ import {
   DollarSign,
   XCircle,
   LogOut,
+  ChevronRight,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import ConfirmModal from "./ConfirmModal";
@@ -118,9 +119,9 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                 <summary className="flex items-center justify-between px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-blue-600 cursor-pointer transition-all duration-200">
                   <span className="flex items-center gap-3">
                     <FilePlus size={20} className="text-gray-500" />
-                    Aid Acknowledgement
+                    Acknowledgement
                   </span>
-                  <span className="group-open:rotate-90 transition-transform duration-200 text-gray-400">▶</span>
+                  <span className="group-open:rotate-90 transition-transform duration-200 text-gray-400"><ChevronRight size={16}/></span>
                 </summary>
                 <ul className="ml-8 mt-2 space-y-1.5">
                   {acknowledgementItems.map((item) => {
@@ -147,7 +148,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
         </nav>
       </div>
 
-      <div className="p-5 border-t border-gray-200">
+      <div className="px-5 py-2 border-t border-gray-200">
         <button
           onClick={() => setShowLogoutConfirm(true)}
           className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-500 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
