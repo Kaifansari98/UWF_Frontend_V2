@@ -148,7 +148,7 @@ export default function FormGenerationPage() {
                     className="bg-red-500"
                   >
                     <Mail/>
-                    Share via Gmail
+                    Share via Email
                   </Button>
                 </div>
               </div>

@@ -32,14 +32,14 @@ const navItems = [
   { label: "Create User", icon: UserPlus },
   { label: "Users List", icon: Users },
   { label: "Form Generation", icon: FilePlus },
-  { label: "Pending Forms", icon: Clock },
-  { label: "Submitted Forms", icon: FileCheck },
-  { label: "Rejected Forms", icon: Ban },
-  { label: "Accepted Forms", icon: CheckCircle },
-  { label: "In Progress Requests", icon: DollarSign },
-  { label: "Disburse forms", icon: DollarSign },
-  { label: "Disbursed forms", icon: DollarSign },
-  { label: "Closed Forms", icon: XCircle },
+  { label: "Request Evaluation", icon: FileCheck },
+  { label: "Pending Requests", icon: Clock },
+  { label: "Request Rejected", icon: Ban },
+  { label: "Treasury Review", icon: CheckCircle },
+  { label: "Treasury Approval", icon: DollarSign },
+  { label: "Approved Cases", icon: DollarSign },
+  { label: "Aid Disbursement", icon: DollarSign },
+  { label: "Closed Cases", icon: XCircle },
 ];
 
 const acknowledgementItems = [

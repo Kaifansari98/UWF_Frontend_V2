@@ -136,14 +136,24 @@ export default function AcceptedFormsPage() {
       valueGetter: (params: any) =>
         `${params.data.firstName || ""} ${params.data.fatherName || ""} ${params.data.familyName || ""}`,
     },
-    { field: "mobile", headerName: "Mobile", filter: true },
+    { field: "requested_amount", headerName: "Requested Amount", filter: true },
+    { field: "mobile", headerName: "Mobile Number", filter: true },
+    { field: "alternateMobile", headerName: "Alternate Number", filter: true },
+    {
+      field: "submitted_at",
+      headerName: "Submitted At",
+      filter: true,
+      valueFormatter: (params: any) =>
+        new Date(params.value).toLocaleString(),
+    },
     { field: "coordinatorName", headerName: "UWF Member", filter: true },
+    { field: "coordinatorMobile", headerName: "UWF Mobile", filter: true },
     { field: "region", headerName: "Region", filter: true },
   ];
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Accepted Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Treasury Review</h1>
 
       {loading ? (
         <p>Loading accepted forms...</p>

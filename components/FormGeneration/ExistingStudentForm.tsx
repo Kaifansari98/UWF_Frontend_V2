@@ -161,7 +161,7 @@ export default function ExistingStudentForm() {
               }
             >
               <Mail />
-              Share via Gmail
+              Share via Email
             </Button>
           </div>
         </div>

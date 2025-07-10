@@ -115,7 +115,7 @@ export default function ClosedFormsPage() {
     <div className="px-6 pt-4 w-full h-full pb-16">
 
 <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-  <h1 className="text-2xl font-bold text-gray-800">Closed Forms</h1>
+  <h1 className="text-2xl font-bold text-gray-800">Closed Cases</h1>
   <div className="flex gap-2">
     <Button
       className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-600"

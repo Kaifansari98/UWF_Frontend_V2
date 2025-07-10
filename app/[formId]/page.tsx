@@ -248,7 +248,7 @@ export default function StudentFormPage() {
     <div className="w-full">
       <Label htmlFor="fatherName" className="mb-2">Father's Name</Label>
       <Input id="fatherName" type="text" {...register("fatherName")} />
-      <p className="text-xs text-gray-500 mt-2">Enter father's full name as per Adhaar card.</p>
+      <p className="text-xs text-gray-500 mt-2">Enter father's name as per Adhaar card.</p>
       {errors.fatherName && <p className="text-sm text-red-500">{errors.fatherName.message}</p>}
     </div>
 
@@ -317,7 +317,6 @@ export default function StudentFormPage() {
           <SelectItem value="Urdu">Urdu</SelectItem>
           <SelectItem value="Marathi">Marathi</SelectItem>
           <SelectItem value="Hindi">Hindi</SelectItem>
-          <SelectItem value="Arabic">Arabic</SelectItem>
         </SelectContent>
       </Select>
       <p className="text-xs text-gray-500 mt-2">Select medium of instruction.</p>
@@ -360,7 +359,7 @@ export default function StudentFormPage() {
       Parent/Guardian Name 
     </Label>
     <Input id="parentName" type="text" {...register("parentName")} />
-    <p className="text-xs text-gray-500 mt-2">Full name of guardian.</p>
+    <p className="text-xs text-gray-500 mt-2">Full name of Parent / Guardian.</p>
     {errors.parentName && <p className="text-sm text-red-500">{errors.parentName.message}</p>}
   </div>
 
@@ -403,7 +402,7 @@ export default function StudentFormPage() {
     </div>
 
     <div className="w-full">
-      <Label htmlFor="requested_amount" className="mb-2">Requested Amount (as per School/College)</Label>
+      <Label htmlFor="requested_amount" className="mb-2">Requested Amount as per School/College (INR)</Label>
       <Input id="requested_amount" type="number" {...register("requested_amount")} />
       <p className="text-xs text-gray-500 mt-2">Amount you are requesting.</p>
       {errors.requested_amount && <p className="text-sm text-red-500">{errors.requested_amount.message}</p>}
@@ -419,14 +418,13 @@ export default function StudentFormPage() {
   </div>
 </div>
 
-
-        {/* === Bank & Coordinator Information Card === */}
+{/* === Bank Information Card === */}
 <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
   {/* Header */}
   <div className="mb-6">
-    <h2 className="text-xl font-bold text-gray-800 mb-1">School Bank Account & UWF Member Information</h2>
+    <h2 className="text-xl font-bold text-gray-800 mb-1">School Bank Account Information</h2>
     <p className="text-sm text-gray-600">
-      Please provide correct and verifiable banking details and UWF coordinator contact information for follow-up and disbursement.
+      Please provide correct and verifiable banking details for follow-up and disbursement.
     </p>
     <div className="mt-4 h-[1px] bg-gray-200 w-full" />
   </div>
@@ -458,11 +456,22 @@ export default function StudentFormPage() {
     </div>
 
     <div className="w-full">
-      <Label htmlFor="bankName" className="mb-2">Bank Name</Label>
+      <Label htmlFor="bankName" className="mb-2">Bank Name and Branch</Label>
       <Input id="bankName" type="text" {...register("bankName")} />
-      <p className="text-xs text-gray-500 mt-2">Bank branch or institution name.</p>
+      <p className="text-xs text-gray-500 mt-2">Please provide Bank Name and Branch.</p>
       {errors.bankName && <p className="text-sm text-red-500">{errors.bankName.message}</p>}
     </div>
+  </div>
+
+</div>
+<div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 sm:p-8 mb-10">
+  {/* Header */}
+  <div className="mb-6">
+    <h2 className="text-xl font-bold text-gray-800 mb-1">UWF Member / Coordinator Information</h2>
+    <p className="text-sm text-gray-600">
+      Please provide correct and verifiable UWF Member / Coordinator name and contact information for follow-up and disbursement.
+    </p>
+    <div className="mt-4 h-[1px] bg-gray-200 w-full" />
   </div>
 
   {/* Coordinator Name & Contact */}

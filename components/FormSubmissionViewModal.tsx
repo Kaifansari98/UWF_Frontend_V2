@@ -126,7 +126,7 @@ export default function FormSubmissionViewModal({
   <div className="mb-4 px-4 py-3 bg-green-100 border border-green-300 rounded-lg text-green-800 text-sm font-medium text-center flex flex-row items-center gap-2">
     <Check size={'16'}/>
     <p>
-      This Form has been accepted by the Treasurer
+      This Form has been accepted by the Evaluator
     </p>
   </div>
 )}

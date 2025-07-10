@@ -155,7 +155,7 @@ export default function DisbursedFormsPage() {
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Disbursed Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Approved Cases</h1>
 
       {loading ? (
         <p>Loading...</p>
@@ -197,9 +197,9 @@ export default function DisbursedFormsPage() {
 
       {showDisburseModal && submissionToDisburse && (
         <ConfirmModal
-          title="Mark as Disbursed"
-          description={`Are you sure you want to mark form ${submissionToDisburse.formId} as disbursed?`}
-          confirmText="Yes, Disburse"
+          title="Proceed to Disbursement"
+          description={`Are you sure you want to mark form ${submissionToDisburse.formId} for disbursement?`}
+          confirmText="Yes, Proceed"
           cancelText="Cancel"
           onConfirm={handleMarkAsDisbursed}
           onCancel={() => {

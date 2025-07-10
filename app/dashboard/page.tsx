@@ -162,13 +162,14 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+        
+        {stats && <DashboardExtraCards stats={stats} filter={filter} />}
 
         {/* Line Chart */}
         {stats?.studentsAidedPerYear && stats.studentsAidedPerYear.length > 0 && (
           <StudentsAidedChart data={stats.studentsAidedPerYear} />
         )}
         
-        {stats && <DashboardExtraCards stats={stats} filter={filter} />}
 
         {stats?.amountDisbursedPerYear && stats.amountDisbursedPerYear.length > 0 && (
           <AmountDisbursedChart data={stats.amountDisbursedPerYear} />

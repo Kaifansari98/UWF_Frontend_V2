@@ -152,7 +152,7 @@ export default function DisbursedFormsPage() {
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Disbursed Forms</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Aid Disbursement</h1>
 
       {loading ? (
         <p>Loading...</p>
@@ -195,7 +195,7 @@ export default function DisbursedFormsPage() {
       {showCaseCloseModal && submissionToClose && (
         <ConfirmModal
           title="Mark Case as Closed"
-          description={`Are you sure you want to mark form ${submissionToClose.formId} as case closed?`}
+          description={`Are you sure you want to close request ${submissionToClose.formId}?`}
           confirmText="Yes, Close Case"
           cancelText="Cancel"
           onConfirm={handleCaseClose}
