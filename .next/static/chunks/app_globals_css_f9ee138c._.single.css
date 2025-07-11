@@ -645,6 +645,10 @@
     height: calc(var(--spacing) * 14);
   }
 
+  .h-20 {
+    height: calc(var(--spacing) * 20);
+  }
+
   .h-24 {
     height: calc(var(--spacing) * 24);
   }
@@ -659,6 +663,18 @@
 
   .h-\[350px\] {
     height: 350px;
+  }
+
+  .h-\[400px\] {
+    height: 400px;
+  }
+
+  .h-\[500px\] {
+    height: 500px;
+  }
+
+  .h-\[600px\] {
+    height: 600px;
   }
 
   .h-\[var\(--radix-select-trigger-height\)\] {
