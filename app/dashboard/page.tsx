@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import StudentsAidedChart from "@/components/dashboard/StudentsAidedChart";
 import DashboardExtraCards from "@/components/dashboard/DashboardExtraCards";
 import AmountDisbursedChart from "@/components/dashboard/AmountDisbursedChart";
+import DashboardStatusTable from "@/components/dashboard/DashboardStatusTable";
 
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -164,6 +165,10 @@ export default function Dashboard() {
         </div>
         
         {stats && <DashboardExtraCards stats={stats} filter={filter} />}
+
+        <div className="w-full mt-10 rounded-xl py-4">
+          <DashboardStatusTable />
+        </div>
 
         {/* Line Chart */}
         {stats?.studentsAidedPerYear && stats.studentsAidedPerYear.length > 0 && (
