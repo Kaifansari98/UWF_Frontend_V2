@@ -1,9 +1,17 @@
 {
+  "/[formId]/page": "app/[formId]/page.js",
+  "/dashboard/aid-disbursement/page": "app/dashboard/aid-disbursement/page.js",
+  "/dashboard/approved-cases/page": "app/dashboard/approved-cases/page.js",
   "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js",
+  "/dashboard/create-user/page": "app/dashboard/create-user/page.js",
   "/dashboard/form-generation/page": "app/dashboard/form-generation/page.js",
-  "/dashboard/generate-form/page": "app/dashboard/generate-form/page.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/pending-requests/page": "app/dashboard/pending-requests/page.js",
   "/dashboard/request-evaluation/page": "app/dashboard/request-evaluation/page.js",
+  "/dashboard/request-rejected/page": "app/dashboard/request-rejected/page.js",
+  "/dashboard/treasury-approval/page": "app/dashboard/treasury-approval/page.js",
+  "/dashboard/treasury-review/page": "app/dashboard/treasury-review/page.js",
+  "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }
