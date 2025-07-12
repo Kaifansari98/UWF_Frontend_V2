@@ -43,7 +43,6 @@ const navItems = [
 ];
 
 const acknowledgementItems = [
-  "Generate Form",
   "Pending Form",
   "Submitted Form",
   "Accepted Form",
@@ -96,73 +95,98 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
         )}
 
 <nav className="mt-4 max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-1">
-          <ul className="space-y-2">
-            {navItems.map(({ label, icon: Icon }) => {
-              const path = label.toLowerCase().replace(/\s+/g, "-");
-              const isActive =
-                path === "dashboard"
-                  ? pathname === "/dashboard"
-                  : pathname === `/dashboard/${path}`;
+<ul className="space-y-2 pb-20">
+  {/* Render all except last navItem */}
+  {navItems.slice(0, -1).map(({ label, icon: Icon }) => {
+    const path = label.toLowerCase().replace(/\s+/g, "-");
+    const isActive =
+      path === "dashboard"
+        ? pathname === "/dashboard"
+        : pathname === `/dashboard/${path}`;
 
-              return (
-                <li key={label}>
-                  <button
-                    onClick={() => {
-                      const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
-                      router.push(route);
-                    }}
-                    className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
-                        : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                    } transition-all duration-200 transform hover:-translate-y-0.5`}
-                  >
-                    <Icon size={20} className={`${isActive ? "text-white" : "text-gray-500"}`} />
-                    <span>{label}</span>
-                  </button>
-                </li>
-              );
-            })}
+    return (
+      <li key={label}>
+        <button
+          onClick={() => {
+            const route = path === "dashboard" ? "/dashboard" : `/dashboard/${path}`;
+            router.push(route);
+          }}
+          className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
+            isActive
+              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
+              : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
+          } transition-all duration-200 transform hover:-translate-y-0.5`}
+        >
+          <Icon size={20} className={`${isActive ? "text-white" : "text-gray-500"}`} />
+          <span>{label}</span>
+        </button>
+      </li>
+    );
+  })}
 
-            {/* Aid Acknowledgement Dropdown */}
-            <li>
-              <details className="group">
-                <summary className="flex items-center justify-between px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-blue-600 cursor-pointer transition-all duration-200">
-                  <span className="flex items-center gap-3">
-                    <FilePlus size={20} className="text-gray-500" />
-                    Acknowledgement
-                  </span>
-                  <span className="group-open:rotate-90 transition-transform duration-200 text-gray-400"><ChevronRight size={16}/></span>
-                </summary>
-                <ul className="ml-8 mt-2 space-y-1.5">
-                  {acknowledgementItems.map((item) => {
-                    const path = item.toLowerCase().replace(/\s+/g, "-");
-                    return (
-                      <li key={item}>
-                        <button
-                          onClick={() => router.push(`/dashboard/${path}`)}
-                          className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
-                            pathname === `/dashboard/${path}`
-                              ? "bg-zinc-900 text-white shadow-sm"
-                              : "text-gray-600 hover:bg-gray-100 hover:text-blue-600"
-                          } transition-all duration-200`}
-                        >
-                          {item}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </details>
+  {/* Aid Acknowledgement Dropdown */}
+  <li>
+    <details className="group">
+      <summary className="flex items-center justify-between px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-blue-600 cursor-pointer transition-all duration-200">
+        <span className="flex items-center gap-3">
+          <FilePlus size={20} className="text-gray-500" />
+          Acknowledgement
+        </span>
+        <span className="group-open:rotate-90 transition-transform duration-200 text-gray-400"><ChevronRight size={16}/></span>
+      </summary>
+      <ul className="ml-8 mt-2 space-y-1.5">
+        {acknowledgementItems.map((item) => {
+          const path = item.toLowerCase().replace(/\s+/g, "-");
+          return (
+            <li key={item}>
+              <button
+                onClick={() => router.push(`/dashboard/${path}`)}
+                className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
+                  pathname === `/dashboard/${path}`
+                    ? "bg-zinc-900 text-white shadow-sm"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-blue-600"
+                } transition-all duration-200`}
+              >
+                {item}
+              </button>
             </li>
-          </ul>
+          );
+        })}
+      </ul>
+    </details>
+  </li>
+
+  {/* Render last navItem: Closed Cases */}
+  {(() => {
+    const { label, icon: Icon } = navItems[navItems.length - 1];
+    const path = label.toLowerCase().replace(/\s+/g, "-");
+    const isActive = pathname === `/dashboard/${path}`;
+
+    return (
+      <li key={label}>
+        <button
+          onClick={() => router.push(`/dashboard/${path}`)}
+          className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
+            isActive
+              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
+              : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
+          } transition-all duration-200 transform hover:-translate-y-0.5`}
+        >
+          <Icon size={20} className={`${isActive ? "text-white" : "text-gray-500"}`} />
+          <span>{label}</span>
+        </button>
+      </li>
+    );
+  })()}
+</ul>
+
         </nav>
       </div>
 
-      <div className="px-5 py-2 border-t border-gray-200">
+      <div className="px-5 py-2 border-t border-gray-200 absolute bottom-0 w-full bg-white">
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-zinc-900 to-zinc-800 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
+          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-700 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
         >
           <LogOut size={18} />
           Logout

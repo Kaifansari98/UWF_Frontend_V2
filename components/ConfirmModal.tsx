@@ -12,6 +12,11 @@ interface ConfirmModalProps {
   onCancel: () => void;
   confirmText?: string;
   cancelText?: string;
+
+  // New optional third button
+  showThirdButton?: boolean;
+  thirdButtonText?: string;
+  onThirdAction?: () => void;
 }
 
 export default function ConfirmModal({
@@ -21,6 +26,9 @@ export default function ConfirmModal({
   onCancel,
   confirmText = "Confirm",
   cancelText = "Cancel",
+  showThirdButton = false,
+  thirdButtonText = "Other",
+  onThirdAction,
 }: ConfirmModalProps) {
   useEffect(() => {
     gsap.fromTo(
@@ -54,7 +62,7 @@ export default function ConfirmModal({
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <p className="text-sm text-gray-600 mt-2 mb-6">{description}</p>
 
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 flex-wrap">
           <Button
             variant="ghost"
             className="border border-gray-300 text-black"
@@ -62,7 +70,18 @@ export default function ConfirmModal({
           >
             {cancelText}
           </Button>
-          <Button className="bg-blue-500 text-white" onClick={onConfirm}>
+
+          {showThirdButton && (
+            <Button
+              variant="outline"
+              className="text-white bg-blue-500 hover:bg-blue-600 hover:text-white"
+              onClick={onThirdAction}
+            >
+              {thirdButtonText}
+            </Button>
+          )}
+
+          <Button className="bg-blue-500 text-white hover:bg-blue-600" onClick={onConfirm}>
             {confirmText}
           </Button>
         </div>

@@ -62,7 +62,7 @@ export default function ClosedFormsPage() {
     {
       headerName: "Actions",
       pinned: "left",
-      width: 370,
+      width: 190,
       cellRenderer: (params: any) => (
         <div className="flex gap-2 items-center h-full">
           <Button
@@ -75,7 +75,7 @@ export default function ClosedFormsPage() {
           >
             View
           </Button>
-          <Button
+          {/* <Button
             size="sm"
             className="bg-orange-500 text-white hover:bg-orange-600"
             onClick={() => {
@@ -84,7 +84,7 @@ export default function ClosedFormsPage() {
             }}
           >
             Revert to Disbursement
-          </Button>
+          </Button> */}
           <Button size="sm" className="bg-yellow-500 text-white hover:bg-yellow-600" onClick={() => toast("Download coming soon!")}>
             Download
           </Button>

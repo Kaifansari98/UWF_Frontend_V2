@@ -80,6 +80,27 @@
       }
     };
 
+    const handleGenerateAcknowledgement = async () => {
+      if (!submissionToClose) return;
+    
+      try {
+        const res = await apiClient.post("/acknowledgement/generate", {
+          formId: submissionToClose.formId,
+        });
+    
+        toast.success("Acknowledgement link generated");
+        fetchDisbursedForms(); // optional refresh
+
+        // ✅ Close modal and clear state
+        setShowCaseCloseModal(false);
+        setSubmissionToClose(null);
+
+        console.log("Acknowledgement Link:", res.data.acknowledgement.form_link);
+      } catch (err: any) {
+        toast.error(err.response?.data?.message || "Failed to generate acknowledgement");
+        console.error("Ack Generation Error:", err);
+      }
+    };    
 
     useEffect(() => {
       fetchDisbursedForms();
@@ -205,14 +226,19 @@
           <ConfirmModal
             title="Mark Case as Disbursed"
             description={`Are you sure you want to close request ${submissionToClose.formId}?`}
-            confirmText="Yes, Case Disbursed"
+            confirmText="Case Closure"
             cancelText="Cancel"
             onConfirm={handleCaseClose}
             onCancel={() => {
               setShowCaseCloseModal(false);
               setSubmissionToClose(null);
             }}
-          />
+            showThirdButton={true}
+            thirdButtonText="Aid Acknowledgement"
+            onThirdAction={() => {
+              handleGenerateAcknowledgement();
+            }}
+        />        
         )}
       </div>
     );

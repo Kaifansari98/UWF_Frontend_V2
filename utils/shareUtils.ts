@@ -55,3 +55,10 @@ Email: united_welfare_foundation@outlook.com`;
     return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
   };
   
+  export const getAcknowledgementWhatsAppURL = (mobile: string, formLink: string) => {
+  const msg = `Dear Sir/Madam,\n\nBased on your request for UWF Student Aid for your ward, kindly click on the link below to fill up the form and submit it on the UWF portal before December 31.\n\n${formLink}\n\nWe look forward to supporting you to the best of our ability with your request.\n\nThanks & Regards,\nUnited Welfare Foundation\nEmail: united_welfare_foundation@outlook.com`;
+  
+    const encodedMessage = encodeURIComponent(msg);
+    return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
+  };
+  
