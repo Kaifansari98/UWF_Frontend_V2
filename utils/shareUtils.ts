@@ -49,3 +49,9 @@ Email: united_welfare_foundation@outlook.com`;
     return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
   };
   
+  export const getDisbursementWhatsAppURL = (mobile: string) => {
+    const msg = `Dear Sir/Madam,\n\nUWF Student Aid Request for your ward has been accepted and the amount has been disbursed by the UWF team as per below details:\n\nKindly provide confirmation upon receipt.\n\nThanks & Regards,\nUnited Welfare Foundation\nEmail: united_welfare_foundation@outlook.com`;
+    const encodedMessage = encodeURIComponent(msg);
+    return `https://wa.me/+91${mobile}?text=${encodedMessage}`;
+  };
+  

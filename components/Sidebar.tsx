@@ -49,6 +49,17 @@ const acknowledgementItems = [
   "Accepted Form",
 ];
 
+const roleDisplayMap: Record<string, string> = {
+  super_admin: "Super Admin",
+  admin: "Admin",
+  form_creator: "Form Generation",
+  evaluator: "Form Evaluation",
+  approver: "Form Acceptance",
+  disbursement_approver: "Disbursement Approver",
+  case_closure: "Case Closure",
+  treasurer: "Treasurer",
+};
+
 export default function Sidebar({ active, onSelect }: SidebarProps) {
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -63,8 +74,8 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
   };
 
   return (
-    <aside className="w-[280px] h-screen bg-gradient-to-b from-gray-50 to-white border-r border-gray-100 shadow-lg flex flex-col justify-between fixed left-0 top-0 z-50 transition-all duration-300">
-      <div className="py-8 px-5 space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+    <aside className="w-[280px] h-screen bg-gradient-to-b from-gray-50 to-white border-r-[1px] border-zinc-200 border-gray-100 flex flex-col justify-between fixed left-0 top-0 z-50 transition-all duration-300">
+      <div className="py-8 px-5 space-y-8">
         {user && (
           <div className="flex flex-col items-center text-center mt-4 pb-6 border-b border-gray-200">
             <div className="relative w-24 h-24 group">
@@ -78,13 +89,13 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
             <p className="mt-3 font-bold text-lg text-gray-900 tracking-tight">
               {user.full_name}
             </p>
-            <p className="text-sm text-gray-500 capitalize font-medium bg-gray-100 px-3 py-1 rounded-full mt-1">
-              {user.role}
+            <p className="text-sm text-gray-500 font-medium bg-gray-100 px-3 py-1 rounded-full mt-1">
+              {roleDisplayMap[user.role] || user.role}
             </p>
           </div>
         )}
 
-        <nav className="mt-4">
+<nav className="mt-4 max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-1">
           <ul className="space-y-2">
             {navItems.map(({ label, icon: Icon }) => {
               const path = label.toLowerCase().replace(/\s+/g, "-");
@@ -102,7 +113,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                     }}
                     className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold ${
                       isActive
-                        ? "bg-gradient-to-r from-blue-500 to-blue-500 text-white shadow-md"
+                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
                         : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                     } transition-all duration-200 transform hover:-translate-y-0.5`}
                   >
@@ -132,7 +143,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                           onClick={() => router.push(`/dashboard/${path}`)}
                           className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
                             pathname === `/dashboard/${path}`
-                              ? "bg-blue-500 text-white shadow-sm"
+                              ? "bg-zinc-900 text-white shadow-sm"
                               : "text-gray-600 hover:bg-gray-100 hover:text-blue-600"
                           } transition-all duration-200`}
                         >
@@ -151,7 +162,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
       <div className="px-5 py-2 border-t border-gray-200">
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-red-500 to-red-500 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
+          className="w-full flex items-center justify-start px-4 gap-4 bg-gradient-to-r from-zinc-900 to-zinc-800 text-white py-3 rounded-lg text-sm font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:-translate-y-0.5"
         >
           <LogOut size={18} />
           Logout

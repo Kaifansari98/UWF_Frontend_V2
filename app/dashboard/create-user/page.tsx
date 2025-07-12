@@ -10,6 +10,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectGroup,
+  SelectLabel,
 } from "../../../components/ui/select";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +30,7 @@ const roles = [
   "disbursement_approver",
   "case_closure",
 ];
+
 
 export default function CreateUserPage() {
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
@@ -181,26 +184,35 @@ export default function CreateUserPage() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="role" className="text-sm font-medium text-gray-700">
-              Role <span className="text-red-500">*</span>
-            </Label>
-            <Select onValueChange={(value) => setValue("role", value)}>
-              <SelectTrigger className="w-full rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200">
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent>
-                {roles.map((role) => (
-                  <SelectItem key={role} value={role} className="capitalize">
-                    {role.replace("_", " ")}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-gray-500">
-              Select the user's role based on their responsibilities.
-            </p>
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="role" className="text-sm font-medium text-gray-700">
+                Role <span className="text-red-500">*</span>
+              </Label>
+              <Select onValueChange={(value) => setValue("role", value)}>
+                <SelectTrigger className="w-full rounded-lg border-gray-300 focus:border-[#025aa5] focus:ring-[#025aa5] transition-colors duration-200">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Admin Roles</SelectLabel>
+                    <SelectItem value="super_admin">Super Admin</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                  </SelectGroup>
+                  <SelectGroup>
+                    <SelectLabel>Form Roles</SelectLabel>
+                    <SelectItem value="form_creator">Form Generation</SelectItem>
+                    <SelectItem value="evaluator">Form Evaluation</SelectItem>
+                    <SelectItem value="approver">Form Acceptance</SelectItem>
+                    <SelectItem value="disbursement_approver">Disbursement Approver</SelectItem>
+                    <SelectItem value="case_closure">Case Closure</SelectItem>
+                    <SelectItem value="treasurer">Treasurer</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-gray-500">
+                Select the user's role based on their responsibilities.
+              </p>
+            </div>
 
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-medium text-gray-700">

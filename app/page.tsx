@@ -9,6 +9,13 @@ import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -64,9 +71,40 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f5] p-4">
+      <div className="w-[55%] h-[70vh] p-4 bg-[#ffffff] rounded-3xl flex items-center gap-8 justify-between">
+      <div className="w-full h-full rounded-2xl overflow-hidden">
+  <Carousel
+    plugins={[
+      Autoplay({
+        delay: 5000,
+      }),
+    ]}
+    className="w-full h-full"
+    opts={{
+      loop: true,
+    }}
+  >
+    <CarouselContent>
+  {[1, 2, 3, 4, 5].map((num) => (
+    <CarouselItem key={num}>
+      <div className="relative w-full h-[650px] rounded-xl overflow-hidden">
+        <Image
+          src={`/LoginPage/Login ${num}.jpg`}
+          alt={`Login ${num}`}
+          fill
+          className="object-cover"
+          priority={num === 1}
+        />
+      </div>
+    </CarouselItem>
+  ))}
+</CarouselContent>
+  </Carousel>
+</div>
+
       <div
         ref={cardRef}
-        className="w-full max-w-md p-8 bg-[#ffffff] shadow-lg rounded-3xl sm:p-10"
+        className="w-full max-w-md p-8 bg-[#ffffff] rounded-2xl sm:p-10"
       >
         <h1 className="text-2xl font-bold text-center mb-12 text-gray-900 tracking-tight">
           UWF Member Login
@@ -108,6 +146,7 @@ export default function LoginPage() {
               Only UWF Registered Members can access the UWF Portal 
           </p>
         </form>
+      </div>
       </div>
     </div>
   );
