@@ -101,7 +101,7 @@ export default function DisbursedFormsPage() {
               setShowCaseCloseModal(true);
             }}
           >
-            Mark as Case Closed
+           Amount Disbursed
           </Button>
           <Button
             size="sm"

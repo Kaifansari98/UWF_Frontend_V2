@@ -101,12 +101,12 @@ export default function StudentFormPage() {
       parentApprovalLetter: isNewStudent
         ? z
             .any()
-            .refine((fileList) => fileList?.[0], { message: "Parent Approval Letter is required for new students" })
+            .refine((fileList) => fileList?.[0], { message: "Parent Request Letter is required for new students" })
             .refine((fileList) => fileList?.[0]?.type === "application/pdf", {
-              message: "Parent Approval Letter must be a PDF",
+              message: "Parent Request Letter must be a PDF",
             })
             .refine((fileList) => fileList?.[0]?.size <= 2 * 1024 * 1024, {
-              message: "Parent Approval Letter must be less than 2MB",
+              message: "Parent Request Letter must be less than 2MB",
             })
         : z.any().optional(),
     });
@@ -663,7 +663,7 @@ export default function StudentFormPage() {
 {isNewStudent && (
   <div className="border rounded-2xl p-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
     <Label htmlFor="parentApprovalLetter" className="text-sm font-semibold text-gray-700">
-      Parent Approval Letter (PDF)
+      Parent Request Letter (PDF)
     </Label>
     {!watch("parentApprovalLetter")?.[0] ? (
       <>
@@ -682,7 +682,7 @@ export default function StudentFormPage() {
           Choose PDF File
         </label>
         <p className="text-xs mt-2 text-[#292929]">
-          Upload approval letter (max 2MB)
+          Upload request letter (max 2MB)
         </p>
       </>
     ) : (
