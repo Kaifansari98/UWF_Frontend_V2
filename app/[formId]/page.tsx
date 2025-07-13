@@ -187,7 +187,7 @@ export default function StudentFormPage() {
     <p className="text-xs sm:text-sm font-medium text-[#292929] mt-2 sm:mt-3">
       Your UWF Student Aid Application has been received. You will receive a confirmation soon.
     </p>
-    <div className="mt-3 sm:mt-4 h-1 w-12 bg-green-600 rounded-full mx-auto" />
+    <div className="mt-3 sm:mt-4 h-1 w-12 bg-green-500 rounded-full mx-auto" />
   </div>
 </div>
     );

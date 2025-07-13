@@ -42,7 +42,10 @@ export default function AcceptedAcknowledgementPage() {
             size="sm"
             className="bg-blue-500 text-white"
             onClick={() => {
-              setSelectedSubmission(submission);
+              setSelectedSubmission({
+                ...submission,
+                acknowledgement: params.data.acknowledgement,
+              });
               setShowViewModal(true);
             }}
           >

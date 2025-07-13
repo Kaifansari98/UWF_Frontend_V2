@@ -69,7 +69,10 @@ export default function ClosedFormsPage() {
             size="sm"
             className="bg-blue-500 text-white hover:bg-blue-600"
             onClick={() => {
-              setSelectedSubmission(params.data);
+              setSelectedSubmission({
+                ...params.data,
+                acknowledgement: params.data.AcknowledgementForm,
+              });
               setShowViewModal(true);
             }}
           >
@@ -118,7 +121,7 @@ export default function ClosedFormsPage() {
   <h1 className="text-2xl font-bold text-gray-800">Closed Cases</h1>
   <div className="flex gap-2">
     <Button
-      className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-600"
+      className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-500"
       onClick={async () => {
         try {
           await exportClosedFormsToExcel();

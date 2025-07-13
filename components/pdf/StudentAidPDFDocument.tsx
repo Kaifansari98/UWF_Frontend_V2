@@ -9,7 +9,10 @@ import {
   Link
 } from "@react-pdf/renderer";
 import { Check } from "lucide-react";
-
+import {
+  getFormDataAsset,
+  getAcknowledgementDataAsset,
+} from "@/utils/assetUrlBuilder";
 
 const styles = StyleSheet.create({
   page: {
@@ -290,7 +293,7 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             <View style={styles.fullWidthGridItem}>
               <LabelValue
                 label="Fees Structure"
-                value={`http://localhost:5000/assets/FormData/${feesStructure}`}
+                value={getFormDataAsset(feesStructure)}
               />
             </View>
           )}
@@ -298,7 +301,7 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             <View style={styles.fullWidthGridItem}>
               <LabelValue
                 label="Marksheet"
-                value={`http://localhost:5000/assets/FormData/${marksheet}`}
+                value={getFormDataAsset(marksheet)}
               />
             </View>
           )}
@@ -306,7 +309,7 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             <View style={styles.fullWidthGridItem}>
               <LabelValue
                 label="Parent/Guardian Signature"
-                value={`http://localhost:5000/assets/FormData/${signature}`}
+                value={getFormDataAsset(signature)}
               />
             </View>
           )}
@@ -314,7 +317,15 @@ const StudentAidPDFDocument = ({ submission }: { submission: any }) => {
             <View style={styles.fullWidthGridItem}>
               <LabelValue
                 label="Parent/Guardian Request Letter"
-                value={`http://localhost:5000/assets/FormData/${parentApprovalLetter}`}
+                value={getFormDataAsset(parentApprovalLetter)}
+              />
+            </View>
+          )}
+          {submission?.acknowledgement?.invoice && (
+            <View style={styles.fullWidthGridItem}>
+              <LabelValue
+                label="Acknowledgement Invoice"
+                value={getAcknowledgementDataAsset(submission.acknowledgement.invoice)}
               />
             </View>
           )}

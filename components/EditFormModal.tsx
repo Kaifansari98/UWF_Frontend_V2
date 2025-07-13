@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 import gsap from "gsap";
 import toast from "react-hot-toast";
 import apiClient from "@/utils/apiClient";
+import { getFormDataAsset } from "@/utils/assetUrlBuilder";
 
 interface EditFormModalProps {
   submission: any;
@@ -26,7 +27,6 @@ const academicYears = [
   "2030-2031",
 ];
 
-const FILE_BASE_URL = "http://localhost:5000/assets/FormData/";
 
 const studyMediums = ["English", "Urdu", "Marathi", "Hindi", "Arabic"];
 const genders = ["male", "female"];
@@ -214,7 +214,7 @@ export default function EditFormModal({ submission, onClose, onUpdateSuccess }: 
                 <p className="text-sm text-gray-600 mt-1 truncate">
                     Existing:{" "}
                     <a
-                    href={`http://localhost:5000/assets/FormData/${submission[field]}`}
+                    href={getFormDataAsset(submission[field])}
                     target="_blank"
                     className="underline text-blue-600"
                     >

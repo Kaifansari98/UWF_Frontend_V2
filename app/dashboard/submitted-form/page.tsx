@@ -56,7 +56,10 @@ export default function SubmittedAcknowledgementPage() {
               size="sm"
               className="bg-blue-500 text-white"
               onClick={() => {
-                setSelectedSubmission(submission);
+                setSelectedSubmission({
+                  ...submission,
+                  acknowledgement: params.data.acknowledgement,
+                });                
                 setShowViewModal(true);
               }}
             >
@@ -64,7 +67,7 @@ export default function SubmittedAcknowledgementPage() {
             </Button>
             <Button
               size="sm"
-              className="bg-green-600 text-white"
+              className="bg-green-500 text-white"
               onClick={() => handleAccept(formId)}
             >
               Accept
@@ -82,19 +85,6 @@ export default function SubmittedAcknowledgementPage() {
         return `${s.firstName || ""} ${s.fatherName || ""} ${s.familyName || ""}`;
       },
     },
-    // {
-    //   field: "acknowledgement.form_link",
-    //   headerName: "Form Link",
-    //   filter: true,
-    //   cellRenderer: (params: any) => {
-    //     const url = params.value;
-    //     return (
-    //       <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-    //         Open Form
-    //       </a>
-    //     );
-    //   },
-    // },
     { field: "acknowledgement.status", headerName: "Status", filter: true },
     { field: "formSubmission.mobile", headerName: "Mobile", filter: true },
     { field: "formSubmission.class", headerName: "Class", filter: true },

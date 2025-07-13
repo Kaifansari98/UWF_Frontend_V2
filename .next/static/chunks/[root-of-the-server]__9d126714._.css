@@ -192,7 +192,6 @@
     --color-green-300: oklch(87.1% .15 154.449);
     --color-green-500: oklch(72.3% .219 149.579);
     --color-green-600: oklch(62.7% .194 149.214);
-    --color-green-700: oklch(52.7% .154 150.069);
     --color-green-800: oklch(44.8% .119 151.328);
     --color-teal-100: oklch(95.3% .051 180.801);
     --color-teal-600: oklch(60% .118 184.704);
@@ -1150,12 +1149,6 @@
     column-gap: calc(var(--spacing) * 6);
   }
 
-  :where(.space-x-2 > :not(:last-child)) {
-    --tw-space-x-reverse: 0;
-    margin-inline-start: calc(calc(var(--spacing) * 2) * var(--tw-space-x-reverse));
-    margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-x-reverse)));
-  }
-
   :where(.space-x-3 > :not(:last-child)) {
     --tw-space-x-reverse: 0;
     margin-inline-start: calc(calc(var(--spacing) * 3) * var(--tw-space-x-reverse));
@@ -1190,10 +1183,6 @@
 
   .overflow-y-auto {
     overflow-y: auto;
-  }
-
-  .rounded {
-    border-radius: .25rem;
   }
 
   .rounded-2xl {
@@ -1425,10 +1414,6 @@
 
   .bg-green-500 {
     background-color: var(--color-green-500);
-  }
-
-  .bg-green-600 {
-    background-color: var(--color-green-600);
   }
 
   .bg-orange-100 {
@@ -1758,11 +1743,6 @@
 
   .text-\[11px\] {
     font-size: 11px;
-  }
-
-  .leading-6 {
-    --tw-leading: calc(var(--spacing) * 6);
-    line-height: calc(var(--spacing) * 6);
   }
 
   .leading-none {
@@ -2221,12 +2201,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-blue-500:hover {
-      background-color: var(--color-blue-500);
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-blue-600:hover {
       background-color: var(--color-blue-600);
     }
@@ -2259,18 +2233,6 @@
   @media (hover: hover) {
     .hover\:bg-green-500:hover {
       background-color: var(--color-green-500);
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:bg-green-600:hover {
-      background-color: var(--color-green-600);
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:bg-green-700:hover {
-      background-color: var(--color-green-700);
     }
   }
 

@@ -11,10 +11,10 @@
   "/dashboard/pending-form/page": "app/dashboard/pending-form/page.js",
   "/dashboard/pending-requests/page": "app/dashboard/pending-requests/page.js",
   "/dashboard/request-evaluation/page": "app/dashboard/request-evaluation/page.js",
-  "/dashboard/request-rejected/page": "app/dashboard/request-rejected/page.js",
   "/dashboard/submitted-form/page": "app/dashboard/submitted-form/page.js",
   "/dashboard/treasury-approval/page": "app/dashboard/treasury-approval/page.js",
   "/dashboard/treasury-review/page": "app/dashboard/treasury-review/page.js",
   "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
 }

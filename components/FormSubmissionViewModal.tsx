@@ -7,13 +7,15 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import StudentAidPDFDocument from './pdf/StudentAidPDFDocument';
+import {
+  getFormDataAsset,
+  getAcknowledgementDataAsset,
+} from "@/utils/assetUrlBuilder";
 
 interface FormSubmissionViewModalProps {
   submission: any;
   onClose: () => void;
 }
-
-const FILE_BASE_URL = "http://localhost:5000/assets/FormData/";
 
 export default function FormSubmissionViewModal({
   submission,
@@ -84,10 +86,6 @@ export default function FormSubmissionViewModal({
             </button>
           </div>
         </div>
-
-
-
-
 
         {/* Logo */}
         <div className="mb-6 w-full flex flex-row justify-between">
@@ -278,7 +276,7 @@ export default function FormSubmissionViewModal({
     <p className="text-sm font-semibold text-gray-800 mb-2">Fees Structure</p>
     {submission.feesStructure ? (
       <a
-        href={`http://localhost:5000/assets/FormData/${submission.feesStructure}`}
+        href={getFormDataAsset(submission.feesStructure)}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
@@ -295,7 +293,7 @@ export default function FormSubmissionViewModal({
     <p className="text-sm font-semibold text-gray-800 mb-2">Recent Marksheet</p>
     {submission.marksheet ? (
       <a
-        href={`http://localhost:5000/assets/FormData/${submission.marksheet}`}
+      href={getFormDataAsset(submission.marksheet)}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
@@ -312,7 +310,7 @@ export default function FormSubmissionViewModal({
     <p className="text-sm font-semibold text-gray-800 mb-2">Parent/Guardian Signature</p>
     {submission.signature ? (
       <a
-        href={`http://localhost:5000/assets/FormData/${submission.signature}`}
+        href={getFormDataAsset(submission.signature)}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
@@ -329,7 +327,7 @@ export default function FormSubmissionViewModal({
     <p className="text-sm font-semibold text-gray-800 mb-2">Parent/Guardian request Letter</p>
     {submission.parentApprovalLetter ? (
       <a
-        href={`http://localhost:5000/assets/FormData/${submission.parentApprovalLetter}`}
+      href={getFormDataAsset(submission.parentApprovalLetter)}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
@@ -341,12 +339,12 @@ export default function FormSubmissionViewModal({
     )}
   </div>
 
-  {/* Acknowledgement Invoice */}
-{submission.acknowledgement?.invoice && (
+{/* Acknowledgement Invoice */}
+{submission?.acknowledgement?.invoice && (
   <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col justify-between">
     <p className="text-sm font-semibold text-gray-800 mb-2">Acknowledgement Invoice</p>
     <a
-      href={`http://localhost:5000/assets/Acknowledgement/${submission.acknowledgement.invoice}`}
+      href={getAcknowledgementDataAsset(submission.acknowledgement.invoice)}
       target="_blank"
       rel="noopener noreferrer"
       className="mt-auto inline-block text-center px-4 py-2 bg-[#025aa5] text-white text-sm rounded-md hover:bg-[#0259a5cc] transition"
@@ -355,8 +353,6 @@ export default function FormSubmissionViewModal({
     </a>
   </div>
 )}
-
-
 </div>
        
       </div>
