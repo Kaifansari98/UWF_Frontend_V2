@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/var/www/unitedwelfarefoundation/UWF_Frontend_V2/app/layout":["static/media/93f479601ee12b01-s.p.woff2","static/media/569ce4b8f30dc480-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/var/www/unitedwelfarefoundation/UWF_Frontend_V2/app/layout":["static/media/569ce4b8f30dc480-s.p.woff2","static/media/93f479601ee12b01-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';

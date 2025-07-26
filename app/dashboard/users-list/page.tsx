@@ -51,10 +51,14 @@ export default function UsersListPage() {
         return (
           <div style={containerStyle}>
             <img
-              src={profilePic || "/avatar.png"}
-              alt="Profile"
-              style={imgStyle}
-            />
+             src={
+              profilePic?.includes("localhost")
+              ? profilePic.replace("http://localhost:5000", "https://unitedwelfarefoundation.com")
+              : profilePic || "/avatar.png"
+             }
+             alt="Profile"
+             style={imgStyle}
+	    />
             <span>{username}</span>
           </div>
         );

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/assets";
+const BASE_URL = "https://unitedwelfarefoundation.com/assets";
 
 export const getFormDataAsset = (filename: string): string => {
   return `${BASE_URL}/FormData/${filename}`;

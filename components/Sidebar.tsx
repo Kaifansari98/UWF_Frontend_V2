@@ -79,7 +79,11 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
           <div className="flex flex-col items-center text-center mt-4 pb-6 border-b border-gray-200">
             <div className="relative w-24 h-24 group">
               <img
-                src={user.profile_pic || "/avatar.jpg"}
+                src={
+                 user.profile_pic?.includes("localhost")
+                 ? user.profile_pic.replace("http://localhost:5000", "https://unitedwelfarefoundation.com")
+                 : user.profile_pic || "/avatar.jpg"
+                }
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-200"
               />
