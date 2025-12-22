@@ -38,6 +38,8 @@ export default function CreateUserPage() {
   const { loading, error, success } = useSelector((state: RootState) => state.user);
   const [showPassword, setShowPassword] = useState(false);
 
+  const loggedInUserRole = useSelector((state: RootState) => state.auth.user?.role);
+
   const onSubmit = (data: any) => {
     const formData = new FormData();
     for (const key in data) {
@@ -193,16 +195,26 @@ export default function CreateUserPage() {
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
+                  {loggedInUserRole === "super_admin" && (
                   <SelectGroup>
                     <SelectLabel>Admin Roles</SelectLabel>
                     <SelectItem value="super_admin">Super Admin</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
                   </SelectGroup>
+                  )}
+
+                  {loggedInUserRole === "admin" && (
+                   <SelectGroup>
+                   <SelectLabel>Admin Roles</SelectLabel>
+                   <SelectItem value="admin">Admin</SelectItem>
+                   </SelectGroup>
+                  )}
+
                   <SelectGroup>
                     <SelectLabel>Form Roles</SelectLabel>
-                    <SelectItem value="form_creator">Form Generation</SelectItem>
-                    <SelectItem value="evaluator">Form Evaluation</SelectItem>
-                    <SelectItem value="approver">Form Acceptance</SelectItem>
+                    <SelectItem value="form_creator">Form Generator</SelectItem>
+                    <SelectItem value="evaluator">Request Evaluator</SelectItem>
+                    <SelectItem value="approver">Request Approver</SelectItem>
                     <SelectItem value="disbursement_approver">Disbursement Approver</SelectItem>
                     <SelectItem value="case_closure">Case Closure</SelectItem>
                     <SelectItem value="treasurer">Treasurer</SelectItem>

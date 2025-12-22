@@ -71,7 +71,7 @@ export default function AcknowledgementFormPage() {
   const genderHisHer = gender === "son" ? "his" : "her";
   const acceptedAmount = formSubmission?.acceptedAmount;
   const submittedYear = new Date(formData?.acknowledgement?.submitted_at || new Date()).getFullYear();
-  const coordinator = generatedForm?.creator_name;
+  const coordinator = formSubmission?.coordinatorName;
   const academicYear = formSubmission?.academicYear;
 
   // ✅ If already submitted or accepted
@@ -97,18 +97,32 @@ export default function AcknowledgementFormPage() {
     <div className="max-w-2xl mx-auto mt-10 px-4 sm:px-6">
       {/* ✅ Branding Header */}
       <div className="w-full flex flex-col items-center mb-12">
-        <div className="relative mb-6">
-          <Image src="/UWFLogo.png" width={180} height={180} alt="UWF Logo" />
-        </div>
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">UWF Student Aid Acknowledgement</h1>
-          <div className="flex items-center justify-center gap-2">
-            <GraduationCap className="h-5 w-5 text-[#292929]" />
-            <p className="text-sm font-medium text-[#292929]">
-              Kindly submit the acknowledgement for aid received
-            </p>
-          </div>
-          <div className="mt-8 mb-8 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
+  {/* ✅ Logo */}
+  <div className="relative mb-6">
+    <Image src="/UWFLogo.png" width={180} height={180} alt="UWF Logo" />
+  </div>
+
+  {/* ✅ Title */}
+  <div className="text-center">
+    <h1 className="text-3xl font-bold text-gray-800">United Welfare Foundation</h1>
+    {/* ✅ Registration + Address */}
+    <div className="mt-1">
+      <p className="font-semibold text-[#000] text-sm">
+        Regd. F / 39715 / THANE. DATED. 24 / 07 / 2019
+      </p>
+      <p className="font-semibold text-[#5e5e5e] text-[11px]">
+        A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE 400705
+      </p>
+    </div>
+
+    {/* ✅ Subtext */}
+    <div className="flex items-center justify-center gap-2 mt-4">
+      <GraduationCap className="h-5 w-5 text-[#292929]" />
+      <p className="text-sm font-medium text-[#292929]">
+        Kindly submit the acknowledgement for aid received
+      </p>
+    </div>
+          <div className="mt-4 mb-4 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
           <div className="w-full border-2 border-green-300 bg-green-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
             <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
             <p className="text-sm font-medium text-gray-800 text-left">

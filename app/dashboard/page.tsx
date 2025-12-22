@@ -66,6 +66,24 @@ export default function Dashboard() {
 
   const cards = [
     {
+      title: "Requests Received",
+      value:
+      (stats?.requestsReceived?.[filter] ?? 0) +
+      (stats?.requestPending?.[filter] ?? 0),
+      total:
+      (stats?.requestsReceived?.overall ?? 0) +
+      (stats?.requestPending?.overall ?? 0),
+      icon: BarChart2,
+      color: "bg-yellow-100 text-yellow-600",
+    },
+    {
+      title: "Requests Accepted",
+      value: stats?.requestsReceived?.[filter] ?? 0,
+      total: stats?.requestsReceived?.overall ?? 0,
+      icon: CheckCircle,
+      color: "bg-purple-100 text-purple-600",
+    },
+    {
       title: "Students Aided",
       value: stats?.studentsAided[filter] ?? 0,
       total: stats?.studentsAided.overall ?? 0,
@@ -78,20 +96,6 @@ export default function Dashboard() {
       total: `₹${(stats?.amountDisbursed.overall ?? 0).toLocaleString()}`,
       icon: DollarSign,
       color: "bg-green-100 text-green-600",
-    },
-    {
-      title: "Requests Received",
-      value: stats?.requestsReceived[filter] ?? 0,
-      total: stats?.requestsReceived.overall ?? 0,
-      icon: BarChart2,
-      color: "bg-yellow-100 text-yellow-600",
-    },
-    {
-      title: "Requests Accepted",
-      value: stats?.requestAccepted[filter] ?? 0,
-      total: stats?.requestAccepted.overall ?? 0,
-      icon: CheckCircle,
-      color: "bg-purple-100 text-purple-600",
     },
   ];
 

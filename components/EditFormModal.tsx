@@ -170,11 +170,11 @@ export default function EditFormModal({ submission, onClose, onUpdateSuccess }: 
           </div>
           <div>
             <Label>Requested Amount</Label>
-            <Input name="alternateMobile" value={formData.requested_amount || ""} onChange={handleChange} />
+            <Input name="requested_amount" value={formData.requested_amount || ""} onChange={handleChange} />
           </div>
           <div>
             <Label>Source of Income</Label>
-            <Input name="alternateMobile" value={formData.incomeSource || ""} onChange={handleChange} />
+            <Input name="incomeSource" value={formData.incomeSource || ""} onChange={handleChange} />
           </div>
           <div className="sm:col-span-2">
             <Label>Address</Label>
@@ -189,19 +189,19 @@ export default function EditFormModal({ submission, onClose, onUpdateSuccess }: 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div className="sm:col-span-2">
             <Label>Bank A/C holder name</Label>
-            <Input name="reason" value={formData.bankAccountHolder || ""} onChange={handleChange} />
+            <Input name="bankAccountHolder" value={formData.bankAccountHolder || ""} onChange={handleChange} />
           </div>
           <div className="sm:col-span-2">
             <Label>Bank A/C number</Label>
-            <Input name="reason" value={formData.bankAccountNumber || ""} onChange={handleChange} />
+            <Input name="bankAccountNumber" value={formData.bankAccountNumber || ""} onChange={handleChange} />
           </div>
           <div className="sm:col-span-2">
             <Label>IFSC Code</Label>
-            <Input name="reason" value={formData.ifscCode || ""} onChange={handleChange} />
+            <Input name="ifscCode" value={formData.ifscCode || ""} onChange={handleChange} />
           </div>
           <div className="sm:col-span-2">
             <Label>Bank Name</Label>
-            <Input name="reason" value={formData.bankName || ""} onChange={handleChange} />
+            <Input name="bankName" value={formData.bankName || ""} onChange={handleChange} />
           </div>
         </div>
 

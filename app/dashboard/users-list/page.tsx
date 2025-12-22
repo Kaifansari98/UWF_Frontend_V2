@@ -23,6 +23,17 @@ export default function UsersListPage() {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
+  const roleLabels: Record<string, string> = {
+    super_admin: "Super Admin",
+    admin: "Admin",
+    form_creator: "Request Generator",
+    evaluator: "Request Evaluator",
+    approver: "Request Approver",
+    disbursement_approver: "Disbursement Approver",
+    case_closure: "Case Closure",
+    treasurer: "Treasurer",
+  };
+
   const columnDefs: ColDef[] = [
     { field: "id", sortable: true, filter: true },
     {
@@ -66,7 +77,13 @@ export default function UsersListPage() {
     },
     { field: "full_name", headerName: "Full Name", sortable: true, filter: true },
     { field: "email", sortable: true, filter: true },
-    { field: "role", sortable: true, filter: true },
+    {
+      field: "role",
+      headerName: "Role",
+      sortable: true,
+      filter: true,
+      cellRenderer: (params: any) => roleLabels[params.value] || params.value,
+    },
     { field: "city", sortable: true, filter: true },
     { field: "pincode", sortable: true, filter: true },
     { field: "mobile_no", headerName: "Mobile No", sortable: true, filter: true },

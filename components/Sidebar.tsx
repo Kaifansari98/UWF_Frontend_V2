@@ -59,12 +59,25 @@ const roleDisplayMap: Record<string, string> = {
   treasurer: "Treasurer",
 };
 
+const roleTabsMap: Record<string, string[]> = {
+  super_admin: [...navItems.map(item => item.label), "Acknowledgement"],
+  admin: [...navItems.map(item => item.label), "Acknowledgement"],
+  form_creator: ["Form Generation", "Pending Requests", "Request Rejected"],
+  evaluator: ["Request Evaluation", "Pending Requests", "Request Rejected"],
+  treasurer: ["Treasury Review", "Treasury Approval"],
+  approver: ["Approved Cases"],
+  disbursement_approver: ["Aid Disbursement", "Acknowledgement"],
+  case_closure: ["Closed Cases"],
+};
+
 export default function Sidebar({ active, onSelect }: SidebarProps) {
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+ 
+  const allowedTabs = roleTabsMap[user?.role] || [];
 
   const handleLogoutConfirm = () => {
     localStorage.removeItem("token");
@@ -101,7 +114,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
 <nav className="mt-4 max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-1">
 <ul className="space-y-2 pb-20">
   {/* Render all except last navItem */}
-  {navItems.slice(0, -1).map(({ label, icon: Icon }) => {
+  {navItems.slice(0, -1).filter(({ label }) => label === "Dashboard" || allowedTabs.includes(label)).map(({ label, icon: Icon }) => {
     const path = label.toLowerCase().replace(/\s+/g, "-");
     const isActive =
       path === "dashboard"
@@ -129,6 +142,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
   })}
 
   {/* Aid Acknowledgement Dropdown */}
+{allowedTabs.includes("Acknowledgement") && (
   <li>
     <details className="group">
       <summary className="flex items-center justify-between px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-blue-600 cursor-pointer transition-all duration-200">
@@ -159,9 +173,10 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
       </ul>
     </details>
   </li>
+)}
 
   {/* Render last navItem: Closed Cases */}
-  {(() => {
+{allowedTabs.includes("Closed Cases") && (() => {
     const { label, icon: Icon } = navItems[navItems.length - 1];
     const path = label.toLowerCase().replace(/\s+/g, "-");
     const isActive = pathname === `/dashboard/${path}`;
