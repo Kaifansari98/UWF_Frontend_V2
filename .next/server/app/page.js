@@ -1,4 +1,5 @@
 var R=require("../chunks/ssr/[turbopack]_runtime.js")("server/app/page.js")
+<<<<<<< HEAD
 R.c("server/chunks/ssr/node_modules__pnpm_f108a6f5._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__e8a2741f._.js")
 R.c("server/chunks/ssr/app_0ef037c1._.js")
@@ -12,3 +13,18 @@ R.c("server/chunks/ssr/[root-of-the-server]__7955ea51._.js")
 R.m("[project]/.next-internal/server/app/page/actions.js [app-rsc] (server actions loader, ecmascript)")
 R.m("[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)\", METADATA_0 => \"[project]/app/favicon.ico.mjs { IMAGE => \\\"[project]/app/favicon.ico (static in ecmascript)\\\" } [app-rsc] (structured image object, ecmascript, Next.js Server Component)\", MODULE_1 => \"[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_2 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_3 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_4 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_5 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_6 => \"[project]/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)\" } [app-rsc] (ecmascript)")
 module.exports=R.m("[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)\", METADATA_0 => \"[project]/app/favicon.ico.mjs { IMAGE => \\\"[project]/app/favicon.ico (static in ecmascript)\\\" } [app-rsc] (structured image object, ecmascript, Next.js Server Component)\", MODULE_1 => \"[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_2 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_3 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_4 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_5 => \"[project]/node_modules/.pnpm/next@15.5.15_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)\", MODULE_6 => \"[project]/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)\" } [app-rsc] (ecmascript)").exports
+=======
+R.c("server/chunks/ssr/[root-of-the-server]__0ft0rpu._.js")
+R.c("server/chunks/ssr/node_modules_next_0vij5kv._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_02suzhc.js")
+R.c("server/chunks/ssr/[root-of-the-server]__10e4zlt._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_03nkrli._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0.asv.u._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_0inhx6q._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_forbidden_0ghu-f7.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0cjv-23.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_global-error_0lgvd_..js")
+R.c("server/chunks/ssr/_next-internal_server_app_page_actions_09-gtaw.js")
+R.m(51717)
+module.exports=R.m(51717).exports
+>>>>>>> b20c20901832cfc6e347209ada7e691035317f27

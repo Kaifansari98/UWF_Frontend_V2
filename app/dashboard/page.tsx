@@ -113,7 +113,13 @@ export default function Dashboard() {
 
           <div className="relative w-14 h-14">
             <Image
-              src={user?.profile_pic || "/avatar.jpg"}
+              src={
+                user?.profile_pic
+                  ? user.profile_pic.includes("localhost")
+                    ? user.profile_pic.replace("http://localhost:5000", "https://unitedwelfarefoundation.com")
+                    : user.profile_pic.replace(/^http:\/\//i, "https://")
+                  : "/avatar.jpg"
+              }
               alt="Profile"
               className="rounded-full object-cover border-2 border-gray-300 shadow-sm"
               fill
