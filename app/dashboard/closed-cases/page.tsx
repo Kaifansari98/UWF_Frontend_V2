@@ -12,14 +12,17 @@ import { Download } from "lucide-react";
 import { exportClosedFormsToExcel } from "@/utils/exportClosedFormsToExcel";
 import { exportCurrentYearClosedFormsToExcel } from "@/utils/exportCurrentYearClosedFormsToExcel";
 
-
 export default function ClosedFormsPage() {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
+  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(
+    null,
+  );
   const [showViewModal, setShowViewModal] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
-  const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(null);
+  const [submissionToRevert, setSubmissionToRevert] = useState<any | null>(
+    null,
+  );
 
   const fetchClosedForms = async () => {
     try {
@@ -42,12 +45,14 @@ export default function ClosedFormsPage() {
 
     try {
       const res = await apiClient.put(
-        `/submissions/revert-case-closed/${submissionToRevert.formId}`
+        `/submissions/revert-case-closed/${submissionToRevert.formId}`,
       );
       toast.success(res.data.message || "Reverted to disbursement");
       fetchClosedForms();
     } catch (err: any) {
-      toast.error(err.response?.data?.message || "Failed to revert to disbursement");
+      toast.error(
+        err.response?.data?.message || "Failed to revert to disbursement",
+      );
     } finally {
       setShowRevertModal(false);
       setSubmissionToRevert(null);
@@ -88,7 +93,11 @@ export default function ClosedFormsPage() {
           >
             Revert to Disbursement
           </Button> */}
-          <Button size="sm" className="bg-yellow-500 text-white hover:bg-yellow-600" onClick={() => toast("Download coming soon!")}>
+          <Button
+            size="sm"
+            className="bg-yellow-500 text-white hover:bg-yellow-600"
+            onClick={() => toast("Download coming soon!")}
+          >
             Download
           </Button>
         </div>
@@ -108,56 +117,68 @@ export default function ClosedFormsPage() {
       valueGetter: (params: any) => `₹ ${params.data.acceptedAmount || 0}`,
     },
     { field: "mobile", headerName: "Mobile Number", filter: true },
-    { field: "alternateMobile", headerName: "Alt. Mobile Number", filter: true },
+    {
+      field: "alternateMobile",
+      headerName: "Alt. Mobile Number",
+      filter: true,
+    },
     { field: "coordinatorName", headerName: "UWF Member", filter: true },
-    { field: "coordinatorMobile", headerName: "UWF Member Mobile", filter: true },
+    {
+      field: "coordinatorMobile",
+      headerName: "UWF Member Mobile",
+      filter: true,
+    },
     { field: "region", headerName: "Region", filter: true },
   ];
 
   return (
     <div className="px-6 pt-4 w-full h-full pb-16">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+        <h1 className="text-2xl font-bold text-gray-800">Closed Cases</h1>
+        <div className="flex gap-2">
+          <Button
+            className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-500"
+            onClick={async () => {
+              try {
+                await exportClosedFormsToExcel();
+                toast.success("Excel file downloaded");
+              } catch {
+                toast.error(
+                  "Failed to download Excel file, No Closed Cases Found",
+                );
+              }
+            }}
+          >
+            <Download className="w-4 h-4" />
+            Download ExcelSheet
+          </Button>
 
-<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-  <h1 className="text-2xl font-bold text-gray-800">Closed Cases</h1>
-  <div className="flex gap-2">
-    <Button
-      className="bg-green-500 text-white flex items-center gap-2 hover:bg-green-500"
-      onClick={async () => {
-        try {
-          await exportClosedFormsToExcel();
-          toast.success("Excel file downloaded");
-        } catch {
-          toast.error("Failed to download Excel file, No Closed Cases Found");
-        }
-      }}
-    >
-      <Download className="w-4 h-4" />
-      Download ExcelSheet
-    </Button>
-
-    <Button
-      className="bg-blue-500 text-white flex items-center gap-2 hover:bg-blue-600"
-      onClick={async () => {
-        try {
-          await exportCurrentYearClosedFormsToExcel();
-          toast.success(`Excel file for ${new Date().getFullYear()} downloaded`);
-        } catch {
-          toast.error("Failed to download Excel file for current year");
-        }
-      }}
-    >
-      <Download className="w-4 h-4" />
-      Case Closed {new Date().getFullYear()}
-    </Button>
-  </div>
-</div>
-
-
+          <Button
+            className="bg-blue-500 text-white flex items-center gap-2 hover:bg-blue-600"
+            onClick={async () => {
+              try {
+                await exportCurrentYearClosedFormsToExcel();
+                toast.success(
+                  `Excel file for ${new Date().getFullYear()} downloaded`,
+                );
+              } catch {
+                toast.error("Failed to download Excel file for current year");
+              }
+            }}
+          >
+            <Download className="w-4 h-4" />
+            Case Closed {new Date().getFullYear()}
+          </Button>
+        </div>
+      </div>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
+        <div
+          className="ag-theme-alpine"
+          style={{ height: "100%", width: "100%" }}
+        >
           <AgGridReact
             rowData={submissions}
             columnDefs={columnDefs}

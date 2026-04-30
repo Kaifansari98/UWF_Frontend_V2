@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import { downloadCsv } from "./downloadCsv";
+import { downloadExcelWorkbook } from "./downloadExcelWorkbook";
 
 export const exportClosedFormsToExcel = async () => {
   try {
@@ -10,31 +10,7 @@ export const exportClosedFormsToExcel = async () => {
       throw new Error("No closed forms available.");
     }
 
-    const filtered = forms.map((item: any) => {
-      const {
-        id,
-        createdAt,
-        updatedAt,
-        GeneratedForm,
-        ...formData
-      } = item;
-
-      const {
-        id: gId,
-        creatorId,
-        student_name,
-        createdAt: gCreatedAt,
-        updatedAt: gUpdatedAt,
-        ...generatedData
-      } = GeneratedForm || {};
-
-      return {
-        ...formData,
-        ...generatedData,
-      };
-    });
-
-    downloadCsv(filtered, "ClosedForms.csv");
+    await downloadExcelWorkbook(forms, "ClosedForms.xlsx", "Closed Forms");
   } catch (error: any) {
     console.error("Export failed:", error);
     throw error;

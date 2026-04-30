@@ -1,5 +1,6 @@
 {
   "/[formId]/page": "app/[formId]/page.js",
+  "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js",
   "/dashboard/form-generation/page": "app/dashboard/form-generation/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",

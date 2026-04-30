@@ -29,6 +29,7 @@
     "dompurify": "^3.4.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "exceljs": "^4.4.0",
     "gsap": "^3.13.0",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.522.0",
