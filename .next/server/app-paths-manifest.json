@@ -1,6 +1,1 @@
-{
-  "/[formId]/page": "app/[formId]/page.js",
-  "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
-}
+{}
