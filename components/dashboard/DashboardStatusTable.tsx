@@ -14,7 +14,19 @@ type Form = {
   created_on: string;
 };
 
-export default function DashboardStatusTable() {
+type Props = {
+  filter: string;
+};
+
+const getFinancialYearKey = (dateInput: string) => {
+  const date = new Date(dateInput);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const startYear = month >= 3 ? year : year - 1;
+  return `${startYear}-${startYear + 1}`;
+};
+
+export default function DashboardStatusTable({ filter }: Props) {
   const [rowData, setRowData] = useState<Form[]>([]);
 
   const columnDefs: ColDef[] = [
@@ -52,13 +64,11 @@ export default function DashboardStatusTable() {
     const fetchForms = async () => {
       try {
         const res = await apiClient.get("/forms/all");
-        const currentYear = new Date().getFullYear();
-  
-        const filteredForms = (res.data.forms || []).filter((form: Form) => {
-          const createdYear = new Date(form.created_on).getFullYear();
-          return createdYear === currentYear;
-        });
-  
+        const filteredForms =
+          filter === "overall"
+            ? res.data.forms || []
+            : (res.data.forms || []).filter((form: Form) => getFinancialYearKey(form.created_on) === filter);
+
         setRowData(filteredForms);
       } catch (error) {
         console.error("Failed to fetch forms:", error);
@@ -66,7 +76,7 @@ export default function DashboardStatusTable() {
     };
   
     fetchForms();
-  }, []);
+  }, [filter]);
   
 
   return (

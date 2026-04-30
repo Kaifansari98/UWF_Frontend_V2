@@ -14,23 +14,37 @@ import DashboardExtraCards from "@/components/dashboard/DashboardExtraCards";
 import AmountDisbursedChart from "@/components/dashboard/AmountDisbursedChart";
 import DashboardStatusTable from "@/components/dashboard/DashboardStatusTable";
 
+type FinancialYearOption = {
+  key: string;
+  label: string;
+};
+
+type DashboardSummary = {
+  studentsAided: number;
+  amountDisbursed: number;
+  requestsReceived: number;
+  requestAccepted: number;
+  requestPending: number;
+  requestRejected: number;
+  casesDisbursed: number;
+  casesClosed: number;
+};
+
+type DashboardStats = {
+  financialYearOptions: FinancialYearOption[];
+  summary: {
+    overall: DashboardSummary;
+    byFinancialYear: Record<string, DashboardSummary>;
+  };
+  studentsAidedPerFinancialYear: { key: string; label: string; students: number }[];
+  amountDisbursedPerFinancialYear: { key: string; label: string; amount: number }[];
+};
+
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [greeting, setGreeting] = useState("Hello");
-  const [filter, setFilter] = useState<"currentYear" | "overall">("currentYear");
-
-  const [stats, setStats] = useState<{
-    studentsAided: { overall: number; currentYear: number };
-    amountDisbursed: { overall: number; currentYear: number };
-    requestsReceived: { overall: number; currentYear: number };
-    requestAccepted: { overall: number; currentYear: number };
-    studentsAidedPerYear: { year: string; students: number }[];
-    requestPending: { overall: number; currentYear: number };
-    requestRejected: { overall: number; currentYear: number };
-    casesDisbursed: { overall: number; currentYear: number };
-    casesClosed: { overall: number; currentYear: number };
-    amountDisbursedPerYear: { year: string; amount: number }[];
-  } | null>(null);
+  const [filter, setFilter] = useState<string>("overall");
+  const [stats, setStats] = useState<DashboardStats | null>(null);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -44,18 +58,8 @@ export default function Dashboard() {
     const fetchStats = async () => {
       try {
         const res = await apiClient.get("/dashboard/stats");
-        setStats({
-          studentsAided: res.data.studentsAided,
-          amountDisbursed: res.data.amountDisbursed,
-          requestsReceived: res.data.requestsReceived,
-          requestAccepted: res.data.requestAccepted,
-          studentsAidedPerYear: res.data.studentsAidedPerYear,
-          requestPending: res.data.requestPending,
-          requestRejected: res.data.requestRejected,
-          casesDisbursed: res.data.casesDisbursed,
-          casesClosed: res.data.casesClosed,
-          amountDisbursedPerYear: res.data.amountDisbursedPerYear,
-        });
+        setStats(res.data);
+        setFilter("overall");
       } catch (error) {
         console.error("Dashboard stats fetch failed:", error);
       }
@@ -64,36 +68,47 @@ export default function Dashboard() {
     fetchStats();
   }, []);
 
+  const selectedSummary =
+    filter === "overall"
+      ? stats?.summary.overall
+      : stats?.summary.byFinancialYear[filter];
+
+  const studentsChartData =
+    filter === "overall"
+      ? stats?.studentsAidedPerFinancialYear ?? []
+      : (stats?.studentsAidedPerFinancialYear ?? []).filter((item) => item.key === filter);
+
+  const amountChartData =
+    filter === "overall"
+      ? stats?.amountDisbursedPerFinancialYear ?? []
+      : (stats?.amountDisbursedPerFinancialYear ?? []).filter((item) => item.key === filter);
+
   const cards = [
     {
       title: "Requests Received",
-      value:
-      (stats?.requestsReceived?.[filter] ?? 0) +
-      (stats?.requestPending?.[filter] ?? 0),
-      total:
-      (stats?.requestsReceived?.overall ?? 0) +
-      (stats?.requestPending?.overall ?? 0),
+      value: selectedSummary?.requestsReceived ?? 0,
+      total: stats?.summary.overall.requestsReceived ?? 0,
       icon: BarChart2,
       color: "bg-yellow-100 text-yellow-600",
     },
     {
       title: "Requests Accepted",
-      value: stats?.requestsReceived?.[filter] ?? 0,
-      total: stats?.requestsReceived?.overall ?? 0,
+      value: selectedSummary?.requestAccepted ?? 0,
+      total: stats?.summary.overall.requestAccepted ?? 0,
       icon: CheckCircle,
       color: "bg-purple-100 text-purple-600",
     },
     {
       title: "Students Aided",
-      value: stats?.studentsAided[filter] ?? 0,
-      total: stats?.studentsAided.overall ?? 0,
+      value: selectedSummary?.studentsAided ?? 0,
+      total: stats?.summary.overall.studentsAided ?? 0,
       icon: Users,
       color: "bg-blue-100 text-blue-600",
     },
     {
       title: "Amount Disbursed",
-      value: `₹${(stats?.amountDisbursed[filter] ?? 0).toLocaleString()}`,
-      total: `₹${(stats?.amountDisbursed.overall ?? 0).toLocaleString()}`,
+      value: `₹${(selectedSummary?.amountDisbursed ?? 0).toLocaleString()}`,
+      total: `₹${(stats?.summary.overall.amountDisbursed ?? 0).toLocaleString()}`,
       icon: DollarSign,
       color: "bg-green-100 text-green-600",
     },
@@ -137,16 +152,15 @@ export default function Dashboard() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2">
-                {filter === "currentYear" ? "Current Year" : "Overall"} <ChevronDown size={16} />
+                {stats?.financialYearOptions.find((option) => option.key === filter)?.label ?? "Overall"} <ChevronDown size={16} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setFilter("currentYear")}>
-                Current Year
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("overall")}>
-                Overall
-              </DropdownMenuItem>
+              {stats?.financialYearOptions.map((option) => (
+                <DropdownMenuItem key={option.key} onClick={() => setFilter(option.key)}>
+                  {option.label}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -177,17 +191,17 @@ export default function Dashboard() {
         {stats && <DashboardExtraCards stats={stats} filter={filter} />}
 
         <div className="w-full mt-10 rounded-xl py-4">
-          <DashboardStatusTable />
+          <DashboardStatusTable filter={filter} />
         </div>
 
         {/* Line Chart */}
-        {stats?.studentsAidedPerYear && stats.studentsAidedPerYear.length > 0 && (
-          <StudentsAidedChart data={stats.studentsAidedPerYear} />
+        {studentsChartData.length > 0 && (
+          <StudentsAidedChart data={studentsChartData} />
         )}
         
 
-        {stats?.amountDisbursedPerYear && stats.amountDisbursedPerYear.length > 0 && (
-          <AmountDisbursedChart data={stats.amountDisbursedPerYear} />
+        {amountChartData.length > 0 && (
+          <AmountDisbursedChart data={amountChartData} />
         )}
 
       </div>

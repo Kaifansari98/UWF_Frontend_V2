@@ -14,12 +14,12 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 type Props = {
-  data: { year: string; amount: number }[];
+  data: { label: string; amount: number }[];
 };
 
 export default function AmountDisbursedChart({ data }: Props) {
   const chartData = {
-    labels: data.map((d) => d.year),
+    labels: data.map((d) => d.label),
     datasets: [
       {
         label: "",

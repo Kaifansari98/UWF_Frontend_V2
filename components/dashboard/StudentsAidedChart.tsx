@@ -6,12 +6,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 type Props = {
-  data: { year: string; students: number }[];
+  data: { label: string; students: number }[];
 };
 
 export default function StudentsAidedChart({ data }: Props) {
   const chartData = {
-    labels: data.map((d) => d.year),
+    labels: data.map((d) => d.label),
     datasets: [
       {
         label: "",

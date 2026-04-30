@@ -31,10 +31,15 @@ const extraCards = [
 
 type Props = {
   stats: any;
-  filter: "currentYear" | "overall";
+  filter: string;
 };
 
 export default function DashboardExtraCards({ stats, filter }: Props) {
+  const selectedSummary =
+    filter === "overall"
+      ? stats?.summary?.overall
+      : stats?.summary?.byFinancialYear?.[filter];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
       {extraCards.map((card) => (
@@ -49,10 +54,10 @@ export default function DashboardExtraCards({ stats, filter }: Props) {
             <div className="text-right">
               <p className="text-sm text-gray-500">{card.title}</p>
               <h3 className="text-xl font-bold text-gray-800">
-                {stats?.[card.key]?.[filter] ?? 0}
+                {selectedSummary?.[card.key] ?? 0}
               </h3>
               <p className="text-xs text-gray-400 mt-1">
-                Total: <span className="font-medium">{stats?.[card.key]?.overall ?? 0}</span>
+                Total: <span className="font-medium">{stats?.summary?.overall?.[card.key] ?? 0}</span>
               </p>
             </div>
           </div>
