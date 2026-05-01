@@ -19,7 +19,7 @@ export default function DashboardLayout({
     <div className="flex">
       <Sidebar active={activeTab} onSelect={setActiveTab} />
 
-      <main className="ml-[280px] w-full p-6 bg-[#f5f5f5] min-h-screen transition-all">
+      <main className="ml-[280px] w-full p-6 bg-white min-h-screen transition-all">
         {children}
       </main>
     </div>
