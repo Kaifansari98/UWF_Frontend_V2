@@ -249,13 +249,13 @@ export default function ClosedFormsPage() {
           <DropdownMenu>
             {yearFilter === "all" ? (
               <DropdownMenuTrigger asChild>
-                <button className="inline-flex items-center gap-2 rounded-full border border-dashed px-3 py-1.5 text-sm text-muted-foreground outline-none transition-colors hover:border-foreground/30 hover:text-foreground">
+                <button className="inline-flex h-9 items-center gap-2 rounded-full border border-dashed px-3 text-sm text-muted-foreground outline-none transition-colors hover:border-foreground/30 hover:text-foreground">
                   <CalendarDays className="h-4 w-4" />
                   Financial Year
                 </button>
               </DropdownMenuTrigger>
             ) : (
-              <div className="inline-flex items-center rounded-full border bg-background text-sm">
+              <div className="inline-flex h-9 items-center rounded-full border bg-background text-sm">
                 <button
                   onClick={() => {
                     setYearFilter("all");
@@ -320,8 +320,11 @@ export default function ClosedFormsPage() {
               try {
                 await exportCurrentYearClosedFormsToExcel();
                 toast.success(`${new Date().getFullYear()} Excel downloaded`);
-              } catch {
-                toast.error("Failed to download current year data");
+              } catch (err: unknown) {
+                const msg =
+                  (err as { message?: string })?.message ||
+                  "Failed to download current year data";
+                toast.error(msg);
               }
             }}
           >

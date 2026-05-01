@@ -30,7 +30,7 @@ type SidebarProps = {
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard },
-  { label: "Create User", icon: UserPlus },
+  // { label: "Create User", icon: UserPlus },
   { label: "Users List", icon: Users },
   { label: "Form Generation", icon: FilePlus },
   { label: "Request Evaluation", icon: FileCheck },
