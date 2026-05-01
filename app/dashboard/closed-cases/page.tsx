@@ -61,7 +61,7 @@ interface Submission {
   [key: string]: unknown;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE_OPTIONS = [20, 30, 40, 50];
 
 function getStudentName(s: Submission): string {
   return `${s.firstName ?? ""} ${s.fatherName ?? ""} ${s.familyName ?? ""}`.trim();
@@ -105,6 +105,7 @@ export default function ClosedFormsPage() {
   const [sortField, setSortField] = useState<SortField>(null);
   const [sortDir, setSortDir] = useState<SortDirection>(null);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const fetchClosedForms = async () => {
     try {
@@ -194,11 +195,11 @@ export default function ClosedFormsPage() {
   }, [submissions, search, yearFilter, sortField, sortDir]);
 
   const paginated = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return filtered.slice(start, start + PAGE_SIZE);
-  }, [filtered, page]);
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page, pageSize]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
   const handleSort = (field: SortField) => {
     if (sortField !== field) {
@@ -458,9 +459,21 @@ export default function ClosedFormsPage() {
 
             {/* Pagination */}
             <div className="flex items-center justify-between border-t px-4 py-3 text-sm text-muted-foreground">
-              <span>
-                {filtered.length} result{filtered.length !== 1 ? "s" : ""}
-              </span>
+              <div className="flex items-center gap-2">
+                <span>Rows per page</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                    setPage(1);
+                  }}
+                  className="rounded-md border px-2 py-1 text-sm text-foreground bg-background outline-none cursor-pointer"
+                >
+                  {PAGE_SIZE_OPTIONS.map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
