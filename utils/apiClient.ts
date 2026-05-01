@@ -1,11 +1,8 @@
 import axios from "axios";
-
-const baseURL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "/api");
+import { API_URL } from "./runtimeConfig";
 
 const apiClient = axios.create({
-  baseURL,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },

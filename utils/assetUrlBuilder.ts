@@ -1,13 +1,13 @@
-const BASE_URL = "https://unitedwelfarefoundation.com/assets";
+import { ASSET_BASE_URL } from "./runtimeConfig";
 
 export const getFormDataAsset = (filename: string): string => {
-  return `${BASE_URL}/FormData/${filename}`;
+  return `${ASSET_BASE_URL}/FormData/${filename}`;
 };
 
 export const getUserDataAsset = (filename: string): string => {
-  return `${BASE_URL}/UserData/${filename}`;
+  return `${ASSET_BASE_URL}/UserData/${filename}`;
 };
 
 export const getAcknowledgementDataAsset = (filename: string): string => {
-  return `${BASE_URL}/Acknowledgment_Data/${filename}`;
+  return `${ASSET_BASE_URL}/Acknowledgment_Data/${filename}`;
 };

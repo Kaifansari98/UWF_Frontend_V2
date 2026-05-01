@@ -11,6 +11,7 @@ import EditUserModal from "@/components/EditUserModal";
 import { User } from "@/features/users/GetUsersSlice";
 import toast, { Toaster } from "react-hot-toast";
 import ConfirmModal from "@/components/ConfirmModal";
+import { getProfileImageSrc } from "@/utils/profileImage";
 
 export default function UsersListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -62,11 +63,7 @@ export default function UsersListPage() {
         return (
           <div style={containerStyle}>
             <img
-             src={
-              profilePic?.includes("localhost")
-              ? profilePic.replace("http://localhost:5000", "https://unitedwelfarefoundation.com")
-              : profilePic || "/avatar.png"
-             }
+             src={getProfileImageSrc(profilePic, "/avatar.png")}
              alt="Profile"
              style={imgStyle}
 	    />
