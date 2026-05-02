@@ -244,8 +244,9 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                   <p className="truncate text-xs text-zinc-500">{user.email}</p>
                 </div>
               </div>
-              <DropdownMenuSeparator className="my-0" />
+              {/* <DropdownMenuSeparator className="my-0" /> */}
               <div className="p-2 space-y-1">
+                <div className="border-b">
                 <DropdownMenuItem
                   onClick={() => setShowChangePassword(true)}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-100"
@@ -253,6 +254,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                   <KeyRound size={16} className="text-zinc-500" />
                   Change Password
                 </DropdownMenuItem>
+                </div>
                 <DropdownMenuItem
                   onClick={() => setShowLogoutConfirm(true)}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium bg-red-600 text-white hover:bg-red-500"
