@@ -6,7 +6,6 @@ import { RootState } from "@/lib/store";
 import { logout } from "@/features/auth/authSlice";
 import {
   LayoutDashboard,
-  UserPlus,
   Users,
   FilePlus,
   FileCheck,
@@ -18,9 +17,11 @@ import {
   LogOut,
   ChevronRight,
   MoreVertical,
+  KeyRound,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import ConfirmModal from "./ConfirmModal";
+import ChangePasswordModal from "./ChangePasswordModal";
 import { getProfileImageSrc } from "@/utils/profileImage";
 import {
   DropdownMenu,
@@ -84,6 +85,7 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
  
   const allowedTabs = roleTabsMap[user?.role] || [];
 
@@ -243,7 +245,14 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
                 </div>
               </div>
               <DropdownMenuSeparator className="my-0" />
-              <div className="p-2">
+              <div className="p-2 space-y-1">
+                <DropdownMenuItem
+                  onClick={() => setShowChangePassword(true)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-100"
+                >
+                  <KeyRound size={16} className="text-zinc-500" />
+                  Change Password
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => setShowLogoutConfirm(true)}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium bg-red-600 text-white hover:bg-red-500"
@@ -265,6 +274,11 @@ export default function Sidebar({ active, onSelect }: SidebarProps) {
           onConfirm={handleLogoutConfirm}
         />
       )}
+
+      <ChangePasswordModal
+        open={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+      />
     </aside>
   );
 }

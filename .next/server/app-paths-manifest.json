@@ -1,7 +1,5 @@
 {
   "/[formId]/page": "app/[formId]/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
-  "/page": "app/page.js"
+  "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js"
 }
