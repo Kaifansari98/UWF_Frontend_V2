@@ -21,6 +21,7 @@ import apiClient from "@/utils/apiClient";
 import toast from "react-hot-toast";
 import FormSubmissionViewModal from "@/components/FormSubmissionViewModal";
 import ConfirmModal from "@/components/ConfirmModal";
+import SkeletonTable5 from "@/components/skeleton-table-5";
 import {
   Search,
   ChevronsUpDown,
@@ -334,8 +335,8 @@ export default function RejectedFormsPage() {
       {/* Table Card */}
       <div className="rounded-lg border bg-card overflow-hidden">
         {loading ? (
-          <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-            Loading...
+          <div className="p-6">
+            <SkeletonTable5 />
           </div>
         ) : (
           <>

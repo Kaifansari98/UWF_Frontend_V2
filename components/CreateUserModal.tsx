@@ -116,20 +116,20 @@ export default function CreateUserModal({ open, onClose }: CreateUserModalProps)
       <DialogContent className="min-w-2xl max-h-[92vh] overflow-y-auto p-0 gap-0">
 
         {/* Colored header banner */}
-        <div className="bg-linear-to-r from-blue-500 to-blue-600 px-6 pt-6 pb-10 rounded-t-xl relative">
-          <DialogHeader>
-            <DialogTitle className="text-white text-xl font-semibold">Create New User</DialogTitle>
-            <DialogDescription className="text-blue-100 text-sm">
+        <div className="px-6 pt-6 pb-10 rounded-t-xl relative">
+          <div>
+            <p className="text-xl font-semibold">Create New User</p>
+            <p className="text-sm">
               Fill in the details below to add a new team member.
-            </DialogDescription>
-          </DialogHeader>
+            </p>
+          </div>
         </div>
 
         {/* Avatar — overlapping the banner */}
-        <div className="flex justify-center -mt-8 mb-2 px-6">
+        <div className="flex justify-center -mt-4 mb-4 px-6">
           <div className="relative">
             <div
-              className="h-16 w-16 rounded-full border-4 border-white bg-muted overflow-hidden shadow-md cursor-pointer"
+              className="h-26 w-26 rounded-full border-4 border-white bg-muted overflow-hidden shadow-md cursor-pointer"
               onClick={() => fileInputRef.current?.click()}
             >
               {avatarPreview ? (

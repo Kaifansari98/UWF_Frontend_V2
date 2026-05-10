@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import SkeletonTable5 from "@/components/skeleton-table-5";
 import EditUserModal from "@/components/EditUserModal";
 import CreateUserModal from "@/components/CreateUserModal";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -267,8 +268,8 @@ export default function UsersListPage() {
       {/* Table Card */}
       <div className="rounded-lg border bg-card overflow-hidden">
         {loading ? (
-          <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-            Loading...
+          <div className="p-6">
+            <SkeletonTable5 />
           </div>
         ) : (
           <>
