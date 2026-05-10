@@ -1,1 +1,11 @@
-{}
+{
+  "/[formId]/page": "app/[formId]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/accepted-form/page": "app/dashboard/accepted-form/page.js",
+  "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/pending-form/page": "app/dashboard/pending-form/page.js",
+  "/dashboard/submitted-form/page": "app/dashboard/submitted-form/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}

@@ -56,11 +56,27 @@ interface AckItem {
   acknowledgement: {
     form_link?: string;
     status?: string;
+    submitted_at?: string;
+    createdAt?: string;
+    created_at?: string;
     [key: string]: unknown;
   };
 }
 
 const PAGE_SIZE_OPTIONS = [20, 30, 40, 50];
+
+function formatDateTime(dateStr?: string | null): string {
+  if (!dateStr) return "—";
+  const normalized = dateStr.replace(" ", "T").replace(/\+00$/, "Z");
+  const d = new Date(normalized);
+  if (isNaN(d.getTime())) return "—";
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  const weekday = d.toLocaleDateString("en-US", { weekday: "long" });
+  const day = d.getDate();
+  const month = d.toLocaleDateString("en-US", { month: "long" });
+  const year = d.getFullYear();
+  return `${time} – ${weekday}, ${day} ${month} ${year}`;
+}
 
 function getStudentName(item: AckItem): string {
   const s = item.formSubmission;
@@ -316,7 +332,8 @@ export default function AcceptedAcknowledgementPage() {
                     Academic Year
                     <SortIcon field="academicYear" {...sortProps} />
                   </TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Submitted At</TableHead>
+                  <TableHead>Generated At</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -324,7 +341,7 @@ export default function AcceptedAcknowledgementPage() {
                 {paginated.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={8}
+                      colSpan={9}
                       className="h-32 text-center text-muted-foreground"
                     >
                       No accepted acknowledgement forms found.
@@ -372,11 +389,15 @@ export default function AcceptedAcknowledgementPage() {
                         {item.formSubmission?.academicYear || "—"}
                       </TableCell>
 
-                      <TableCell>
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 dark:border-green-800 dark:bg-green-950/50 dark:text-green-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                          Accepted
-                        </span>
+                      <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                        {formatDateTime(item.acknowledgement?.submitted_at as string | undefined)}
+                      </TableCell>
+
+                      <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                        {formatDateTime(
+                          (item.acknowledgement?.createdAt ??
+                            item.acknowledgement?.created_at) as string | undefined
+                        )}
                       </TableCell>
                     </TableRow>
                   ))

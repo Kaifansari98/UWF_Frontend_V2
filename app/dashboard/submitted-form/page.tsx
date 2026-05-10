@@ -58,11 +58,40 @@ interface AckItem {
   acknowledgement: {
     form_link?: string;
     status?: string;
+    submitted_at?: string;
+    createdAt?: string;
+    created_at?: string;
     [key: string]: unknown;
   };
 }
 
 const PAGE_SIZE_OPTIONS = [20, 30, 40, 50];
+
+function formatSubmittedAt(dateStr?: string | null): string {
+  if (!dateStr) return "—";
+  const normalized = dateStr.replace(" ", "T").replace(/\+00$/, "Z");
+  const d = new Date(normalized);
+  if (isNaN(d.getTime())) return "—";
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  const weekday = d.toLocaleDateString("en-US", { weekday: "long" });
+  const day = d.getDate();
+  const month = d.toLocaleDateString("en-US", { month: "long" });
+  const year = d.getFullYear();
+  return `${time} – ${weekday}, ${day} ${month} ${year}`;
+}
+
+function formatGeneratedAt(dateStr?: string | null): string {
+  if (!dateStr) return "—";
+  const normalized = dateStr.replace(" ", "T").replace(/\+00$/, "Z");
+  const d = new Date(normalized);
+  if (isNaN(d.getTime())) return "—";
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  const weekday = d.toLocaleDateString("en-US", { weekday: "long" });
+  const day = d.getDate();
+  const month = d.toLocaleDateString("en-US", { month: "long" });
+  const year = d.getFullYear();
+  return `${time} – ${weekday}, ${day} ${month} ${year}`;
+}
 
 function getStudentName(item: AckItem): string {
   const s = item.formSubmission;
@@ -336,7 +365,8 @@ export default function SubmittedAcknowledgementPage() {
                     Academic Year
                     <SortIcon field="academicYear" {...sortProps} />
                   </TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Submitted At</TableHead>
+                  <TableHead>Generated At</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -344,7 +374,7 @@ export default function SubmittedAcknowledgementPage() {
                 {paginated.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={9}
+                      colSpan={10}
                       className="h-32 text-center text-muted-foreground"
                     >
                       No submitted acknowledgement forms found.
@@ -406,11 +436,15 @@ export default function SubmittedAcknowledgementPage() {
                         {item.formSubmission?.academicYear || "—"}
                       </TableCell>
 
-                      <TableCell>
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                          Submitted
-                        </span>
+                      <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                        {formatSubmittedAt(item.acknowledgement?.submitted_at as string | undefined)}
+                      </TableCell>
+
+                      <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                        {formatGeneratedAt(
+                          (item.acknowledgement?.createdAt ??
+                            item.acknowledgement?.created_at) as string | undefined
+                        )}
                       </TableCell>
                     </TableRow>
                   ))

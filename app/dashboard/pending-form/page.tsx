@@ -60,11 +60,26 @@ interface AckItem {
   acknowledgement: {
     form_link?: string;
     status?: string;
+    createdAt?: string;
+    created_at?: string;
     [key: string]: unknown;
   };
 }
 
 const PAGE_SIZE_OPTIONS = [20, 30, 40, 50];
+
+function formatGeneratedAt(dateStr?: string | null): string {
+  if (!dateStr) return "—";
+  const normalized = dateStr.replace(" ", "T").replace(/\+00$/, "Z");
+  const d = new Date(normalized);
+  if (isNaN(d.getTime())) return "—";
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  const weekday = d.toLocaleDateString("en-US", { weekday: "long" });
+  const day = d.getDate();
+  const month = d.toLocaleDateString("en-US", { month: "long" });
+  const year = d.getFullYear();
+  return `${time} – ${weekday}, ${day} ${month} ${year}`;
+}
 
 function getStudentName(item: AckItem): string {
   const s = item.formSubmission;
@@ -338,7 +353,7 @@ export default function PendingAcknowledgementPage() {
                     Academic Year
                     <SortIcon field="academicYear" {...sortProps} />
                   </TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Generated At</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -425,11 +440,11 @@ export default function PendingAcknowledgementPage() {
                         {item.formSubmission?.academicYear || "—"}
                       </TableCell>
 
-                      <TableCell>
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                          Pending
-                        </span>
+                      <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                        {formatGeneratedAt(
+                          (item.acknowledgement?.createdAt ??
+                            item.acknowledgement?.created_at) as string | undefined
+                        )}
                       </TableCell>
                     </TableRow>
                   ))
