@@ -365,7 +365,7 @@ export default function SubmittedAcknowledgementPage() {
                     Academic Year
                     <SortIcon field="academicYear" {...sortProps} />
                   </TableHead>
-                  <TableHead>Submitted At</TableHead>
+                  <TableHead>Submitted On</TableHead>
                   <TableHead>Generated At</TableHead>
                 </TableRow>
               </TableHeader>

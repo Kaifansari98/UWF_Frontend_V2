@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { GraduationCap, CheckCircle, Upload, X, CircleCheckBig } from "lucide-react";
+import {
+  GraduationCap,
+  CheckCircle,
+  Upload,
+  X,
+  CircleCheckBig,
+} from "lucide-react";
 import Image from "next/image";
 import apiClient from "@/utils/apiClient";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,7 +20,9 @@ export default function AcknowledgementFormPage() {
   const { formId } = useParams();
   const [formData, setFormData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [formStatus, setFormStatus] = useState<"pending" | "submitted" | "accepted" | null>(null);
+  const [formStatus, setFormStatus] = useState<
+    "pending" | "submitted" | "accepted" | null
+  >(null);
 
   const {
     register,
@@ -67,10 +75,13 @@ export default function AcknowledgementFormPage() {
   const { generatedForm, formSubmission } = formData;
 
   const studentName = `${formSubmission?.firstName} ${formSubmission?.fatherName} ${formSubmission?.familyName}`;
-  const gender = formSubmission?.gender?.toLowerCase() === "male" ? "son" : "daughter";
+  const gender =
+    formSubmission?.gender?.toLowerCase() === "male" ? "son" : "daughter";
   const genderHisHer = gender === "son" ? "his" : "her";
   const acceptedAmount = formSubmission?.acceptedAmount;
-  const submittedYear = new Date(formData?.acknowledgement?.submitted_at || new Date()).getFullYear();
+  const submittedYear = new Date(
+    formData?.acknowledgement?.submitted_at || new Date(),
+  ).getFullYear();
   const coordinator = formSubmission?.coordinatorName;
   const academicYear = formSubmission?.academicYear;
 
@@ -86,7 +97,8 @@ export default function AcknowledgementFormPage() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm font-medium text-[#292929] mt-2 sm:mt-3">
-            Your acknowledgement form has been received. Thank you for your submission.
+            Your acknowledgement form has been received. Thank you for your
+            submission.
           </p>
           <div className="mt-3 sm:mt-4 h-1 w-12 bg-green-500 rounded-full mx-auto" />
         </div>
@@ -97,37 +109,44 @@ export default function AcknowledgementFormPage() {
     <div className="max-w-2xl mx-auto mt-10 px-4 sm:px-6">
       {/* ✅ Branding Header */}
       <div className="w-full flex flex-col items-center mb-12">
-  {/* ✅ Logo */}
-  <div className="relative mb-6">
-    <Image src="/UWFLogo.png" width={180} height={180} alt="UWF Logo" />
-  </div>
+        {/* ✅ Logo */}
+        <div className="relative mb-6">
+          <Image src="/UWFLogo.png" width={180} height={180} alt="UWF Logo" />
+        </div>
 
-  {/* ✅ Title */}
-  <div className="text-center">
-    <h1 className="text-3xl font-bold text-gray-800">United Welfare Foundation</h1>
-    {/* ✅ Registration + Address */}
-    <div className="mt-1">
-      <p className="font-semibold text-[#000] text-sm">
-        Regd. F / 39715 / THANE. DATED. 24 / 07 / 2019
-      </p>
-      <p className="font-semibold text-[#5e5e5e] text-[11px]">
-        A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE 400705
-      </p>
-    </div>
+        {/* ✅ Title */}
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-800">
+            United Welfare Foundation
+          </h1>
+          {/* ✅ Registration + Address */}
+          <div className="mt-1">
+            <p className="font-semibold text-[#000] text-sm">
+              Regd. F / 39715 / THANE. DATED. 24 / 07 / 2019
+            </p>
+            <p className="font-semibold text-[#5e5e5e] text-[11px]">
+              A-05/605, MILLENNIUM TOWER, SECTOR 09, SANPADA, NAVI MUMBAI, THANE
+              400705
+            </p>
+          </div>
 
-    {/* ✅ Subtext */}
-    <div className="flex items-center justify-center gap-2 mt-4">
-      <GraduationCap className="h-5 w-5 text-[#292929]" />
-      <p className="text-sm font-medium text-[#292929]">
-        Kindly submit the acknowledgement for aid received
-      </p>
-    </div>
+          {/* ✅ Subtext */}
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <GraduationCap className="h-5 w-5 text-[#292929]" />
+            <p className="text-sm font-medium text-[#292929]">
+              Kindly submit the acknowledgement for aid received
+            </p>
+          </div>
           <div className="mt-4 mb-4 h-[1px] w-full bg-[#29292959] rounded-full mx-auto" />
           <div className="w-full border-2 border-green-300 bg-green-50 py-4 px-6 flex items-center gap-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
             <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
             <p className="text-sm font-medium text-gray-800 text-left">
-              Please make sure the uploaded invoice is valid and readable. This helps ensure a{" "}
-              <span className="font-semibold text-green-600">smooth processing</span> of your acknowledgement.
+              Please make sure the uploaded invoice is valid and readable. This
+              helps ensure a{" "}
+              <span className="font-semibold text-green-600">
+                smooth processing
+              </span>{" "}
+              of your acknowledgement.
             </p>
           </div>
         </div>
@@ -135,25 +154,38 @@ export default function AcknowledgementFormPage() {
 
       {/* ✅ Dynamic Acknowledgement Message */}
       <div className="mb-6 text-sm leading-relaxed text-gray-800">
-        Dear Sir/Ma'am,<br /><br />
-        This is to acknowledge with thanks receipt of Indian Rs <strong>{acceptedAmount}</strong> Per year <strong>{submittedYear}</strong> as help for my <strong>{gender}</strong> named <strong>{studentName}</strong> towards {genderHisHer} studies through your Coordinator / Member <strong>{coordinator}</strong> for the Academic Year <strong>{academicYear}</strong>.
+        Dear Sir/Ma'am,
+        <br />
+        <br />
+        This is to acknowledge with thanks receipt of Indian Rs{" "}
+        <strong>{acceptedAmount}</strong> Per year{" "}
+        <strong>{submittedYear}</strong> as help for my{" "}
+        <strong>{gender}</strong> named <strong>{studentName}</strong> towards{" "}
+        {genderHisHer} studies through your Coordinator / Member{" "}
+        <strong>{coordinator}</strong> for the Academic Year{" "}
+        <strong>{academicYear}</strong>.
       </div>
 
       {/* ✅ Declarations */}
       <div className="space-y-4 mb-6">
         <Label className="flex items-start gap-3 text-sm text-gray-800">
-          <Checkbox className="mt-1" /> I assure you that my child will make full use of this aid to
-          excel in studies and that the progress report of my child will be sent to you regularly.
+          <Checkbox className="mt-1" /> I assure you that my child will make
+          full use of this aid to excel in studies and that the progress report
+          of my child will be sent to you regularly.
         </Label>
         <Label className="flex items-start gap-3 text-sm text-gray-800">
-          <Checkbox className="mt-1" /> I agree that United Welfare Foundation reserves the right to
-          withdraw its aid if academic progress is not shown regularly.
+          <Checkbox className="mt-1" /> I agree that United Welfare Foundation
+          reserves the right to withdraw its aid if academic progress is not
+          shown regularly.
         </Label>
       </div>
 
       {/* ✅ File Upload */}
       <div className="border rounded-2xl p-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6">
-        <Label htmlFor="feesStructure" className="text-sm font-semibold text-gray-700">
+        <Label
+          htmlFor="feesStructure"
+          className="text-sm font-semibold text-gray-700"
+        >
           Invoice (PDF)
         </Label>
         {!watch("feesStructure")?.[0] ? (
@@ -172,11 +204,17 @@ export default function AcknowledgementFormPage() {
               <Upload className="h-4 w-4" />
               Choose PDF File
             </label>
-            <p className="text-xs mt-2 text-[#292929]"> Kindly upload fee receipt + extra invoices (books, uniforms, etc.). (PDF)</p>
+            <p className="text-xs mt-2 text-[#292929]">
+              {" "}
+              Kindly upload fee receipt + extra invoices (books, uniforms,
+              etc.). (PDF)
+            </p>
           </>
         ) : (
           <div className="mt-3">
-            <p className="text-sm text-gray-700 truncate">{watch("feesStructure")?.[0]?.name}</p>
+            <p className="text-sm text-gray-700 truncate">
+              {watch("feesStructure")?.[0]?.name}
+            </p>
             <div className="flex gap-2 mt-4">
               <label
                 htmlFor="feesStructure"
@@ -197,7 +235,9 @@ export default function AcknowledgementFormPage() {
           </div>
         )}
         {typeof errors.feesStructure?.message === "string" && (
-          <p className="text-sm text-red-500 mt-2">{errors.feesStructure.message}</p>
+          <p className="text-sm text-red-500 mt-2">
+            {errors.feesStructure.message}
+          </p>
         )}
       </div>
 
