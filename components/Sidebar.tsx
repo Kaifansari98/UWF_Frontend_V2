@@ -68,7 +68,11 @@ const navItems = [
   { label: "Closed Cases", icon: XCircle },
 ];
 
-const acknowledgementItems = ["Pending Form", "Submitted Form", "Accepted Form"];
+const acknowledgementItems = [
+  "Pending Form",
+  "Submitted Form",
+  "Accepted Form",
+];
 
 const roleDisplayMap: Record<string, string> = {
   super_admin: "Super Admin",
@@ -104,10 +108,15 @@ export default function Sidebar(_props: SidebarProps) {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
 
-  const allowedTabs = useMemo(() => roleTabsMap[user?.role] || [], [user?.role]);
+  const allowedTabs = useMemo(
+    () => roleTabsMap[user?.role] || [],
+    [user?.role],
+  );
 
   const primaryItems = navItems.filter(
-    ({ label }) => label !== "Closed Cases" && (label === "Dashboard" || allowedTabs.includes(label))
+    ({ label }) =>
+      label !== "Closed Cases" &&
+      (label === "Dashboard" || allowedTabs.includes(label)),
   );
 
   const handleLogoutConfirm = () => {
@@ -252,7 +261,9 @@ export default function Sidebar(_props: SidebarProps) {
                     <p className="truncate text-sm font-semibold text-sidebar-foreground">
                       {user.full_name}
                     </p>
-                    <p className="truncate text-xs text-sidebar-foreground/70">{user.email}</p>
+                    <p className="truncate text-xs text-sidebar-foreground/70">
+                      {user.email}
+                    </p>
                   </div>
                   <span className="flex h-8 w-8 items-center justify-center rounded-md text-sidebar-foreground/70 group-data-[collapsible=icon]:hidden">
                     <MoreVertical size={16} />
