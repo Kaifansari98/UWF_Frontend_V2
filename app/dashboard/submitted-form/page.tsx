@@ -3,12 +3,24 @@
 import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import NotificationBell from "@/components/NotificationBell";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Table,
   TableBody,
@@ -234,7 +246,31 @@ export default function SubmittedAcknowledgementPage() {
   const sortProps = { sortField, sortDir };
 
   return (
-    <div className="flex flex-col gap-6 p-6 w-full min-h-full bg-white">
+    <div className="flex min-h-full flex-col bg-background text-foreground">
+      <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Submitted Form</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+
+        <div className="flex items-center gap-2 pr-4">
+          
+          <AnimatedThemeToggler />
+        </div>
+      </header>
+
+      <div className="flex flex-col gap-6 p-6">
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
@@ -519,6 +555,7 @@ export default function SubmittedAcknowledgementPage() {
           }}
         />
       )}
+      </div>
     </div>
   );
 }

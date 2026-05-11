@@ -9,13 +9,22 @@ import toast from "react-hot-toast";
 import { getWhatsAppShareURL, getGmailShareURL } from "@/utils/shareUtils";
 import { Copy, Mail, MessageCircle, CircleCheckBig } from "lucide-react";
 
-export default function ExistingStudentForm() {
+interface ExistingStudentFormProps {
+  closeOnSuccess?: boolean;
+  onGenerated?: () => void | Promise<void>;
+}
+
+export default function ExistingStudentForm({
+  closeOnSuccess = false,
+  onGenerated,
+}: ExistingStudentFormProps) {
   const [students, setStudents] = useState<any[]>([]);  
   const [filtered, setFiltered] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
   const [generatedLink, setGeneratedLink] = useState("");
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchStudents();
@@ -48,13 +57,19 @@ export default function ExistingStudentForm() {
     if (!selectedStudent) return;
 
     try {
+      setSubmitting(true);
       const res = await apiClient.post("/forms/generate/existing", {
         oldFormId: selectedStudent.formId,
       });
       setGeneratedLink(res.data.form.form_link);
       toast.success("Link generated for existing student");
+      if (onGenerated) {
+        await onGenerated();
+      }
     } catch (err) {
       toast.error("Failed to generate link");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -67,7 +82,7 @@ export default function ExistingStudentForm() {
     <div className="space-y-6">
       {/* Search Input */}
       <div>
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-foreground">
           Search students by Form ID or Name
         </label>
         <Input
@@ -79,9 +94,9 @@ export default function ExistingStudentForm() {
       </div>
   
       {/* Students List Box */}
-      <div className="border rounded-xl overflow-y-auto h-72 w-full">
+      <div className="h-72 w-full overflow-y-auto rounded-xl border bg-background">
   {loading ? (
-    <div className="text-center text-sm text-gray-500 py-6">
+    <div className="py-6 text-center text-sm text-muted-foreground">
       Loading students...
     </div>
   ) : Array.isArray(filtered) && filtered.length > 0 ? (
@@ -92,10 +107,10 @@ export default function ExistingStudentForm() {
       return (
         <div
           key={student.formId}
-          className={`flex items-center justify-between border-b px-4 py-3 cursor-pointer ${
+          className={`flex cursor-pointer items-center justify-between border-b px-4 py-3 transition-colors ${
             selectedStudent?.formId === student.formId
-              ? "bg-gray-100"
-              : "bg-white"
+              ? "bg-accent"
+              : "bg-background hover:bg-muted/40"
           }`}
           onClick={() => setSelectedStudent(student)}
         >
@@ -104,16 +119,16 @@ export default function ExistingStudentForm() {
               {initial}
             </div>
             <div>
-              <div className="font-medium text-gray-800">{fullName}</div>
-              <div className="text-xs text-gray-500">{student.formId}</div>
+              <div className="font-medium text-foreground">{fullName}</div>
+              <div className="text-xs text-muted-foreground">{student.formId}</div>
             </div>
           </div>
-          <ChevronRight className="text-gray-400" />
+          <ChevronRight className="text-muted-foreground" />
         </div>
       );
     })
   ) : (
-    <div className="text-sm text-center text-gray-500 py-4">
+    <div className="py-4 text-center text-sm text-muted-foreground">
       No matching students found.
     </div>
   )}
@@ -124,23 +139,24 @@ export default function ExistingStudentForm() {
       {selectedStudent && (
         <Button
           onClick={handleGenerate}
+          disabled={submitting}
           className="w-full mt-2 bg-blue-500 text-white py-6 rounded-xl text-base font-semibold"
         >
-          Generate Link
+          {submitting ? "Generating..." : "Generate Link"}
         </Button>
       )}
   
       {/* Generated Link Output */}
-      {generatedLink && (
+      {generatedLink && !closeOnSuccess && (
         <div className="space-y-4">
-          <p className="text-xs text-gray-500 flex flex-row gap-2 items-center">
+          <p className="flex flex-row items-center gap-2 text-xs text-muted-foreground">
             <CircleCheckBig size={14} color="green" />
             Link generated for existing student
           </p>
           <Input
             readOnly
             value={generatedLink}
-            className="cursor-default bg-gray-100"
+            className="cursor-default bg-muted"
           />
           <div className="flex flex-wrap gap-2">
             <Button onClick={handleCopy} className="bg-black text-white">

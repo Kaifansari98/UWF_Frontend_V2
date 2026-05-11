@@ -113,7 +113,7 @@ export default function CreateUserModal({ open, onClose }: CreateUserModalProps)
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) handleClose(); }}>
-      <DialogContent className="min-w-2xl max-h-[92vh] overflow-y-auto p-0 gap-0">
+      <DialogContent className="min-w-2xl max-h-[92vh] overflow-y-auto p-0 gap-0 bg-card">
 
         {/* Colored header banner */}
         <div className="px-6 pt-6 pb-10 rounded-t-xl relative">

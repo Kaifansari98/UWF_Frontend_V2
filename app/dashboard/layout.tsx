@@ -1,27 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
-
-// Register all Community features
-ModuleRegistry.registerModules([AllCommunityModule]);
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [activeTab, setActiveTab] = useState("Dashboard");
-
   return (
-    <div className="flex">
-      <Sidebar active={activeTab} onSelect={setActiveTab} />
-
-      <main className="ml-[280px] w-full p-6 bg-white min-h-screen transition-all">
+    <SidebarProvider defaultOpen>
+      <Sidebar />
+      <SidebarInset className="min-h-screen bg-white">
         {children}
-      </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

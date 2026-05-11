@@ -6,25 +6,25 @@ const extraCards = [
   {
     title: "Request Pending",
     icon: Clock4,
-    color: "bg-orange-100 text-orange-600",
+    color: "bg-orange-500/15 text-orange-600 dark:bg-orange-500/20 dark:text-orange-300",
     key: "requestPending",
   },
   {
     title: "Request Rejected",
     icon: XCircle,
-    color: "bg-red-100 text-red-600",
+    color: "bg-red-500/15 text-red-600 dark:bg-red-500/20 dark:text-red-300",
     key: "requestRejected",
   },
   {
     title: "Cases Disbursed",
     icon: FileCheck2,
-    color: "bg-teal-100 text-teal-600",
+    color: "bg-teal-500/15 text-teal-600 dark:bg-teal-500/20 dark:text-teal-300",
     key: "casesDisbursed",
   },
   {
     title: "Cases Closed",
     icon: Ban,
-    color: "bg-gray-100 text-gray-600",
+    color: "bg-zinc-500/15 text-zinc-600 dark:bg-zinc-500/20 dark:text-zinc-300",
     key: "casesClosed",
   },
 ];
@@ -45,18 +45,18 @@ export default function DashboardExtraCards({ stats, filter }: Props) {
       {extraCards.map((card) => (
         <div
           key={card.title}
-          className="bg-white rounded-2xl shadow-sm p-6 border hover:shadow-md transition-all duration-200"
+          className="rounded-2xl border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md"
         >
           <div className="flex items-center justify-between">
             <div className={`p-3 rounded-full ${card.color}`}>
               <card.icon size={24} />
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500">{card.title}</p>
-              <h3 className="text-xl font-bold text-gray-800">
+              <p className="text-sm text-muted-foreground">{card.title}</p>
+              <h3 className="text-xl font-bold text-foreground">
                 {selectedSummary?.[card.key] ?? 0}
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="mt-1 text-xs text-muted-foreground/80">
                 Total: <span className="font-medium">{stats?.summary?.overall?.[card.key] ?? 0}</span>
               </p>
             </div>
