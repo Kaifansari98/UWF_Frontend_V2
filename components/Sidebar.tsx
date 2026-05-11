@@ -58,6 +58,7 @@ const navItems = [
   { label: "Dashboard", icon: LayoutDashboard },
   { label: "Users List", icon: Users },
   // { label: "Form Generation", icon: FilePlus },
+  { label: "Bank Info Letter", icon: FilePlus },
   { label: "Pending Requests", icon: Clock },
   { label: "Request Rejected", icon: Ban },
   { label: "Request Evaluation", icon: FileCheck },
@@ -88,8 +89,18 @@ const roleDisplayMap: Record<string, string> = {
 const roleTabsMap: Record<string, string[]> = {
   super_admin: [...navItems.map((item) => item.label), "Acknowledgement"],
   admin: [...navItems.map((item) => item.label), "Acknowledgement"],
-  form_creator: ["Form Generation", "Pending Requests", "Request Rejected"],
-  evaluator: ["Request Evaluation", "Pending Requests", "Request Rejected"],
+  form_creator: [
+    "Form Generation",
+    "Bank Info Letter",
+    "Pending Requests",
+    "Request Rejected",
+  ],
+  evaluator: [
+    "Request Evaluation",
+    "Bank Info Letter",
+    "Pending Requests",
+    "Request Rejected",
+  ],
   treasurer: ["Treasury Review", "Treasury Approval"],
   approver: ["Approved Cases"],
   disbursement_approver: ["Aid Disbursement", "Acknowledgement"],
