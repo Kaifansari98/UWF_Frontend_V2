@@ -247,7 +247,7 @@ export default function Dashboard() {
           </div>
 
           {/* Stats Section Header */}
-          <div className="flex items-center justify-between mt-10 mb-6">
+          <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-xl font-semibold text-foreground">
                 📊 Dashboard Stats
