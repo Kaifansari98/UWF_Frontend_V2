@@ -2,5 +2,6 @@
   "/[formId]/page": "app/[formId]/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/dashboard/bank-info-letter/page": "app/dashboard/bank-info-letter/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/page": "app/page.js"
 }

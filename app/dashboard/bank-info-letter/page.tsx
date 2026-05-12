@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import BankLetterPreviewModal from "@/components/BankLetterPreviewModal";
+import ConfirmModal from "@/components/ConfirmModal";
 import toast from "react-hot-toast";
 import SkeletonTable5 from "@/components/skeleton-table-5";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
@@ -50,6 +51,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import apiClient from "@/utils/apiClient";
 import { getBankInfoLetterWhatsAppURL } from "@/utils/shareUtils";
+import { downloadLetterPDF } from "@/utils/downloadLetterPDF";
 import {
   CalendarDays,
   CircleX,
@@ -423,6 +425,9 @@ export default function BankInfoLetterPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [letterToDelete, setLetterToDelete] = useState<BankInfoLetterRow | null>(null);
+  const queryClient = useQueryClient();
 
   const closeContextMenu = useCallback(() => setContextMenu(null), []);
 
@@ -459,6 +464,21 @@ export default function BankInfoLetterPage() {
         page,
         pageSize,
       }),
+  });
+
+  const deleteLetterMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiClient.delete(`/bank-info-letters/${id}`);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: BANK_INFO_LETTERS_QUERY_KEY,
+      });
+      toast.success("Bank info letter deleted successfully");
+    },
+    onError: () => {
+      toast.error("Failed to delete bank info letter");
+    },
   });
 
   const letters = data?.letters ?? [];
@@ -510,6 +530,22 @@ export default function BankInfoLetterPage() {
         "_blank",
         "noopener,noreferrer",
       );
+      closeContextMenu();
+      return;
+    }
+
+    if (action === "Download Letter") {
+      closeContextMenu();
+      const toastId = toast.loading(`Generating PDF for ${letter.student_name}…`);
+      downloadLetterPDF(letter)
+        .then(() => toast.success("PDF downloaded", { id: toastId }))
+        .catch(() => toast.error("Failed to generate PDF", { id: toastId }));
+      return;
+    }
+
+    if (action === "Delete Letter") {
+      setLetterToDelete(letter);
+      setShowDeleteModal(true);
       closeContextMenu();
       return;
     }
@@ -751,6 +787,26 @@ export default function BankInfoLetterPage() {
         }}
         letter={previewLetter}
       />
+      {showDeleteModal && letterToDelete && (
+        <ConfirmModal
+          title="Delete Letter"
+          description={`Are you sure you want to delete the letter for "${letterToDelete.student_name}"?`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={async () => {
+            try {
+              await deleteLetterMutation.mutateAsync(letterToDelete.id);
+            } finally {
+              setShowDeleteModal(false);
+              setLetterToDelete(null);
+            }
+          }}
+          onCancel={() => {
+            setShowDeleteModal(false);
+            setLetterToDelete(null);
+          }}
+        />
+      )}
 
       {contextMenu && (
         <div
