@@ -17,15 +17,7 @@ Email: united_welfare_foundation@outlook.com`;
     return `https://api.whatsapp.com/send?text=${encodedMessage}`;
 };
 
-export const getBankInfoLetterWhatsAppURL = ({
-  principal_headmaster,
-  school_college_name,
-  student_name,
-  admission_no_gr_no,
-  student_parent_name,
-  class_course_program,
-  academic_year_term,
-}: {
+type BankInfoLetterParams = {
   principal_headmaster: string;
   school_college_name: string;
   student_name: string;
@@ -33,18 +25,28 @@ export const getBankInfoLetterWhatsAppURL = ({
   student_parent_name: string;
   class_course_program: string;
   academic_year_term: string;
-}) => {
-  const message =
-    `Bank Info Letter\n\n` +
-    `Principal/Headmaster: ${principal_headmaster}\n` +
-    `School/College Name: ${school_college_name}\n` +
-    `Student Name: ${student_name}\n` +
-    `Admission No / GR No.: ${admission_no_gr_no}\n` +
-    `Student Parent Name: ${student_parent_name}\n` +
-    `Class / Course / Program: ${class_course_program}\n` +
-    `Academic Year / Term: ${academic_year_term}`;
+};
 
-  const encodedMessage = encodeURIComponent(message);
+export const getBankInfoLetterMessage = ({
+  principal_headmaster,
+  school_college_name,
+  student_name,
+  admission_no_gr_no,
+  student_parent_name,
+  class_course_program,
+  academic_year_term,
+}: BankInfoLetterParams) =>
+  `Bank Info Letter\n\n` +
+  `Principal/Headmaster: ${principal_headmaster}\n` +
+  `School/College Name: ${school_college_name}\n` +
+  `Student Name: ${student_name}\n` +
+  `Admission No / GR No.: ${admission_no_gr_no}\n` +
+  `Student Parent Name: ${student_parent_name}\n` +
+  `Class / Course / Program: ${class_course_program}\n` +
+  `Academic Year / Term: ${academic_year_term}`;
+
+export const getBankInfoLetterWhatsAppURL = (params: BankInfoLetterParams) => {
+  const encodedMessage = encodeURIComponent(getBankInfoLetterMessage(params));
   return `https://api.whatsapp.com/send?text=${encodedMessage}`;
 };
   

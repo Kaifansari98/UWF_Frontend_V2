@@ -133,14 +133,24 @@ const s = StyleSheet.create({
   bankRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    marginBottom: 10,
+    marginBottom: 8,
   },
-  bankLabel: { width: 145, fontSize: 10, flexShrink: 0 },
+  bankLabel: { fontSize: 10, flexShrink: 0 },
+  studentLabel: { width: 145, fontSize: 10, flexShrink: 0 },
   bankLine: {
     flex: 1,
+    marginLeft: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#000000",
     height: 14,
+  },
+  bankValue: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
+    paddingBottom: 2,
+    fontSize: 10,
+    fontFamily: "Helvetica-Bold",
   },
   // ── Closing ──
   closing: {
@@ -278,14 +288,11 @@ export function BankLetterPDFDocument({
           Student Information{" "}
           <Text style={s.sectionSub}>(for fee payment reference)</Text>
         </Text>
-        <View style={s.table}>
-          {rows.map((row, i) => (
-            <View
-              key={row.label}
-              style={i < rows.length - 1 ? s.tRow : s.tRowLast}
-            >
-              <Text style={s.tLabel}>{row.label}</Text>
-              <Text style={s.tValue}>{row.value}</Text>
+        <View style={{ marginBottom: 12, marginTop: 6 }}>
+          {rows.map((row) => (
+            <View key={row.label} style={s.bankRow}>
+              <Text style={s.studentLabel}>{row.label}</Text>
+              <Text style={s.bankValue}>{row.value}</Text>
             </View>
           ))}
         </View>

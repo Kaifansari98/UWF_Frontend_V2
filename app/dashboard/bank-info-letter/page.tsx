@@ -52,6 +52,7 @@ import { Textarea } from "@/components/ui/textarea";
 import apiClient from "@/utils/apiClient";
 import { getBankInfoLetterWhatsAppURL } from "@/utils/shareUtils";
 import { downloadLetterPDF } from "@/utils/downloadLetterPDF";
+import { triggerPDFDownload } from "@/utils/pdfUtils";
 import {
   CalendarDays,
   CircleX,
@@ -509,7 +510,7 @@ export default function BankInfoLetterPage() {
     openContextMenuAt(rect.right - 180, rect.bottom + 8, letter);
   };
 
-  const handleMenuAction = (action: string, letter: BankInfoLetterRow) => {
+  const handleMenuAction = async (action: string, letter: BankInfoLetterRow) => {
     if (action === "Open Letter") {
       setPreviewLetter(letter);
       closeContextMenu();
@@ -517,20 +518,34 @@ export default function BankInfoLetterPage() {
     }
 
     if (action === "Send via WhatsApp") {
-      window.open(
-        getBankInfoLetterWhatsAppURL({
-          principal_headmaster: letter.principal_headmaster,
-          school_college_name: letter.school_college_name,
-          student_name: letter.student_name,
-          admission_no_gr_no: letter.admission_no_gr_no,
-          student_parent_name: letter.student_parent_name,
-          class_course_program: letter.class_course_program,
-          academic_year_term: letter.academic_year_term,
-        }),
-        "_blank",
-        "noopener,noreferrer",
-      );
       closeContextMenu();
+      const toastId = toast.loading(`Preparing PDF for ${letter.student_name}…`);
+      const params = {
+        principal_headmaster: letter.principal_headmaster,
+        school_college_name: letter.school_college_name,
+        student_name: letter.student_name,
+        admission_no_gr_no: letter.admission_no_gr_no,
+        student_parent_name: letter.student_parent_name,
+        class_course_program: letter.class_course_program,
+        academic_year_term: letter.academic_year_term,
+      };
+      try {
+        const [{ pdf }, { BankLetterPDFDocument }] = await Promise.all([
+          import("@react-pdf/renderer"),
+          import("@/components/BankLetterPDF"),
+        ]);
+        const logoUrl = `${window.location.origin}/UWFLogo.png`;
+        const { createElement } = await import("react");
+        const element = createElement(BankLetterPDFDocument, { letter, logoUrl });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const blob = await pdf(element as any).toBlob();
+        const fileName = `UWF_Bank_Letter_${letter.student_name.replace(/\s+/g, "_")}.pdf`;
+        triggerPDFDownload(blob, fileName);
+        window.open(getBankInfoLetterWhatsAppURL(params), "_blank", "noopener,noreferrer");
+        toast.success("PDF downloaded — attach it in WhatsApp", { id: toastId });
+      } catch {
+        toast.error("Failed to prepare WhatsApp message", { id: toastId });
+      }
       return;
     }
 

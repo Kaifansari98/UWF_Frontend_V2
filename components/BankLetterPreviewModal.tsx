@@ -1,6 +1,6 @@
 "use client";
 
-import { createElement, useState } from "react";
+import { useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import {
   Dialog,
@@ -36,7 +36,7 @@ export default function BankLetterPreviewModal({
 
       const logoUrl = `${window.location.origin}/UWFLogo.png`;
       const blob = await pdf(
-        createElement(BankLetterPDFDocument, { letter, logoUrl })
+        <BankLetterPDFDocument letter={letter} logoUrl={logoUrl} />
       ).toBlob();
 
       triggerPDFDownload(

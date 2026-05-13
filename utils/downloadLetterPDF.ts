@@ -15,8 +15,11 @@ export async function downloadLetterPDF(letter: BankLetterData): Promise<void> {
 
   const logoUrl = `${window.location.origin}/UWFLogo.png`;
 
-  // createElement avoids JSX-transform dependency in a utility file
-  const element = createElement(BankLetterPDFDocument, { letter, logoUrl });
+  // pdf() expects a document element; narrow the React element to that input type.
+  const element = createElement(BankLetterPDFDocument, {
+    letter,
+    logoUrl,
+  }) as Parameters<typeof pdf>[0];
   const blob = await pdf(element).toBlob();
 
   triggerPDFDownload(
