@@ -1,3 +1,15 @@
 {
+  "/[formId]/page": "app/[formId]/page.js",
+  "/dashboard/accepted-form/page": "app/dashboard/accepted-form/page.js",
+  "/dashboard/bank-info-letter/page": "app/dashboard/bank-info-letter/page.js",
+  "/dashboard/closed-cases/page": "app/dashboard/closed-cases/page.js",
+  "/dashboard/generate-new-request/page": "app/dashboard/generate-new-request/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/pending-form/page": "app/dashboard/pending-form/page.js",
+  "/dashboard/pending-requests/page": "app/dashboard/pending-requests/page.js",
+  "/dashboard/request-evaluation/page": "app/dashboard/request-evaluation/page.js",
+  "/dashboard/request-rejected/page": "app/dashboard/request-rejected/page.js",
+  "/dashboard/users-list/page": "app/dashboard/users-list/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }

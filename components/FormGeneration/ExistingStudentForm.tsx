@@ -18,13 +18,14 @@ export default function ExistingStudentForm({
   closeOnSuccess = false,
   onGenerated,
 }: ExistingStudentFormProps) {
-  const [students, setStudents] = useState<any[]>([]);  
+  const [students, setStudents] = useState<any[]>([]);
   const [filtered, setFiltered] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
   const [generatedLink, setGeneratedLink] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     fetchStudents();
@@ -53,9 +54,9 @@ export default function ExistingStudentForm({
     setFiltered(filteredData);
   };
 
-  const handleGenerate = async () => {
+  const doGenerate = async () => {
     if (!selectedStudent) return;
-
+    setShowConfirm(false);
     try {
       setSubmitting(true);
       const res = await apiClient.post("/forms/generate/existing", {
@@ -138,12 +139,55 @@ export default function ExistingStudentForm({
       {/* Generate Link Button */}
       {selectedStudent && (
         <Button
-          onClick={handleGenerate}
+          onClick={() => setShowConfirm(true)}
           disabled={submitting}
           className="w-full mt-2 bg-blue-500 text-white py-6 rounded-xl text-base font-semibold"
         >
           {submitting ? "Generating..." : "Generate Link"}
         </Button>
+      )}
+
+      {/* Simple confirmation modal */}
+      {showConfirm && selectedStudent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl border bg-card p-6 shadow-xl">
+            <h2 className="text-lg font-bold text-foreground">
+              Confirm Link Generation
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              You are about to regenerate a form link for:
+            </p>
+            <div className="mt-3 rounded-xl border bg-muted/40 px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">
+                {[
+                  selectedStudent.firstName,
+                  selectedStudent.fatherName,
+                  selectedStudent.familyName,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {selectedStudent.formId}
+              </p>
+            </div>
+            <div className="mt-5 flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
+                onClick={doGenerate}
+              >
+                Generate
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
   
       {/* Generated Link Output */}

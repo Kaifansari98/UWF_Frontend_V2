@@ -3,6 +3,7 @@
 import {
   Document,
   Image,
+  Link,
   Page,
   StyleSheet,
   Text,
@@ -176,6 +177,7 @@ const s = StyleSheet.create({
   sigName: { fontFamily: "Helvetica-Bold", fontSize: 10 },
   sigDesig: { color: MUTED, fontSize: 9 },
   sigOrg: { fontFamily: "Helvetica-Bold", color: BLUE, fontSize: 10 },
+  sigEmail: { color: BLUE, fontSize: 9, textDecoration: "underline", marginTop: 2 },
   stampBox: {
     borderWidth: 2,
     borderColor: "#aaaaaa",
@@ -187,10 +189,15 @@ const s = StyleSheet.create({
   },
   stampText: { color: "#aaaaaa", fontSize: 7, textAlign: "center" },
   // ── Footer ──
+  footerContainer: {
+    position: "absolute",
+    bottom: 20,
+    left: 42,
+    right: 42,
+  },
   footerDivider: {
     borderBottomWidth: 2,
     borderBottomColor: BLUE,
-    marginTop: 12,
     marginBottom: 7,
   },
   footerText: { color: BLUE, fontSize: 8.5, textAlign: "center" },
@@ -310,6 +317,17 @@ export function BankLetterPDFDocument({
               <View style={s.bankLine} />
             </View>
           ))}
+          {/* Extra continuation line below Branch & Address */}
+          <View style={s.bankRow}>
+            <View
+              style={{
+                flex: 1,
+                borderBottomWidth: 1,
+                borderBottomColor: "#000000",
+                height: 14,
+              }}
+            />
+          </View>
         </View>
 
         {/* ── Closing ── */}
@@ -327,21 +345,24 @@ export function BankLetterPDFDocument({
         {/* ── Signatory ── */}
         <View style={s.sigRow}>
           <View>
-            <View style={s.sigBox} />
-            <Text style={s.sigName}>
-              {letter.signatory_name || "[Authorized Signatory Name]"}
-            </Text>
-            <Text style={s.sigDesig}>[Designation]</Text>
             <Text style={s.sigOrg}>United Welfare Foundation</Text>
+            <Link
+              src="mailto:united_welfare_foundation@outlook.com"
+              style={s.sigEmail}
+            >
+              united_welfare_foundation@outlook.com
+            </Link>
           </View>
         </View>
 
         {/* ── Footer ── */}
-        <View style={s.footerDivider} />
-        <Text style={s.footerText}>
-          A-05 / 605, Millenium Tower, Sector 09, Sanpada, Navi Mumbai, Dist:
-          Thane – 400705
-        </Text>
+        <View style={s.footerContainer}>
+          <View style={s.footerDivider} />
+          <Text style={s.footerText}>
+            A-05 / 605, Millenium Tower, Sector 09, Sanpada, Navi Mumbai,
+            Dist: Thane – 400705
+          </Text>
+        </View>
       </Page>
     </Document>
   );
