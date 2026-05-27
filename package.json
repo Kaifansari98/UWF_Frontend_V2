@@ -66,7 +66,9 @@
       "@typescript-eslint/typescript-estree>minimatch": "9.0.7",
       "tinyglobby>picomatch": "4.0.4",
       "next>postcss": "8.5.12",
-      "@tailwindcss/postcss>postcss": "8.5.12"
+      "@tailwindcss/postcss>postcss": "8.5.12",
+      "exceljs>tmp": "^0.2.6",
+      "exceljs>uuid": "^11.1.1"
     }
   }
 }
