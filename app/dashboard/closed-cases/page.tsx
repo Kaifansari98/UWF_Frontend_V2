@@ -54,7 +54,6 @@ type SortField =
   | "acceptedAmount"
   | "mobile"
   | "coordinatorName"
-  | "region"
   | null;
 
 interface Submission {
@@ -67,7 +66,6 @@ interface Submission {
   alternateMobile?: string;
   coordinatorName?: string;
   coordinatorMobile?: string;
-  region?: string;
   createdAt?: string;
   created_at?: string;
   AcknowledgementForm?: unknown;
@@ -123,13 +121,7 @@ export default function ClosedFormsPage() {
   const fetchClosedForms = async () => {
     try {
       const res = await apiClient.get("/submissions/case-closed");
-      const transformed: Submission[] = res.data.caseClosedForms.map(
-        (item: Record<string, unknown>) => ({
-          ...(item as Submission),
-          region: (item.GeneratedForm as Record<string, unknown>)?.region,
-        })
-      );
-      setSubmissions(transformed);
+      setSubmissions(res.data.caseClosedForms);
     } catch (err) {
       console.error("Failed to load closed forms", err);
       toast.error("Failed to load closed forms");
@@ -179,8 +171,7 @@ export default function ClosedFormsPage() {
           s.formId?.toLowerCase().includes(q) ||
           getStudentName(s).toLowerCase().includes(q) ||
           s.mobile?.toLowerCase().includes(q) ||
-          s.coordinatorName?.toLowerCase().includes(q) ||
-          s.region?.toLowerCase().includes(q)
+          s.coordinatorName?.toLowerCase().includes(q)
       );
     }
 
@@ -418,13 +409,6 @@ export default function ClosedFormsPage() {
                       <SortIcon field="coordinatorName" {...sortProps} />
                     </TableHead>
                     <TableHead>Member Mobile</TableHead>
-                    <TableHead
-                      className="cursor-pointer select-none"
-                      onClick={() => handleSort("region")}
-                    >
-                      Region
-                      <SortIcon field="region" {...sortProps} />
-                    </TableHead>
                     <TableHead>Status</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -433,7 +417,7 @@ export default function ClosedFormsPage() {
                   {paginated.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={9}
+                        colSpan={8}
                         className="h-32 text-center text-muted-foreground"
                       >
                         No closed cases found.
@@ -481,8 +465,6 @@ export default function ClosedFormsPage() {
                         <TableCell className="text-sm text-muted-foreground">
                           {s.coordinatorMobile || "—"}
                         </TableCell>
-
-                        <TableCell>{s.region || "—"}</TableCell>
 
                         <TableCell>
                           <span className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 dark:border-green-800 dark:bg-green-950/50 dark:text-green-400">
