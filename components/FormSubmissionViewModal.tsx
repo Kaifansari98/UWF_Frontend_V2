@@ -14,6 +14,7 @@ import {
 import apiClient from "@/utils/apiClient";
 import DocumentCard, { IMAGE_EXTENSIONS } from "@/components/utils/DocumentCard";
 import ImageCard from "@/components/utils/ImageCard";
+import toast from "react-hot-toast";
 
 interface FormSubmissionViewModalProps {
   submission: any;
@@ -56,6 +57,8 @@ function SubmissionFileCard({ id, title, filename, url, createdAt, onReupload }:
 
 type ReuploadableFormField = "feesStructure" | "marksheet" | "signature" | "parentApprovalLetter";
 
+const MAX_UPLOAD_SIZE_BYTES = 2 * 1024 * 1024;
+
 export default function FormSubmissionViewModal({
   submission,
   onClose,
@@ -80,7 +83,29 @@ export default function FormSubmissionViewModal({
     return version ? `${baseUrl}?v=${version}` : baseUrl;
   };
 
+  const validateReuploadFile = (file: File) => {
+    const isPdfMimeType = file.type === "application/pdf";
+    const extension = file.name.split(".").pop()?.toLowerCase() || "";
+    const isImageMimeType = file.type.startsWith("image/");
+    const hasPdfExtension = extension === "pdf";
+    const hasImageExtension = IMAGE_EXTENSIONS.includes(extension);
+
+    if ((!isPdfMimeType && !hasPdfExtension) && (!isImageMimeType && !hasImageExtension)) {
+      toast.error("Only PDF or image files are allowed");
+      return false;
+    }
+
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+      toast.error("Files must be under 2MB.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleReuploadFormField = (field: ReuploadableFormField) => async (file: File) => {
+    if (!validateReuploadFile(file)) return;
+
     const formData = new FormData();
     formData.append("file", file);
     const response = await apiClient.put(
@@ -96,6 +121,8 @@ export default function FormSubmissionViewModal({
   };
 
   const handleReuploadAcknowledgementInvoice = async (file: File) => {
+    if (!validateReuploadFile(file)) return;
+
     const formData = new FormData();
     formData.append("invoice", file);
     const response = await apiClient.put(
