@@ -63,8 +63,13 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
         { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.7)" }
       );      
 
-    // Pre-fill values
-    Object.keys(user).forEach((key) => setValue(key, user[key]));
+    // Pre-fill values, but never hydrate the password field with stored data.
+    Object.keys(user).forEach((key) => {
+      if (key !== "password") {
+        setValue(key, user[key]);
+      }
+    });
+    setValue("password", "");
   }, [user, setValue]);
 
     const handleConfirmedUpdate = () => {
@@ -74,6 +79,10 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
         if (key === "profile_pic") {
         if (value instanceof FileList && value.length > 0) {
             formData.append("profile_pic", value[0]);
+        }
+        } else if (key === "password") {
+        if (typeof value === "string" && value.trim()) {
+            formData.append("password", value);
         }
         } else if (value !== undefined) {
         formData.append(key, value);
