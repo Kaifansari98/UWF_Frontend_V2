@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import { updateUser } from "@/features/users/GetUsersSlice";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,6 +37,7 @@ const roles = [
 
 export default function EditUserModal({ user, onClose }: EditUserModalProps) {
   const dispatch = useDispatch<AppDispatch>();
+  const loggedInUserRole = useSelector((state: RootState) => state.auth.user?.role);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);    
 
@@ -70,8 +71,10 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
     const formData = new FormData();
     for (const key in watch()) {
         const value = watch(key);
-        if (key === "profile_pic" && value && value[0]) {
-        formData.append("profile_pic", value[0]);
+        if (key === "profile_pic") {
+        if (value instanceof FileList && value.length > 0) {
+            formData.append("profile_pic", value[0]);
+        }
         } else if (value !== undefined) {
         formData.append(key, value);
         }
@@ -95,8 +98,8 @@ const onSubmit = () => {
       id="edit-user-modal"
       className="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
     >
-      <div id="edit-user-card" className="bg-white w-full max-w-3xl rounded-xl p-8 shadow-xl relative">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">Edit User</h2>
+      <div id="edit-user-card" className="bg-card text-card-foreground w-full max-w-3xl rounded-xl p-8 shadow-xl relative">
+        <h2 className="text-2xl font-semibold mb-6 text-foreground">Edit User</h2>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -105,7 +108,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="profile_pic">Profile Picture</Label>
             <Input id="profile_pic" type="file" {...register("profile_pic")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Upload a profile image (JPEG, PNG, max 2MB recommended).
             </p>
           </div>
@@ -113,7 +116,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="username">Username</Label>
             <Input id="username" {...register("username", { required: true })} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Unique identifier for the user (e.g., johndoe123).
             </p>
           </div>
@@ -121,7 +124,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="full_name">Full Name</Label>
             <Input id="full_name" {...register("full_name", { required: true })} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the user's complete name (e.g., John Doe).
             </p>
           </div>
@@ -134,7 +137,7 @@ const onSubmit = () => {
                 placeholder="•••••••"
                 {...register("password")}
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                 Password is hidden and cannot be viewed. You can change it here.
                 </p>
             {/* <button
@@ -148,19 +151,21 @@ const onSubmit = () => {
 
           <div className="space-y-1">
             <Label htmlFor="role">Role</Label>
-            <Select onValueChange={(value) => setValue("role", value)}>
+            <Select value={watch("role")} onValueChange={(value) => setValue("role", value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
-                {roles.map((role) => (
-                  <SelectItem key={role} value={role} className="capitalize">
-                    {role.replace("_", " ")}
-                  </SelectItem>
-                ))}
+                {roles
+                  .filter((role) => role !== "super_admin" || loggedInUserRole === "super_admin")
+                  .map((role) => (
+                    <SelectItem key={role} value={role} className="capitalize">
+                      {role.replace("_", " ")}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Select the user's role based on their responsibilities.
             </p>
           </div>
@@ -168,7 +173,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" {...register("email")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter a valid email address (e.g., user@example.com).
             </p>
           </div>
@@ -176,7 +181,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="age">Age</Label>
             <Input id="age" type="number" {...register("age")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the user's age (optional, must be a positive number).
             </p>
           </div>
@@ -184,7 +189,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="country">Country</Label>
             <Input id="country" {...register("country")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the user's country (e.g., India, USA).
             </p>
           </div>
@@ -192,7 +197,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="state">State</Label>
             <Input id="state" {...register("state")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the user's state or province (e.g., Maharashtra, California).
             </p>
           </div>
@@ -200,7 +205,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="city">City</Label>
             <Input id="city" {...register("city")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the user's city (e.g., Mumbai, New York).
             </p>
           </div>
@@ -208,7 +213,7 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="pincode">Pincode</Label>
             <Input id="pincode" {...register("pincode")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the postal code (e.g., 400001, 10001).
             </p>
           </div>
@@ -216,16 +221,16 @@ const onSubmit = () => {
           <div className="space-y-1">
             <Label htmlFor="mobile_no">Mobile No</Label>
             <Input id="mobile_no" {...register("mobile_no")} />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Enter the mobile number with country code (e.g., +91 9876543210).
             </p>
           </div>
 
           <div className="col-span-full flex justify-end gap-2 mt-4">
-            <Button type="button" variant="ghost" onClick={onClose} className="bg-[#fff] text-black border-[1px] border-[#025aa5] px-10">
+            <Button type="button" variant="ghost" onClick={onClose} className="bg-background text-foreground border border-[#025aa5] px-10">
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#025aa5] text-white border-[1px] border-zinc-800 px-10">
+            <Button type="submit" className="bg-[#025aa5] text-white border border-[#025aa5] px-10">
               Update
             </Button>
           </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Check, Download, MoveRight, X } from "lucide-react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import StudentAidPDFDocument from './pdf/StudentAidPDFDocument';
@@ -11,11 +11,50 @@ import {
   getFormDataAsset,
   getAcknowledgementDataAsset,
 } from "@/utils/assetUrlBuilder";
+import apiClient from "@/utils/apiClient";
+import DocumentCard, { IMAGE_EXTENSIONS } from "@/components/utils/DocumentCard";
+import ImageCard from "@/components/utils/ImageCard";
 
 interface FormSubmissionViewModalProps {
   submission: any;
   onClose: () => void;
 }
+
+interface SubmissionFileCardProps {
+  id: string;
+  title: string;
+  filename?: string | null;
+  url?: string;
+  createdAt?: string;
+  onReupload?: (file: File) => Promise<void>;
+}
+
+function SubmissionFileCard({ id, title, filename, url, createdAt, onReupload }: SubmissionFileCardProps) {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-sm font-semibold text-foreground">{title}</p>
+      {filename && url ? (
+        IMAGE_EXTENSIONS.includes(filename.split(".").pop()?.toLowerCase() || "") ? (
+          <ImageCard
+            doc={{ id, originalName: filename, signedUrl: url, created_at: createdAt }}
+            onReupload={onReupload}
+          />
+        ) : (
+          <DocumentCard
+            doc={{ id, originalName: filename, signedUrl: url, created_at: createdAt }}
+            onReupload={onReupload}
+          />
+        )
+      ) : (
+        <div className="flex flex-col justify-center rounded-xl border border-border bg-card p-6">
+          <p className="text-sm text-muted-foreground">No file uploaded</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+type ReuploadableFormField = "feesStructure" | "marksheet" | "signature" | "parentApprovalLetter";
 
 export default function FormSubmissionViewModal({
   submission,
@@ -25,6 +64,51 @@ export default function FormSubmissionViewModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   console.log("Modal Submission:", submission.status);
+
+  // Tracks filenames/cache-busting versions after a super-admin re-upload,
+  // since the backend keeps the same field slot but the extension can change.
+  const [fileState, setFileState] = useState<Record<string, { filename: string; version: number }>>({
+    feesStructure: { filename: submission.feesStructure, version: 0 },
+    marksheet: { filename: submission.marksheet, version: 0 },
+    signature: { filename: submission.signature, version: 0 },
+    parentApprovalLetter: { filename: submission.parentApprovalLetter, version: 0 },
+    acknowledgementInvoice: { filename: submission?.acknowledgement?.invoice, version: 0 },
+  });
+
+  const buildFileUrl = (id: string, baseUrl: string) => {
+    const version = fileState[id]?.version || 0;
+    return version ? `${baseUrl}?v=${version}` : baseUrl;
+  };
+
+  const handleReuploadFormField = (field: ReuploadableFormField) => async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await apiClient.put(
+      `/submissions/${submission.formId}/reupload/${field}`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    const newFilename = response.data.filename as string;
+    setFileState((prev) => ({
+      ...prev,
+      [field]: { filename: newFilename, version: (prev[field]?.version || 0) + 1 },
+    }));
+  };
+
+  const handleReuploadAcknowledgementInvoice = async (file: File) => {
+    const formData = new FormData();
+    formData.append("invoice", file);
+    const response = await apiClient.put(
+      `/acknowledgement/upload/${submission.formId}`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    const newFilename = response.data.acknowledgement.invoice as string;
+    setFileState((prev) => ({
+      ...prev,
+      acknowledgementInvoice: { filename: newFilename, version: (prev.acknowledgementInvoice?.version || 0) + 1 },
+    }));
+  };
 
   useEffect(() => {
     if (modalRef.current && cardRef.current) {
@@ -271,88 +355,52 @@ export default function FormSubmissionViewModal({
 </div>
 
 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
-  {/* Fees Structure */}
-  <div className="flex flex-col justify-between rounded-xl border border-border bg-card p-6">
-    <p className="mb-2 text-sm font-semibold text-foreground">Fees Structure</p>
-    {submission.feesStructure ? (
-      <a
-        href={getFormDataAsset(submission.feesStructure)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-auto inline-block rounded-md bg-[#025aa5] px-4 py-2 text-center text-sm text-white transition hover:bg-[#014b87]"
-      >
-        View PDF
-      </a>
-    ) : (
-      <p className="mt-2 text-sm text-muted-foreground">No file uploaded</p>
-    )}
-  </div>
+  <SubmissionFileCard
+    id="feesStructure"
+    title="Fees Structure"
+    filename={fileState.feesStructure.filename}
+    url={fileState.feesStructure.filename ? buildFileUrl("feesStructure", getFormDataAsset(fileState.feesStructure.filename)) : undefined}
+    createdAt={submission.submitted_at}
+    onReupload={handleReuploadFormField("feesStructure")}
+  />
 
-  {/* Marksheet */}
-  <div className="flex flex-col justify-between rounded-xl border border-border bg-card p-6">
-    <p className="mb-2 text-sm font-semibold text-foreground">Recent Marksheet</p>
-    {submission.marksheet ? (
-      <a
-      href={getFormDataAsset(submission.marksheet)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-auto inline-block rounded-md bg-[#025aa5] px-4 py-2 text-center text-sm text-white transition hover:bg-[#014b87]"
-      >
-        View PDF
-      </a>
-    ) : (
-      <p className="mt-2 text-sm text-muted-foreground">No file uploaded</p>
-    )}
-  </div>
+  <SubmissionFileCard
+    id="marksheet"
+    title="Recent Marksheet"
+    filename={fileState.marksheet.filename}
+    url={fileState.marksheet.filename ? buildFileUrl("marksheet", getFormDataAsset(fileState.marksheet.filename)) : undefined}
+    createdAt={submission.submitted_at}
+    onReupload={handleReuploadFormField("marksheet")}
+  />
 
-  {/* Signature */}
-  <div className="flex flex-col justify-between rounded-xl border border-border bg-card p-6">
-    <p className="mb-2 text-sm font-semibold text-foreground">Parent/Guardian Signature</p>
-    {submission.signature ? (
-      <a
-        href={getFormDataAsset(submission.signature)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-auto inline-block rounded-md bg-[#025aa5] px-4 py-2 text-center text-sm text-white transition hover:bg-[#014b87]"
-      >
-        View PDF
-      </a>
-    ) : (
-      <p className="mt-2 text-sm text-muted-foreground">No file uploaded</p>
-    )}
-  </div>
+  <SubmissionFileCard
+    id="signature"
+    title="Parent/Guardian Signature"
+    filename={fileState.signature.filename}
+    url={fileState.signature.filename ? buildFileUrl("signature", getFormDataAsset(fileState.signature.filename)) : undefined}
+    createdAt={submission.submitted_at}
+    onReupload={handleReuploadFormField("signature")}
+  />
 
-      {/* Parent Request Letter */}
-  <div className="flex flex-col justify-between rounded-xl border border-border bg-card p-6">
-    <p className="mb-2 text-sm font-semibold text-foreground">Parent/Guardian request Letter</p>
-    {submission.parentApprovalLetter ? (
-      <a
-      href={getFormDataAsset(submission.parentApprovalLetter)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-auto inline-block rounded-md bg-[#025aa5] px-4 py-2 text-center text-sm text-white transition hover:bg-[#014b87]"
-      >
-        View PDF
-      </a>
-    ) : (
-      <p className="mt-2 text-sm text-muted-foreground">No file uploaded</p>
-    )}
-  </div>
+  <SubmissionFileCard
+    id="parentApprovalLetter"
+    title="Parent/Guardian request Letter"
+    filename={fileState.parentApprovalLetter.filename}
+    url={fileState.parentApprovalLetter.filename ? buildFileUrl("parentApprovalLetter", getFormDataAsset(fileState.parentApprovalLetter.filename)) : undefined}
+    createdAt={submission.submitted_at}
+    onReupload={handleReuploadFormField("parentApprovalLetter")}
+  />
 
-{/* Acknowledgement Invoice */}
-{submission?.acknowledgement?.invoice && (
-  <div className="flex flex-col justify-between rounded-xl border border-border bg-card p-6">
-    <p className="mb-2 text-sm font-semibold text-foreground">Acknowledgement Invoice</p>
-    <a
-      href={getAcknowledgementDataAsset(submission.acknowledgement.invoice)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mt-auto inline-block rounded-md bg-[#025aa5] px-4 py-2 text-center text-sm text-white transition hover:bg-[#014b87]"
-    >
-      View PDF
-    </a>
-  </div>
-)}
+  {fileState.acknowledgementInvoice.filename && (
+    <SubmissionFileCard
+      id="acknowledgementInvoice"
+      title="Acknowledgement Invoice"
+      filename={fileState.acknowledgementInvoice.filename}
+      url={buildFileUrl("acknowledgementInvoice", getAcknowledgementDataAsset(fileState.acknowledgementInvoice.filename))}
+      createdAt={submission.submitted_at}
+      onReupload={handleReuploadAcknowledgementInvoice}
+    />
+  )}
 </div>
        
       </div>
