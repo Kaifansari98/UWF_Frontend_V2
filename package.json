@@ -61,20 +61,20 @@
     "overrides": {
       "@eslint/eslintrc>ajv": "6.14.0",
       "@eslint/eslintrc>minimatch": "3.1.4",
-      "@eslint/eslintrc>js-yaml": "^4.3.0",
+      "@eslint/eslintrc>js-yaml": "^4.3.1",
       "flat-cache>flatted": "3.4.2",
       "micromatch>picomatch": "2.3.2",
       "@typescript-eslint/typescript-estree>minimatch": "9.0.7",
       "tinyglobby>picomatch": "4.0.4",
-      "next>postcss": "8.5.12",
+      "next>postcss": "8.5.23",
       "next>sharp": "^0.35.3",
-      "@tailwindcss/postcss>postcss": "8.5.12",
+      "@tailwindcss/postcss>postcss": "8.5.23",
       "exceljs>tmp": "^0.2.7",
       "exceljs>uuid": "^11.1.1",
       "axios>form-data": "^4.0.6",
-      "minimatch@3>brace-expansion": "1.1.16",
-      "minimatch@5>brace-expansion": "2.1.2",
-      "minimatch@9>brace-expansion": "5.0.7"
+      "minimatch@3>brace-expansion": "1.1.18",
+      "minimatch@5>brace-expansion": "2.1.4",
+      "minimatch@9>brace-expansion": "5.0.9"
     }
   }
 }
